@@ -5,6 +5,9 @@ var bodyParser = require('body-parser');
 
 var db = require('./models');
 
+var pageRoutes = require('./routes/pageRoutes');
+var users = require('./routes/users');
+
 var PORT = process.env.PORT || 8080;
 
 
