@@ -7,3 +7,13 @@
 .btn {
   cursor: pointer;
 }
+
+.site-logo {
+  width: 200px;
+  height: 200px;
+  background-image: url('../images/animals.jpg');
+  background-repeat: no-repeat;
+  background-position: 53% 0;
+  background-size: 300%;
+  display: block;
+}

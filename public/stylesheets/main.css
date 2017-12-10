@@ -5,6 +5,15 @@
 .btn {
   cursor: pointer; }
 
+.site-logo {
+  width: 200px;
+  height: 200px;
+  background-image: url("../images/animals.jpg");
+  background-repeat: no-repeat;
+  background-position: 53% 0;
+  background-size: 300%;
+  display: block; }
+
 .site-header.nav {
   display: flex;
   flex-direction: row;
@@ -42,14 +51,6 @@
   flex-direction: column; }
   .landing-page .wrapper h1 {
     font-size: 3rem; }
-  .landing-page .wrapper .site-logo {
-    width: 200px;
-    height: 200px;
-    background-image: url("../images/animals.jpg");
-    background-repeat: no-repeat;
-    background-position: 53% 0;
-    background-size: 300%;
-    display: block; }
   .landing-page .wrapper .controls {
     margin-top: 40px; }
     .landing-page .wrapper .controls .btn {
@@ -62,14 +63,6 @@
   justify-content: center;
   align-items: center;
   flex-direction: column; }
-  .find-events-page .wrapper .site-logo {
-    width: 200px;
-    height: 200px;
-    background-image: url("../images/animals.jpg");
-    background-repeat: no-repeat;
-    background-position: 53% 0;
-    background-size: 300%;
-    display: block; }
   .find-events-page .wrapper .controls {
     margin: 20px 0 10px 0;
     text-align: center; }
@@ -106,14 +99,6 @@
   justify-content: center;
   align-items: center;
   flex-direction: column; }
-  .signup-page .wrapper .site-logo {
-    width: 200px;
-    height: 200px;
-    background-image: url("../images/animals.jpg");
-    background-repeat: no-repeat;
-    background-position: 53% 0;
-    background-size: 300%;
-    display: block; }
   .signup-page .wrapper .controls {
     width: 320px;
     max-width: 100%; }
