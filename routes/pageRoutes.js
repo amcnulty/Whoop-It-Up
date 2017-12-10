@@ -4,7 +4,15 @@ var db = require('../models');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', {});
+});
+
+router.get('/create-event', function(req, res, next) {
+  res.render('index', { title: 'Create Event' });
+});
+
+router.get('/find-events', function(req, res, next) {
+  res.render('find-events', { title: 'Find Events' });
 });
 
 module.exports = router;

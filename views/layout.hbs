@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Whoops It Up</title>
+    {{#if title}}
+      <title>Whoops It Up - {{title}}</title>
+    {{else}}  
+      <title>Whoops It Up</title>
+    {{/if}}  
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
     crossorigin="anonymous">
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="lib/jquery-ui/jquery-ui.min.css">
     <link rel='stylesheet' href='/stylesheets/main.css' />
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
   </head>
@@ -16,5 +21,7 @@
       crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
       crossorigin="anonymous"></script>
+    <script src="lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="javascripts/dist/app.js"></script>
   </body>
 </html>

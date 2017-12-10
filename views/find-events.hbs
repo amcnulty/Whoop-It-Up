@@ -1,0 +1,19 @@
+<div class="container find-events-page main-container">
+  {{> header }}
+  <div class="wrapper">
+    <div class="site-logo"></div>
+    <h2 class="fun-font">What are you looking for?</h1>
+    <div class="controls">
+      <input class="event-search-box" type="text" placeholder="Event Name">
+      <a class="toggle-advance-options" href="#"><span class="advance-option">advance options</span></a>
+      <div class="advance-filters hide">
+        <select class="advance-opt event-type-dd" name="event-type">
+          <option value="">Select...</option>
+        </select>
+        <input type="text" class="advance-opt" placeholder="Event Date" id="start-date">
+        <div class="advance-opt near-you"><input type="checkbox" class="near-you-cb"><span class="label">Show only events near you</span></div>
+      </div>
+      <button type="button" class="btn btn-outline-primary find-btn">Find Events</button>
+    </div>
+  </div>
+</div>

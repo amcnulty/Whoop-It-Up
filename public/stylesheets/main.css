@@ -14,6 +14,8 @@
   .header.nav .login-signup li + li:before {
     content: ' | '; }
 
+.landing-page .home-link {
+  opacity: 0; }
 .landing-page .wrapper {
   display: flex;
   justify-content: center;
@@ -35,5 +37,49 @@
       margin: 10px auto;
       display: block;
       width: 200px; }
+
+.find-events-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .find-events-page .wrapper .site-logo {
+    width: 200px;
+    height: 200px;
+    background-image: url("../images/animals.jpg");
+    background-repeat: no-repeat;
+    background-position: 53% 0;
+    background-size: 300%;
+    display: block; }
+  .find-events-page .wrapper .controls {
+    margin: 20px 0 10px 0;
+    text-align: center; }
+    .find-events-page .wrapper .controls .event-search-box {
+      min-width: 320px;
+      max-width: 95%;
+      padding: 10px; }
+    .find-events-page .wrapper .controls input {
+      display: block; }
+    .find-events-page .wrapper .controls span.advance-option {
+      display: block;
+      margin: 10px 0; }
+    .find-events-page .wrapper .controls .advance-filters {
+      margin: 20px 0; }
+      .find-events-page .wrapper .controls .advance-filters.hide {
+        display: none; }
+      .find-events-page .wrapper .controls .advance-filters .advance-opt {
+        margin: 10px auto; }
+      .find-events-page .wrapper .controls .advance-filters .event-type-dd {
+        min-width: 300px;
+        display: block; }
+      .find-events-page .wrapper .controls .advance-filters #start-date {
+        display: block;
+        min-width: 300px;
+        padding: 10px; }
+      .find-events-page .wrapper .controls .advance-filters .near-you .near-you-cb {
+        display: inline; }
+      .find-events-page .wrapper .controls .advance-filters .near-you .label {
+        margin-left: 5px;
+        font-size: 12px; }
 
 /*# sourceMappingURL=main.css.map */
