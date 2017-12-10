@@ -16,6 +16,19 @@
     }
 
     .controls {
+      width: 320px;
+      max-width: 100%;
+
+      input {
+        display: block;
+        margin: 10px 0;
+        width: 100%;
+      }
+
+      .signup-btn {
+        margin: 20px 0;
+        width: 100%;
+      }
     }
   }
 }

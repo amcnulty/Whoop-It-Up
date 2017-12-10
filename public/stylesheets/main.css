@@ -2,6 +2,9 @@
 .fun-font {
   font-family: 'Amatic SC', cursive; }
 
+.btn {
+  cursor: pointer; }
+
 .site-header.nav {
   display: flex;
   flex-direction: row;
@@ -111,5 +114,15 @@
     background-position: 53% 0;
     background-size: 300%;
     display: block; }
+  .signup-page .wrapper .controls {
+    width: 320px;
+    max-width: 100%; }
+    .signup-page .wrapper .controls input {
+      display: block;
+      margin: 10px 0;
+      width: 100%; }
+    .signup-page .wrapper .controls .signup-btn {
+      margin: 20px 0;
+      width: 100%; }
 
 /*# sourceMappingURL=main.css.map */
