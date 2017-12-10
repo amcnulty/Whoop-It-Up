@@ -15,4 +15,8 @@ router.get('/find-events', function(req, res, next) {
   res.render('find-events', { title: 'Find Events' });
 });
 
+router.get('/signup', function(req, res, next) {
+  res.render('signup', { title: 'Signup' });
+});
+
 module.exports = router;

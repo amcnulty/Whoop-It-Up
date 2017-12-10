@@ -98,4 +98,18 @@
         margin-left: 5px;
         font-size: 12px; }
 
+.signup-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .signup-page .wrapper .site-logo {
+    width: 200px;
+    height: 200px;
+    background-image: url("../images/animals.jpg");
+    background-repeat: no-repeat;
+    background-position: 53% 0;
+    background-size: 300%;
+    display: block; }
+
 /*# sourceMappingURL=main.css.map */
