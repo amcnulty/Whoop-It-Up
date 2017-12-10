@@ -1,0 +1,15 @@
+.header.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px; }
+  .header.nav .login-signup li {
+    display: inline;
+    list-style-type: none; }
+  .header.nav .login-signup li + li:before {
+    content: ' | '; }
+
+* {
+  font-size: 14px; }
+
+/*# sourceMappingURL=main.css.map */
