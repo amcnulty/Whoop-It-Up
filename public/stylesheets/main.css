@@ -1,15 +1,39 @@
+/* Utility CSS classes and variables */
+.fun-font {
+  font-family: 'Amatic SC', cursive; }
+
 .header.nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 5px; }
+  padding: 5px;
+  margin-bottom: 5vh; }
   .header.nav .login-signup li {
     display: inline;
     list-style-type: none; }
   .header.nav .login-signup li + li:before {
     content: ' | '; }
 
-* {
-  font-size: 14px; }
+.landing-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .landing-page .wrapper h1 {
+    font-size: 3rem; }
+  .landing-page .wrapper .site-logo {
+    width: 200px;
+    height: 200px;
+    background-image: url("../images/animals.jpg");
+    background-repeat: no-repeat;
+    background-position: 53% 0;
+    background-size: 300%;
+    display: block; }
+  .landing-page .wrapper .controls {
+    margin-top: 40px; }
+    .landing-page .wrapper .controls .btn {
+      margin: 10px auto;
+      display: block;
+      width: 200px; }
 
 /*# sourceMappingURL=main.css.map */
