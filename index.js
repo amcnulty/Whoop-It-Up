@@ -12,6 +12,7 @@ var PORT = process.env.PORT || 8080;
 
 
 var app = express();
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.png')))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

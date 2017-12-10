@@ -2,17 +2,33 @@
 .fun-font {
   font-family: 'Amatic SC', cursive; }
 
-.header.nav {
+.site-header.nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 5px;
   margin-bottom: 5vh; }
-  .header.nav .login-signup li {
+  .site-header.nav .login-signup li {
     display: inline;
     list-style-type: none; }
-  .header.nav .login-signup li + li:before {
+  .site-header.nav .login-signup li + li:before {
     content: ' | '; }
+
+#header-signin .modal-title {
+  margin-left: 10%; }
+#header-signin .modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  #header-signin .modal-body input {
+    margin: 10px;
+    width: 80%;
+    padding: 5px 10px; }
+  #header-signin .modal-body a.forgot-pw {
+    margin: 10px 0; }
+  #header-signin .modal-body .signInBtn {
+    width: 80%;
+    margin-bottom: 20px; }
 
 .landing-page .home-link {
   opacity: 0; }
