@@ -132,13 +132,11 @@
       width: 100%; }
   .events-page .wrapper #eventName {
     display: block;
-    width: 100%;
     float: left;
     padding: 0; }
   .events-page .wrapper #eventDate {
     margin: 0;
-    display: block;
-    width: 100%; }
+    display: block; }
   .events-page .wrapper ul {
     text-align: left;
     padding: 0; }
