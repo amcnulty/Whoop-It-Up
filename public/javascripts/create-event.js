@@ -1,10 +1,10 @@
 var WIU = WIU || {};
 
-WIU.signup = (function() {
+WIU.createEvent = (function() {
 
   var 
   init = function() {
-    if ($('.create-events-page').length) {
+    if ($('.signup-page').length) {
       
     }
   };
@@ -15,5 +15,5 @@ WIU.signup = (function() {
 })();
 
 $(function() {
-  WIU.signup.init();
+  WIU.createEvent.init();
 });

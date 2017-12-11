@@ -111,4 +111,38 @@
       margin: 20px 0;
       width: 100%; }
 
+.events-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .events-page .wrapper .controls {
+    width: 320px;
+    max-width: 100%; }
+    .events-page .wrapper .controls input {
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+      padding: 5px 10px; }
+    .events-page .wrapper .controls .show-btn {
+      margin: 20px 0;
+      width: 100%; }
+
+.create-events-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .create-events-page .wrapper .controls {
+    width: 320px;
+    max-width: 100%; }
+    .create-events-page .wrapper .controls input {
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+      padding: 5px 10px; }
+    .create-events-page .wrapper .controls .create-btn {
+      margin: 20px 0;
+      width: 100%; }
+
 /*# sourceMappingURL=main.css.map */

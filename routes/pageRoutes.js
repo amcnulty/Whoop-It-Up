@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/create-event', function (req, res, next) {
-  res.render('index', { title: 'Create Event' });
+  res.render('create-event', { title: 'Create Event' });
 });
 
 router.get('/find-events', function (req, res, next) {
