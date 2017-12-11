@@ -3,5 +3,16 @@ module.exports = function(sequelize, DataTypes) {
         // columns go here
     });
 
+    Events.associate = function(model) {
+        console.log(model);
+        Events.belongsToMany(model.Categories, {
+            through: "EventCategory"
+        });
+
+        Events.belongsToMany(model.Users, {
+            through: "UserEvent"
+        });
+    }
+
     return Events;
 }
