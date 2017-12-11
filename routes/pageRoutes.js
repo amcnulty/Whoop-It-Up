@@ -19,6 +19,8 @@ router.get('/signup', function (req, res, next) {
   res.render('signup', { title: 'Signup' });
 });
 
+// date should be a timestamp
+// location should be lat and long value for used w. the google map API
 router.get('/events', function (req, res, next) {
   res.render('events', {
     title: 'Events',
