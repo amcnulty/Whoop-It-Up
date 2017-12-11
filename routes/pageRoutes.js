@@ -7,6 +7,7 @@ router.get('/', function (req, res, next) {
   res.render('index', {});
 });
 
+
 router.get('/create-event', function (req, res, next) {
   res.render('create-event', { title: 'Create Event' });
 });
