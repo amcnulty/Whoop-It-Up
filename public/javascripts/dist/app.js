@@ -43,20 +43,25 @@ WIU.createEvent = (function() {
         addressObj.latlng     = lat +', ' + lng;
         addressObj.placeID    = placeID;
         addressObj.formatted  = formattedAddy;
-
-        if (typeof callback == 'function') {
-          callback(addressObj);
-        }
       }
       else {
         console.log('problem geocoding', data);
+      }
+
+      if (typeof callback == 'function') {
+        callback(addressObj);
       }
 
     });
   },
   showSuggestion = function(addressObj) {
     var $suggestDiv = $('.address-suggest-div'),
-        $addyDiv = $('.address-suggest', '.address-suggest-div');
+        $addyDiv = $('.address-suggest', '.address-suggest-div'),
+        $suggestCB = $('.suggest-cb', '.address-suggest-div');
+
+    // clear check box and hide suggestion
+    $suggestCB.removeAttr('checked');
+    $suggestDiv.addClass('hidden');
 
     if (typeof addressObj.formatted !== 'undefined' && addressObj.formatted != '') {
       $addyDiv.html(addressObj.formatted);
@@ -72,6 +77,7 @@ WIU.createEvent = (function() {
 
       if (typeof address !== 'undefined' && address.trim() != '' && address.trim().length > 1) {
         geocodeAddress(address.trim(), function(obj) {
+          fillHiddenFields(obj);
           showSuggestion(obj);
         });
       }
@@ -84,6 +90,24 @@ WIU.createEvent = (function() {
   verifyData = function(obj) {
     return !(typeof(obj.name) === 'undefined' || obj.name === null || obj.name.trim() === '');
   },
+  fillHiddenFields = function(obj){ 
+    var page = '.create-events-page',
+        $placeID = $('.place-id', page),
+        $latlong = $('.latlong', page),
+        $formatted = $('.formatted-addy', page);
+
+    if (typeof obj.placeID !== 'undefined' && typeof obj.latlng !== 'undefined' &&
+        typeof obj.formatted !== 'undefined') {
+      $placeID.val(obj.placeID);
+      $latlong.val(obj.latlng);
+      $formatted.val(obj.formatted);  
+    }
+    else {
+      $placeID.val('');
+      $latlong.val('');
+      $formatted.val('');
+    }
+  },
   getData = function() {
     var page = '.create-events-page',
         eventName = $('.event-name', page).val(),
@@ -92,13 +116,23 @@ WIU.createEvent = (function() {
         location  = $('.location', page).val(),
         eventDesc = $('.event-desc', page).val(),
         invites   = $('.invite', page).val(),
-        isPrivate = $('.is-private-cb', page).is(':checked');
+        isPrivate = $('.is-private-cb', page).is(':checked'),
+        suggestCB = $('.suggest-cb', page).is(':checked'),
+        locationObj = {
+          name : location
+        };
+
+    if (suggestCB) {
+      locationObj.placeID = $('.place-id', page).val();
+      locationObj.latlng  = $('.latlong', page).val();
+      locationObj.formatted = $('.formatted-addy', page).val();
+    }
 
     return {
       name      : eventName,
       date      : eventDate,
       time      : eventTime,
-      location  : location,
+      location  : locationObj,
       desc      : eventDesc,
       private   : isPrivate,
       invites   : invites
@@ -111,7 +145,7 @@ WIU.createEvent = (function() {
       var eventObj = getData();
 
       if (verifyData(eventObj)) {
-        //geocodeAddress(eventObj.location);
+        console.log('event obj:', eventObj);
       }
       else {
         // throw warning!
