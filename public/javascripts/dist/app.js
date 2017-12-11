@@ -60,7 +60,7 @@ WIU.createEvent = (function() {
         $suggestCB = $('.suggest-cb', '.address-suggest-div');
 
     // clear check box and hide suggestion
-    $suggestCB.removeAttr('checked');
+    $suggestCB.prop('checked', false);
     $suggestDiv.addClass('hidden');
 
     if (typeof addressObj.formatted !== 'undefined' && addressObj.formatted != '') {
