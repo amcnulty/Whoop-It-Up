@@ -24,14 +24,14 @@ WIU.createEvent = (function() {
         requestURL = apiURL + 'address=' + address + '&key=' + apiKey,
         addressObj = {};
 
-    console.log('restURL: ', requestURL);
+    //console.log('restURL: ', requestURL);
 
     $.ajax({
       method: "GET",
       url: requestURL
     })
     .done(function(data) {
-      console.log('what google said:', data);
+      //console.log('what google said:', data);
       if (data.status === 'OK' && data.results.length == 1) {
         var lat = data.results[0].geometry.location.lat,
             lng = data.results[0].geometry.location.lng,
