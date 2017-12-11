@@ -1,14 +1,23 @@
 <div class="container events-page main-container">
-  {{> header }}
-  <div class="wrapper">
-    <div class="site-logo"></div>
-    <h2 class="fun-font">Events!!!</h1>
-    {{#each events}}
-        <li>{{this.name}}</li>
-        <li>{{this.date}}</li>
-    {{/each}}
-    <div class="controls">
-      <button type="button" class="btn btn-outline-primary show-btn">Show More</button>
+    {{> header }}
+    <div class="wrapper">
+        <div class="site-logo"></div>
+        <h2 class="fun-font">Events!!!</h1>
+            <div class="row">
+                <div id="eventName" class="col-8">
+                    {{#each events}}
+                    <ul>{{this.name}}</ul>
+                    {{/each}}
+                </div>
+                <div id="eventDate" class="col-4">
+                    {{#each events}}
+                    <ul>{{this.date}}</ul>
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="controls">
+                <button type="button" class="btn btn-outline-primary show-btn">Show More</button>
+            </div>
     </div>
-  </div>
 </div>

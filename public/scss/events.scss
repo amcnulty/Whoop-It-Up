@@ -9,17 +9,25 @@
         width: 320px;
         max-width: 100%;
   
-        input {
-          display: block;
-          margin: 10px 0;
-          width: 100%;
-          padding: 5px 10px;
-        }
-  
         .show-btn {
           margin: 20px 0;
           width: 100%;
         }
       }
+    #eventName {
+        display: block;
+        width: 100%;
+        float: left;
+        padding: 0;
+    }
+    #eventDate {
+        margin: 0;
+        display: block;
+        width: 100%;
+    }
+    ul {
+        text-align: left;
+        padding: 0;
+    }
     }
   }
