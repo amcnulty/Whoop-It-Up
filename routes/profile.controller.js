@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 // TODO: remove `canEdit`, this should be from $_SESSION variable
 router.get('/:id', function(req, res, next) {
-  res.render('index', {
+  res.render('profile', {
     title     : 'Profile', 
     id        : req.params.id,
     avatar    : 1,

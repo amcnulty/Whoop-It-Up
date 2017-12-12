@@ -176,4 +176,55 @@
       margin: 20px 0 50px 0;
       width: 100%; }
 
+.profile-page .info-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; }
+  .profile-page .info-row .email {
+    font-size: 20px; }
+.profile-page .edit-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  max-width: 100%;
+  margin-top: 10px; }
+  .profile-page .edit-profile .email {
+    font-size: 20px; }
+  .profile-page .edit-profile input {
+    display: block;
+    width: 90%;
+    padding: 2px 10px;
+    margin: 5px 0; }
+  .profile-page .edit-profile h3.label {
+    margin-top: 20px; }
+.profile-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+.profile-page .avatar {
+  display: inline-block;
+  width: 145px;
+  height: 145px;
+  background-image: url("../images/avatars.jpg");
+  background-size: 700px;
+  background-position: -57px -47px;
+  background-repeat: no-repeat; }
+  .profile-page .avatar.avatar-0 {
+    background-position: -57px -47px; }
+  .profile-page .avatar.avatar-1 {
+    background-position: -206px -358px; }
+  .profile-page .avatar.avatar-2 {
+    background-position: -353px -358px; }
+  .profile-page .avatar.avatar-3 {
+    background-position: -57px -358px; }
+.profile-page .avatar-section {
+  overflow: hidden;
+  max-width: 100%;
+  margin: 20px 0; }
+  .profile-page .avatar-section .avatar {
+    cursor: pointer; }
+
 /*# sourceMappingURL=main.css.map */

@@ -1,7 +1,16 @@
 <div class="container profile-page main-container">
   {{> header }}
   <div class="wrapper">
-    <div class="avatar"></div>
-
+    <div class="avatar avatar-{{avatar}}"></div>
+      {{#if canEdit}}
+        {{> edit_profile }}
+      {{else}}
+        <div class="info-row">
+          <h2 class="username fun-font">{{username}}</h2>
+          <div class="email fun-font">{{email}}</div>
+        </div>
+        <div class="events-interested">TODO: interested in events...</div>
+        </div>
+      {{/if}}
   </div>
 </div>
