@@ -17,6 +17,10 @@ WIU.landing = (function() {
   },
   init = function() {
     if ($('.landing-page').length) {
+
+      // animate title
+      WIU.animate.bounceWords($('.main-title'), 400);
+
       initFindBtn();
       initCreateBtn();
     }
