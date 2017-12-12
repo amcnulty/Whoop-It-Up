@@ -39,7 +39,6 @@ module.exports = function(sequelize, DataTypes) {
     	lastchgdate: {
     		type: DataTypes.DATE
     	}
-
      });
 
     Users.associate = function(model) {
