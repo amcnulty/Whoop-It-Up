@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-route.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
   res.render('index', {
     title: 'Profile', 
     id: req.params.id
