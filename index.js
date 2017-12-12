@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var db = require('./models');
 
 var pageRoutes = require('./routes/pageRoutes');
-var users = require('./routes/users');
+var profile = require('./routes/profile.controller');
 
 var PORT = process.env.PORT || 8080;
 
@@ -26,9 +26,10 @@ hbs.registerPartials(__dirname + '/views/partials');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/profile', express.static('public'));
 
 app.use('/', pageRoutes);
-app.use('/users', users);
+app.use('/profile', profile);
 
 db.sequelize.sync({ force: true }).then(function() {
   app.listen(PORT, function() {

@@ -1,0 +1,52 @@
+.profile-page {
+
+  .edit-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    input {
+      display: block;
+      width: 90%;
+      padding: 5px 10px;
+      margin: 10px 0;
+    }
+  }
+
+  .wrapper {
+    text-align: center;
+  }
+  
+  
+  .avatar {
+    display: inline-block;
+    width: 145px;
+    height: 145px;
+    background-image: url('../images/avatars.jpg');
+    background-size: 700px;
+    background-position: -57px -47px;
+    background-repeat: no-repeat;
+
+    &.avatar-0 {
+      background-position: -57px -47px;
+    }
+    &.avatar-1 {
+      background-position: -206px -358px;
+    }
+    &.avatar-2 {
+      background-position: -353px -358px;
+    }
+    &.avatar-3 {
+      background-position: -57px -358px;
+    }
+  }
+
+  .avatar-section {
+    overflow: hidden;
+    max-width: 100%;
+    .avatar {
+      cursor: pointer;
+    }
+  }
+
+}
