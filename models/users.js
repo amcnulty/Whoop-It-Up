@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
     	},
     	email: {
     	    type: DataTypes.STRING,
-    	    primaryKey: true,
+    	    // primaryKey: true,
       		allowNull: false,
       		validate: {
         	len: [1]
@@ -32,12 +32,6 @@ module.exports = function(sequelize, DataTypes) {
     	avatar: {
     	    type: DataTypes.STRING,
       		allowNull: true
-    	},
-    	signupdate: {
-    		type: DataTypes.DATE
-    	},
-    	lastchgdate: {
-    		type: DataTypes.DATE
     	}
      });
 
