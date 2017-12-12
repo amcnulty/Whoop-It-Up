@@ -1,0 +1,26 @@
+.landing-page {
+  .home-link {
+    opacity: 0;
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    h1 {
+      font-size: 3rem;
+    }
+
+    .controls {
+      margin-top: 40px;
+
+      .btn {
+        margin: 10px auto;
+        display: block;
+        width: 200px;
+      }
+    }
+  }
+}

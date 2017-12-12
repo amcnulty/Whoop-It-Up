@@ -1,0 +1,28 @@
+<div class="row site-header nav">
+  <div class="home-link"><a class="gohome" href="/">Home</a></div>
+  <div class="login-signup">
+    <ul>
+      <li><a class="sign-in" data-toggle="modal" data-target="#header-signin" href="#">Sign in</a></li>
+      <li><a class="sign-up" href="/signup">Sign up</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="header-signin" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title fun-font"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input class="username" type="text" placeholder="Username">
+        <input class="password" type="password" placeholder="Password">
+        <a class="forgot-pw" href="/password-reset">Forgot password?</a>
+        <button type="button" class="signInBtn btn btn-primary">Sign In</button>
+      </div>
+    </div>
+  </div>
+</div>

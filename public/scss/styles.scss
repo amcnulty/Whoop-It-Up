@@ -1,0 +1,29 @@
+/* Utility CSS classes and variables */
+
+.fun-font {
+  font-family: 'Amatic SC', cursive;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.site-logo {
+  width: 200px;
+  height: 200px;
+  background-image: url('../images/animals.jpg');
+  background-repeat: no-repeat;
+  background-position: 53% 0;
+  background-size: 300%;
+  display: block;
+}
+
+.hidden {
+  display: none!important;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  font-weight: bold;
+}

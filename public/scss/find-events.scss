@@ -1,0 +1,58 @@
+.find-events-page {
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .controls {
+      margin: 20px 0 10px 0;
+      text-align: center;
+
+      .event-search-box {
+        min-width: 320px;
+        max-width: 95%;
+        padding: 10px;
+      }
+      input {
+        display: block;
+      }
+
+      span.advance-option {
+        display: block;
+        margin: 10px 0;
+      }
+
+      .advance-filters {
+        margin: 20px 0;
+        
+        &.hide {
+          display: none;
+        }
+
+        .advance-opt {
+          margin: 10px auto;
+        }
+
+        .event-type-dd {
+          min-width: 300px;
+          display: block;
+        }
+        #start-date {
+          display: block;
+          min-width: 300px;
+          padding: 10px;
+        }
+        .near-you {
+          .near-you-cb {
+            display: inline;
+          }
+          .label {
+            margin-left: 5px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

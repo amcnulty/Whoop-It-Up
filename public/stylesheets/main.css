@@ -1,0 +1,174 @@
+/* Utility CSS classes and variables */
+.fun-font {
+  font-family: 'Amatic SC', cursive; }
+
+.btn {
+  cursor: pointer; }
+
+.site-logo {
+  width: 200px;
+  height: 200px;
+  background-image: url("../images/animals.jpg");
+  background-repeat: no-repeat;
+  background-position: 53% 0;
+  background-size: 300%;
+  display: block; }
+
+.hidden {
+  display: none !important; }
+
+.error {
+  color: red;
+  font-size: 12px;
+  font-weight: bold; }
+
+.site-header.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
+  margin-bottom: 5vh; }
+  .site-header.nav .login-signup li {
+    display: inline;
+    list-style-type: none; }
+  .site-header.nav .login-signup li + li:before {
+    content: ' | '; }
+
+#header-signin .modal-title {
+  margin-left: 10%; }
+#header-signin .modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  #header-signin .modal-body input {
+    margin: 10px;
+    width: 80%;
+    padding: 5px 10px; }
+  #header-signin .modal-body a.forgot-pw {
+    margin: 10px 0; }
+  #header-signin .modal-body .signInBtn {
+    width: 80%;
+    margin-bottom: 20px; }
+
+.landing-page .home-link {
+  opacity: 0; }
+.landing-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .landing-page .wrapper h1 {
+    font-size: 3rem; }
+  .landing-page .wrapper .controls {
+    margin-top: 40px; }
+    .landing-page .wrapper .controls .btn {
+      margin: 10px auto;
+      display: block;
+      width: 200px; }
+
+.find-events-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .find-events-page .wrapper .controls {
+    margin: 20px 0 10px 0;
+    text-align: center; }
+    .find-events-page .wrapper .controls .event-search-box {
+      min-width: 320px;
+      max-width: 95%;
+      padding: 10px; }
+    .find-events-page .wrapper .controls input {
+      display: block; }
+    .find-events-page .wrapper .controls span.advance-option {
+      display: block;
+      margin: 10px 0; }
+    .find-events-page .wrapper .controls .advance-filters {
+      margin: 20px 0; }
+      .find-events-page .wrapper .controls .advance-filters.hide {
+        display: none; }
+      .find-events-page .wrapper .controls .advance-filters .advance-opt {
+        margin: 10px auto; }
+      .find-events-page .wrapper .controls .advance-filters .event-type-dd {
+        min-width: 300px;
+        display: block; }
+      .find-events-page .wrapper .controls .advance-filters #start-date {
+        display: block;
+        min-width: 300px;
+        padding: 10px; }
+      .find-events-page .wrapper .controls .advance-filters .near-you .near-you-cb {
+        display: inline; }
+      .find-events-page .wrapper .controls .advance-filters .near-you .label {
+        margin-left: 5px;
+        font-size: 12px; }
+
+.signup-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .signup-page .wrapper .controls {
+    width: 320px;
+    max-width: 100%; }
+    .signup-page .wrapper .controls input {
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+      padding: 5px 10px; }
+    .signup-page .wrapper .controls .signup-btn {
+      margin: 20px 0;
+      width: 100%; }
+
+.events-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .events-page .wrapper .controls {
+    width: 320px;
+    max-width: 100%; }
+    .events-page .wrapper .controls input {
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+      padding: 5px 10px; }
+    .events-page .wrapper .controls .show-btn {
+      margin: 20px 0;
+      width: 100%; }
+
+.create-events-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .create-events-page .wrapper .controls {
+    width: 320px;
+    max-width: 100%; }
+    .create-events-page .wrapper .controls input {
+      display: block;
+      margin: 0 0 10px 0;
+      width: 100%;
+      padding: 5px 10px; }
+      .create-events-page .wrapper .controls input.is-private-cb, .create-events-page .wrapper .controls input.suggest-cb {
+        display: inline-block;
+        width: auto; }
+    .create-events-page .wrapper .controls .is-private {
+      margin-bottom: 10px; }
+      .create-events-page .wrapper .controls .is-private .label {
+        margin-left: 5px;
+        font-size: 12px; }
+    .create-events-page .wrapper .controls .address-suggest-div .label {
+      margin-left: 5px;
+      font-size: 12px; }
+    .create-events-page .wrapper .controls .address-suggest-div .address-suggest {
+      display: block;
+      font-size: 12px; }
+    .create-events-page .wrapper .controls textarea.event-desc {
+      margin: 10px 0;
+      width: 100%;
+      height: 200px; }
+    .create-events-page .wrapper .controls .create-btn {
+      margin: 20px 0 50px 0;
+      width: 100%; }
+
+/*# sourceMappingURL=main.css.map */
