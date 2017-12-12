@@ -15,8 +15,15 @@ WIU.landing = (function() {
       window.location = '/create-event'; 
     });
   },
+  startAnimate = function() {
+    // animate title
+    WIU.animate.bounceWords($('.main-title'), 400, function() {
+      WIU.animate.apply($('.site-logo'), 'rubberBand');
+    });
+  },
   init = function() {
     if ($('.landing-page').length) {
+      startAnimate();
       initFindBtn();
       initCreateBtn();
     }

@@ -59,6 +59,9 @@
   flex-direction: column; }
   .landing-page .wrapper h1 {
     font-size: 3rem; }
+    .landing-page .wrapper h1 div.wiu-animate {
+      display: inline-block;
+      margin-left: 10px; }
   .landing-page .wrapper .controls {
     margin-top: 40px; }
     .landing-page .wrapper .controls .btn {

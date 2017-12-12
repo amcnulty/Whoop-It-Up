@@ -15,6 +15,8 @@ WIU.profile = (function() {
         $currAvatar.attr('data-id', avatarID);
         $currAvatar.addClass('avatar-' + avatarID);
         $currAvatar.removeClass('avatar-' + currentAID);
+
+        WIU.animate.apply($currAvatar, 'rubberBand'); 
       }
     });
   },
