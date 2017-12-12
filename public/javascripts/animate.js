@@ -16,23 +16,40 @@ WIU.animate = (function() {
 
       callback($wordsDiv);
     }
-
   },
-  bounceWords = function($wordsDiv, stagger){
-    stagger = typeof stagger !== 'undefined' ? stagger : 0;
+  getNextStagger = function(stagger, lastIndex) {
+    return stagger * lastIndex;
+  },
+  apply = function($div, effect) {
+    if (effect !== '') {
+      $div.addClass('animated ' + effect);  
+    }
+  },
+  bounceWords = function($wordsDiv, stagger, callback) {
+    stagger = typeof stagger !== 'undefined' ? stagger : 0;    
 
     breakWords($wordsDiv, function() {
       var $toBounce = $wordsDiv.find('.wiu-animate');
 
-      $.each($toBounce, function(index, bounespan) {
+      $toBounce.each(function(index) {
+        var $this = $(this); 
         setTimeout(function() {
-          $(bounespan).addClass('animated bounce')
+          apply($this, 'bounce');
         }, stagger * index);
       });
+
+      if (typeof callback === 'function') {
+        var nextStagger = getNextStagger(stagger, $toBounce.length);
+        setTimeout(function() {
+          callback();
+        }, nextStagger);
+      }
+      
     });
   };
 
   return {
-    bounceWords : bounceWords
+    bounceWords : bounceWords,
+    apply : apply
   }
 })();
