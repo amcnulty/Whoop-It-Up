@@ -9,6 +9,7 @@
     	}
     });
 
+
     Categories.associate = function(models) {
         Categories.belongsToMany(models.Events, {
             through: "EventCategory"
