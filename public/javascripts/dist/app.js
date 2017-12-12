@@ -22,7 +22,11 @@ WIU.animate = (function() {
   },
   apply = function($div, effect) {
     if (effect !== '') {
-      $div.addClass('animated ' + effect);  
+      $div.addClass('animated ' + effect);
+
+      $div.off('oanimationend animationend webkitAnimationEnd').on('oanimationend animationend webkitAnimationEnd', function() {
+        $div.removeClass('animated ' + effect);
+      })
     }
   },
   bounceWords = function($wordsDiv, stagger, callback) {
@@ -361,6 +365,8 @@ WIU.profile = (function() {
         $currAvatar.attr('data-id', avatarID);
         $currAvatar.addClass('avatar-' + avatarID);
         $currAvatar.removeClass('avatar-' + currentAID);
+
+        WIU.animate.apply($currAvatar, 'rubberBand'); 
       }
     });
   },
