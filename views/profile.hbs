@@ -1,7 +1,7 @@
 <div class="container profile-page main-container">
   {{> header }}
   <div class="wrapper">
-    <div class="avatar avatar-{{avatar}}"></div>
+    <div class="current-avatar avatar avatar-{{avatar}}" data-id="{{avatar}}"></div>
       {{#if canEdit}}
         {{> edit_profile }}
       {{else}}

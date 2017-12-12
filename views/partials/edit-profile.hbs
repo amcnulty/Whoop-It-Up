@@ -1,9 +1,11 @@
 <div class="edit-profile">
   <div class="email fun-font">{{email}}</div>
-  <input type="username" value="{{username}}" placeholder="User Name">
-  <input type="password" name="old-pw" placeholder="Old Password">
-  <input type="password" name="new-pw" placeholder="New Password">
-  <input type="password" name="confirm-pw" placeholder="Confirm Password">
+  <input type="text" class="username" value="{{username}}" placeholder="User Name">
+  <span class="hidden error error-old-pw">Please provide your password</span>
+  <input type="password" class="old-pw" placeholder="Old Password">
+  <input type="password" class="new-pw" placeholder="New Password">
+  <span class="hidden error error-confirm">Password mismatch</span>
+  <input type="password" class="confirm-pw" placeholder="Confirm Password">
   <h3 class="label fun-font">Pick a new avatar</h3>
   <div class="row avatar-section">
     <div class="col-3"><div class="avatar avatar-0" data-id="0"></div></div>
