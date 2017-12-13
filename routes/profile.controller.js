@@ -41,8 +41,22 @@ router.get('/:id', function(req, res, next) {
 });
 /* User sign up route */
 router.post('/signup', function(req, res, next) {
-  let hashedPassword = passwordHandler.hashPassword("req.params.password");
-  res.status(200).end();
+  let password = req.body.password;
+  let username = req.body.username;
+  let email = req.body.email;
+  let avatar = req.body.avatar;
+  passwordHandler.hashPassword(password, function(hashedPassword) {
+    db.Users.create({
+      password: hashedPassword,
+      username: username,
+      email: email,
+      avatar: avatar
+    }).then(function(err, dbPost) {
+      if (err) throw err;
+      res.json(dbPost);
+      res.status(200).end();
+    });
+  });
 });
 
 module.exports = router;
