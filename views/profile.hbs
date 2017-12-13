@@ -28,6 +28,7 @@
         <div class="tab-pane" id="events" role="tabpanel">
           <div class="event-section">
             <h3 class="fun-font">Upcoming Events</h3>
+            {{#unless invites}}<p>No Events Found</p>{{/unless}}
             {{#each invites}}
               {{> event_row }}
             {{/each}}
