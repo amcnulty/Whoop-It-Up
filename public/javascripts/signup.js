@@ -1,20 +1,20 @@
 var WIU = WIU || {};
 
-WIU.signup = (function() {
+WIU.signup = (function () {
 
-  var 
-  init = function() {
-    if ($('.create-events-page').length) {
-      
-    }
-  };
+  var
+    init = function () {
+      if ($('.create-events-page').length) {
+
+      }
+    };
 
   return {
-    init : init
+    init: init
   }
 })();
 
-$(function() {
+$(function () {
   WIU.signup.init();
 });
 
@@ -38,16 +38,36 @@ function validate() {
 }
 
 // confirming both passwords entered are the same
-function confirmPW() {
-  var pw = $('#password').val();
-  var pwConfirm = $('#confirm-pw').val();
+// function confirmPW() {
+//   var pw = $('#password').val();
+//   var pwConfirm = $('#confirm-pw').val();
 
-  if (pw === pwConfirm) {
-    pw.push(/*user information database/array */);
-  } else {
-    alert("Passwords don't match.  Please try again.");
-  }
-}
+//   if (pw === pwConfirm) {
+//     pw.push(/*user information database/array */);
+//   } else {
+//     alert("Passwords don't match.  Please try again.");
+//   }
+// }
 
-$('#signUpBtn').on('click', validate);
-$('#signUpBtn').on('click', confirmPW);
+// $('#signUpBtn').on('click', validate);
+// $('#signUpBtn').on('click', confirmPW);
+
+
+function addUser() {
+  $('#signUpBtn').on('click', function () {
+    var newUser = {};
+    $('input').each(function () {
+      var newUser = {
+        username: $('#username').val().trim(),
+        email: $('#email').val().trim(),
+        password: $('#password').val().trim()
+      };
+      console.log(newUser);
+    });
+  });
+};
+
+
+
+
+
