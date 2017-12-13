@@ -52,6 +52,7 @@ router.post('/signup', function(req, res, next) {
       email: email,
       avatar: avatar
     }).then(function(err, dbPost) {
+      console.log("In profilecontroller");
       if (err) throw err;
       res.json(dbPost);
       res.status(200).end();

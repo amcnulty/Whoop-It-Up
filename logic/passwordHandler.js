@@ -10,6 +10,7 @@ const passwordHandler = {
      */
     hashPassword(password, cb) {
         bcrypt.genSalt(SALT, function(err, salt) {
+            console.log("in hashpassword");
             if (err) throw err;
             bcrypt.hash(password, salt, function(err, hash) {
                 if (err) throw err;
