@@ -26,7 +26,6 @@ hbs.registerPartials(__dirname + '/views/partials');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/profile', express.static('public'));
 
 app.use('/', pageRoutes);
 app.use('/profile', profile);
