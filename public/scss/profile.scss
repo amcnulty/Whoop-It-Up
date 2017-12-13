@@ -1,5 +1,9 @@
 .profile-page {
-  
+  .nav-link {
+    padding: .3rem 1rem;
+    margin-top: 15px;
+  }
+
   .info-row {
     display: flex;
     flex-direction: column;
@@ -25,7 +29,7 @@
     input {
       display: block;
       width: 90%;
-      padding: 2px 10px;
+      padding: 1px 10px;
       margin: 5px 0;
     }
 
@@ -71,6 +75,45 @@
 
     .avatar {
       cursor: pointer;
+    }
+  }
+
+  .event-section {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .event-row {
+      width: 100%;
+      margin: 5px 0;
+      border: 1px solid silver;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+
+      .event-name {
+        font-size: 13px;
+      }
+      .event-date {
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .fa {
+        color: silver;
+      }
+
+      .fa-check {
+        &.active {
+          color: green;
+        }
+      }
+      .fa-times {
+        &.active {
+          color: red;
+        }
+      }
     }
   }
 
