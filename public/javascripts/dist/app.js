@@ -480,8 +480,6 @@ WIU.signup = (function () {
       $('#result').text('');
       var email = $('#email').val();
       if (validateEmail(email)) {
-        $('#result').text(email + " is valid");
-        $('#result').css('color', "green");
         return true;
       } else {
         $('#result').text(email + " is not valid");
