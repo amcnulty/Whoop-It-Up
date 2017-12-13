@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
     	},
     	email: {
     	    type: DataTypes.STRING,
-    	    primaryKey: true,
+    	    // primaryKey: true,
       		allowNull: false,
       		validate: {
         	len: [1]

@@ -5,9 +5,25 @@ var passwordHandler = require('../logic/passwordHandler');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  // res.send('respond with a resource');
+    db.Users.findAll({})
+    .then(function(dbGet) {
+      res.json(dbGet);
+    });
+
 });
 
+/* GET for single user listing. */
+router.get('/:id', function(req, res) {
+  // res.send('respond with a resource');
+    db.Users.findOne({
+     where: {
+       id:req.params.id
+     }
+    }).then(function(dbGet) {
+      res.json(dbGet);
+    });
+});
 // TODO: remove `canEdit`, this should be from $_SESSION variable
 // `invites` should be a list of event the user is invited to 
 // TODO: backend logic to only query upcoming events, ignore past events
@@ -51,9 +67,7 @@ router.post('/signup', function(req, res, next) {
       username: username,
       email: email,
       avatar: avatar
-    }).then(function(err, dbPost) {
-      console.log("In profilecontroller");
-      if (err) throw err;
+    }).then(function(dbPost) {
       res.json(dbPost);
       res.status(200).end();
     });
