@@ -3,7 +3,7 @@ var WIU = WIU || {};
 WIU.signup = (function () {
 
   var
-  // working with all the functions
+    // working with all the functions
     init = function () {
       if ($('.signup-page').length) {
         $('#signUpBtn').on('click', function () {
@@ -23,7 +23,7 @@ WIU.signup = (function () {
       }
     },
     // email validation (email format)
-    validateEmail = function (email) { 
+    validateEmail = function (email) {
       var emailFormat = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return emailFormat.test(email);
     },
@@ -50,30 +50,29 @@ WIU.signup = (function () {
       }
     },
     // checks to make sure the user enters in a password into the input line
-    emptyPassword = function() {
+    emptyPassword = function () {
       var pw = $('#password').val();
       if (pw === "") {
         return true;
-      } 
+      }
       else {
         return false;
       }
     }
-    // adding user information into the new user object
-    addUser = function() {
-        var newUser = {
-          username: $('#username').val().trim(),
-          email: $('#email').val().trim(),
-          password: $('#password').val().trim()
-        };
-        console.log(newUser);
+  // adding user information into the new user object
+  addUser = function () {
+    var newUser = {
+      username: $('#username').val().trim(),
+      email: $('#email').val().trim(),
+      password: $('#password').val().trim()
     };
+    console.log(newUser);
+  };
 
   return {
     init: init
   }
-});
-
+})();
 
 $(function () {
   WIU.signup.init();
