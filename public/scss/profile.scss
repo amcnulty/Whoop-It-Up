@@ -49,22 +49,22 @@
     display: inline-block;
     width: 145px;
     height: 145px;
-    background-image: url('../images/avatars.jpg');
+    background-image: url('../images/avatars.png');
     background-size: 700px;
     background-position: -57px -47px;
     background-repeat: no-repeat;
 
     &.avatar-0 {
-      background-position: -57px -47px;
+      background-position: -57px -33px;
     }
     &.avatar-1 {
-      background-position: -206px -358px;
+      background-position: -206px -344px;
     }
     &.avatar-2 {
-      background-position: -353px -358px;
+      background-position: -353px -344px;
     }
     &.avatar-3 {
-      background-position: -57px -358px;
+      background-position: -57px -344px;
     }
   }
 
@@ -75,6 +75,7 @@
 
     .avatar {
       cursor: pointer;
+      background-color: white;
     }
   }
 
@@ -85,6 +86,7 @@
     align-items: center;
 
     .event-row {
+      position: relative;
       width: 100%;
       margin: 5px 0;
       border: 1px solid silver;
@@ -92,6 +94,7 @@
       display: flex;
       align-items: center;
       padding: 10px 0;
+      opacity: 0;
 
       .event-name {
         font-size: 13px;

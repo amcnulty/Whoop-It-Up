@@ -50,11 +50,25 @@ WIU.animate = (function() {
       }
       
     });
+  },
+  slideIn = function($divs) {
+    var timeline = new TimelineLite({paused: true});
+
+    $divs.each(function(index) {
+      var $this = $(this);
+      timeline.fromTo($this, 0.3, 
+            {opacity: 0, right: -90}, 
+            {opacity: 1, right: 0});
+    });
+
+    timeline.play();
+    
   };
 
   return {
     bounceWords : bounceWords,
-    apply : apply
+    apply : apply,
+    slideIn : slideIn
   }
 })();
 var WIU = WIU || {};
@@ -433,8 +447,25 @@ WIU.profile = (function() {
       }
     });
   },
+  isEventTab = function(classes) {
+    return classes.indexOf('tab-events') !== -1;
+  },
+  bindTabShown = function() {
+    var $navTabs = $('#profile-tabs');
+
+    $navTabs.on('shown.bs.tab', function(e) {
+      
+      if (isEventTab(e.target.className)) {
+        WIU.animate.slideIn($('.event-row', '.event-section'));
+      }
+      else {
+        $('.event-row').css('opacity', '0');
+      }
+    })
+  },
   init = function() {
     if ($('.edit-profile', '.profile-page').length) {
+      bindTabShown();
       bindAvatarSelect();
       bindUpdateBtn();
     }

@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Events = sequelize.define("Events", {
+    var Event = sequelize.define("Event", {
         eventName: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -11,32 +11,27 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
         },        
         eventDate: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.STRING,
         },
         eventTime: {
-            type: DataTypes.TIME,
+            type: DataTypes.STRING,
         },
         location: {
             type: DataTypes.STRING,
-        },
-        categoryID: {
-            type: DataTypes.INTEGER
         }
-
-
-        // columns go here
     });
 
-    Events.associate = function(model) {
-        console.log(model);
-        Events.belongsToMany(model.Categories, {
-            through: "EventCategory"
+    Event.associate = function(model) {
+        Event.belongsToMany(model.Category, {
+            through: "EventCategory",
+            as: 'categories',
+            foreignKey: 'eventId'
         });
 
-        Events.belongsToMany(model.Users, {
+        Event.belongsToMany(model.User, {
             through: "UserEvent"
         });
     }
 
-    return Events;
+    return Event;
 }

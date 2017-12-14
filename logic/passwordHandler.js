@@ -13,13 +13,14 @@ const passwordHandler = {
             if (err) throw err;
             bcrypt.hash(password, salt, function(err, hash) {
                 if (err) throw err;
-                console.log(hash);
                 cb(hash);
             });
         });
     },
-    comparePassword() {
-
+    comparePassword(plainText, hash, cb) {
+        bcrypt.compare(plainText, hash, function(err, res) {
+            cb(res);
+        });
     }
 }
 

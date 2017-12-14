@@ -81,8 +81,25 @@ WIU.profile = (function() {
       }
     });
   },
+  isEventTab = function(classes) {
+    return classes.indexOf('tab-events') !== -1;
+  },
+  bindTabShown = function() {
+    var $navTabs = $('#profile-tabs');
+
+    $navTabs.on('shown.bs.tab', function(e) {
+      
+      if (isEventTab(e.target.className)) {
+        WIU.animate.slideIn($('.event-row', '.event-section'));
+      }
+      else {
+        $('.event-row').css('opacity', '0');
+      }
+    })
+  },
   init = function() {
     if ($('.edit-profile', '.profile-page').length) {
+      bindTabShown();
       bindAvatarSelect();
       bindUpdateBtn();
     }
