@@ -60,7 +60,7 @@ WIU.signup = (function () {
       }
     }
     // adding user information into the new user object
-    addUser = function () {
+    addUser = function() {
         var newUser = {
           username: $('#username').val().trim(),
           email: $('#email').val().trim(),
@@ -72,7 +72,8 @@ WIU.signup = (function () {
   return {
     init: init
   }
-})();
+});
+
 
 $(function () {
   WIU.signup.init();

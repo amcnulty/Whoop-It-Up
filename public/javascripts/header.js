@@ -17,3 +17,11 @@ WIU.header = (function() {
 $(function() {
   WIU.header.init();
 });
+
+validateEmail = function() {
+
+}
+
+validatePW = function() {
+
+}

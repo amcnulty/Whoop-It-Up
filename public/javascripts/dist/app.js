@@ -309,6 +309,8 @@ WIU.header = (function() {
 $(function() {
   WIU.header.init();
 });
+
+function 
 var WIU = WIU || {};
 
 WIU.landing = (function() {
