@@ -14,16 +14,16 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET for single user listing. */
-router.get('/:id', function(req, res) {
-  // res.send('respond with a resource');
-    db.User.findOne({
-     where: {
-       id:req.params.id
-     }
-    }).then(function(dbGet) {
-      res.json(dbGet);
-    });
-});
+// router.get('/:id', function(req, res) {
+//   // res.send('respond with a resource');
+//     db.User.findOne({
+//      where: {
+//        id:req.params.id
+//      }
+//     }).then(function(dbGet) {
+//       res.json(dbGet);
+//     });
+// });
 // TODO: remove `canEdit`, this should be from $_SESSION variable
 // `invites` should be a list of event the user is invited to 
 // TODO: backend logic to only query upcoming events, ignore past events
