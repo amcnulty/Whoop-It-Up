@@ -17,8 +17,10 @@ const passwordHandler = {
             });
         });
     },
-    comparePassword() {
-
+    comparePassword(plainText, hash, cb) {
+        bcrypt.compare(plainText, hash, function(err, res) {
+            cb(res);
+        });
     }
 }
 

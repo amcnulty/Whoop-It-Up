@@ -6,7 +6,7 @@ var passwordHandler = require('../logic/passwordHandler');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   // res.send('respond with a resource');
-    db.Users.findAll({})
+    db.User.findAll({})
     .then(function(dbGet) {
       res.json(dbGet);
     });
@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 /* GET for single user listing. */
 router.get('/:id', function(req, res) {
   // res.send('respond with a resource');
-    db.Users.findOne({
+    db.User.findOne({
      where: {
        id:req.params.id
      }
@@ -62,14 +62,30 @@ router.post('/signup', function(req, res, next) {
   let email = req.body.email;
   let avatar = req.body.avatar;
   passwordHandler.hashPassword(password, function(hashedPassword) {
-    db.Users.create({
+    db.User.create({
       password: hashedPassword,
       username: username,
       email: email,
       avatar: avatar
-    }).then(function(dbPost) {
-      res.json(dbPost);
+    }).then(function(savedUser) {
+      res.json(savedUser);
       res.status(200).end();
+    });
+  });
+});
+
+router.post('/signin', function(req, res, next) {
+  let email = req.body.email;
+  let password = req.body.password;
+  db.User.findOne({
+    email: email
+  }).then(function(myUser) {
+    passwordHandler.comparePassword(password, myUser.password, function(success) {
+      if (success) {
+        req.session.user = myUser;
+        res.status(200).json(req.session.user);
+      }
+      else res.status(404).end();
     });
   });
 });

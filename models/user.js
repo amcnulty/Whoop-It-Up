@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Users = sequelize.define("Users", {
+    var User = sequelize.define("User", {
     	username: {
     	    type: DataTypes.STRING,
       		allowNull: false,
@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
     	},
     	email: {
     	    type: DataTypes.STRING,
-    	    // primaryKey: true,
+    	    unique: true,
       		allowNull: false,
       		validate: {
         	len: [1]
@@ -28,11 +28,11 @@ module.exports = function(sequelize, DataTypes) {
     	}
      });
 
-    Users.associate = function(model) {
-        Users.belongsToMany(model.Events, {
+    User.associate = function(model) {
+        User.belongsToMany(model.Event, {
             through: "UserEvent"
         });
     }
 
-    return Users;
+    return User;
 }
