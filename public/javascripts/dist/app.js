@@ -50,11 +50,25 @@ WIU.animate = (function() {
       }
       
     });
+  },
+  slideIn = function($divs) {
+    var timeline = new TimelineLite({paused: true});
+
+    $divs.each(function(index) {
+      var $this = $(this);
+      timeline.fromTo($this, 0.3, 
+            {opacity: 0, right: -90}, 
+            {opacity: 1, right: 0});
+    });
+
+    timeline.play();
+    
   };
 
   return {
     bounceWords : bounceWords,
-    apply : apply
+    apply : apply,
+    slideIn : slideIn
   }
 })();
 var WIU = WIU || {};
@@ -233,6 +247,28 @@ $(function() {
 });
 var WIU = WIU || {};
 
+WIU.events = (function () {
+
+  var
+    
+    init = function () {
+      if ($('.events-page').length) {
+        var $events = $('.event-row');
+
+        WIU.animate.slideIn($events);
+      }
+    };
+
+  return {
+    init: init
+  }
+})();
+
+$(function () {
+  WIU.events.init();
+});
+var WIU = WIU || {};
+
 WIU.findEvents = (function() {
 
   var 
@@ -275,10 +311,21 @@ WIU.findEvents = (function() {
       }
     });
   },
+  bindFindBtn = function() {
+    var $findBtn = $('.find-btn');
+
+    $findBtn.on('click', function() {
+      // do ajax POST call, then let server render results page
+
+      // TODO: remove this when backend is ready
+      window.location = '/events';
+    });
+  },
   init = function() {
     if ($('.find-events-page').length) {
       initDatepicker(); 
       initAdvOptions();
+      bindFindBtn();
     }
   };
 
@@ -431,8 +478,25 @@ WIU.profile = (function() {
       }
     });
   },
+  isEventTab = function(classes) {
+    return classes.indexOf('tab-events') !== -1;
+  },
+  bindTabShown = function() {
+    var $navTabs = $('#profile-tabs');
+
+    $navTabs.on('shown.bs.tab', function(e) {
+      
+      if (isEventTab(e.target.className)) {
+        WIU.animate.slideIn($('.invite-row', '.event-section'));
+      }
+      else {
+        $('.event-row').css('opacity', '0');
+      }
+    })
+  },
   init = function() {
     if ($('.edit-profile', '.profile-page').length) {
+      bindTabShown();
       bindAvatarSelect();
       bindUpdateBtn();
     }

@@ -42,10 +42,21 @@ WIU.findEvents = (function() {
       }
     });
   },
+  bindFindBtn = function() {
+    var $findBtn = $('.find-btn');
+
+    $findBtn.on('click', function() {
+      // do ajax POST call, then let server render results page
+
+      // TODO: remove this when backend is ready
+      window.location = '/events';
+    });
+  },
   init = function() {
     if ($('.find-events-page').length) {
       initDatepicker(); 
       initAdvOptions();
+      bindFindBtn();
     }
   };
 
