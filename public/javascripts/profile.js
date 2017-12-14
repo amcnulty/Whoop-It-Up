@@ -90,7 +90,7 @@ WIU.profile = (function() {
     $navTabs.on('shown.bs.tab', function(e) {
       
       if (isEventTab(e.target.className)) {
-        WIU.animate.slideIn($('.event-row', '.event-section'));
+        WIU.animate.slideIn($('.invite-row', '.event-section'));
       }
       else {
         $('.event-row').css('opacity', '0');

@@ -247,6 +247,28 @@ $(function() {
 });
 var WIU = WIU || {};
 
+WIU.events = (function () {
+
+  var
+    
+    init = function () {
+      if ($('.events-page').length) {
+        var $events = $('.event-row');
+
+        WIU.animate.slideIn($events);
+      }
+    };
+
+  return {
+    init: init
+  }
+})();
+
+$(function () {
+  WIU.events.init();
+});
+var WIU = WIU || {};
+
 WIU.findEvents = (function() {
 
   var 
@@ -289,10 +311,21 @@ WIU.findEvents = (function() {
       }
     });
   },
+  bindFindBtn = function() {
+    var $findBtn = $('.find-btn');
+
+    $findBtn.on('click', function() {
+      // do ajax POST call, then let server render results page
+
+      // TODO: remove this when backend is ready
+      window.location = '/events';
+    });
+  },
   init = function() {
     if ($('.find-events-page').length) {
       initDatepicker(); 
       initAdvOptions();
+      bindFindBtn();
     }
   };
 
@@ -454,7 +487,7 @@ WIU.profile = (function() {
     $navTabs.on('shown.bs.tab', function(e) {
       
       if (isEventTab(e.target.className)) {
-        WIU.animate.slideIn($('.event-row', '.event-section'));
+        WIU.animate.slideIn($('.invite-row', '.event-section'));
       }
       else {
         $('.event-row').css('opacity', '0');

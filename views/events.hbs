@@ -3,17 +3,14 @@
     <div class="wrapper">
         <div class="site-logo"></div>
         <h2 class="fun-font">Events!!!</h1>
-            <div class="row">
-                <div id="eventName" class="col-8">
-                    {{#each events}}
-                    <ul>{{this.name}}</ul>
-                    {{/each}}
-                </div>
-                <div id="eventDate" class="col-4">
-                    {{#each events}}
-                    <ul>{{this.date}}</ul>
-                    {{/each}}
-                </div>
+            <div class="event-section">
+            {{#if events}}
+                {{#each events}}
+                    {{> event_row}}
+                {{/each}}
+            {{else}}    
+                <p>No event found</p>
+            {{/if}}
             </div>
 
             <div class="controls">
