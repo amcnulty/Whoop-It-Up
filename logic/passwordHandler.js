@@ -8,12 +8,13 @@ const passwordHandler = {
      * @param {String} password - The password to be hashed
      * @returns {String}
      */
-    hashPassword(password) {
+    hashPassword(password, cb) {
         bcrypt.genSalt(SALT, function(err, salt) {
             if (err) throw err;
             bcrypt.hash(password, salt, function(err, hash) {
                 if (err) throw err;
-                return salt;
+                console.log(hash);
+                cb(hash);
             });
         });
     },
