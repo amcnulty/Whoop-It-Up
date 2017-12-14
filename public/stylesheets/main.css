@@ -126,23 +126,49 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; }
+  flex-direction: column;
+  /*#eventName {
+      display: block;
+      float: left;
+      padding: 0;
+  }
+  #eventDate {
+      margin: 0;
+      display: block;
+  }*/
+  /*ul {
+  
+      text-align: left;
+      padding: 0;
+  }*/ }
   .events-page .wrapper .controls {
     width: 320px;
     max-width: 100%; }
     .events-page .wrapper .controls .show-btn {
       margin: 20px 0;
       width: 100%; }
-  .events-page .wrapper #eventName {
-    display: block;
-    float: left;
-    padding: 0; }
-  .events-page .wrapper #eventDate {
-    margin: 0;
-    display: block; }
-  .events-page .wrapper ul {
-    text-align: left;
-    padding: 0; }
+  .events-page .wrapper .event-section {
+    width: 320px;
+    max-width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .events-page .wrapper .event-section .event-row, .events-page .wrapper .event-section .invite-row {
+      position: relative;
+      width: 100%;
+      margin: 5px 0;
+      border: 1px solid silver;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      opacity: 0; }
+      .events-page .wrapper .event-section .event-row .event-name, .events-page .wrapper .event-section .invite-row .event-name {
+        font-size: 13px; }
+      .events-page .wrapper .event-section .event-row .event-date, .events-page .wrapper .event-section .invite-row .event-date {
+        font-size: 12px;
+        font-weight: bold; }
 
 .create-events-page .wrapper {
   display: flex;
@@ -238,7 +264,7 @@
   display: flex;
   flex-direction: column;
   align-items: center; }
-  .profile-page .event-section .event-row {
+  .profile-page .event-section .event-row, .profile-page .event-section .invite-row {
     position: relative;
     width: 100%;
     margin: 5px 0;
@@ -248,16 +274,16 @@
     align-items: center;
     padding: 10px 0;
     opacity: 0; }
-    .profile-page .event-section .event-row .event-name {
+    .profile-page .event-section .event-row .event-name, .profile-page .event-section .invite-row .event-name {
       font-size: 13px; }
-    .profile-page .event-section .event-row .event-date {
+    .profile-page .event-section .event-row .event-date, .profile-page .event-section .invite-row .event-date {
       font-size: 12px;
       font-weight: bold; }
-    .profile-page .event-section .event-row .fa {
+    .profile-page .event-section .event-row .fa, .profile-page .event-section .invite-row .fa {
       color: silver; }
-    .profile-page .event-section .event-row .fa-check.active {
+    .profile-page .event-section .event-row .fa-check.active, .profile-page .event-section .invite-row .fa-check.active {
       color: green; }
-    .profile-page .event-section .event-row .fa-times.active {
+    .profile-page .event-section .event-row .fa-times.active, .profile-page .event-section .invite-row .fa-times.active {
       color: red; }
 
 /*# sourceMappingURL=main.css.map */

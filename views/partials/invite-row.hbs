@@ -1,0 +1,22 @@
+{{#if @root.canEdit}}
+  <div class="row invite-row event-{{this.id}}">
+    <div class="col-7 event-name">
+      <a href="/event/{{this.id}}" class="event-link">{{this.name}}</a>
+    </div>
+    <div class="col-2 event-date">{{this.date}}</div>
+    <div class="col-3 event-control">
+      <i class="fa fa-check {{#if rsvp}}active{{/if}}" aria-hidden="true"></i>
+      <i class="fa fa-times {{#unless rsvp}}active{{/unless}}" aria-hidden="true"></i>
+    </div>
+  </div>
+{{else}}
+  {{#if this.rsvp}}
+    <div class="row invite-row event-{{this.id}}">
+      <div class="col-6 event-name">
+        <a href="/event/{{this.id}}" class="event-link">{{this.name}}</a>
+      </div>
+      <div class="col-6 event-date">{{this.date}}</div>
+    </div>
+  {{/if}}
+{{/if}}
+

@@ -26,15 +26,38 @@ router.get('/events', function (req, res, next) {
   res.render('events', {
     title: 'Events',
     events: [{
+      id : 0,
       name: "Andy's Lan Party",
-      date: "12/21/2017",
+      date: "12/12",
       location: "Andy's Place",
       description: "This is the best LAN party in the world!"
     }, {
+      id : 1,
       name: "Brendan's Pool Party",
-      date: "12/21/2017",
+      date: "12/21",
       location: "Brendan's Place",
       description: "This is the best POOL party in the world!"
+    },
+    {
+      id : 2,
+      name: "Adobe design conference with Shubha",
+      date: "12/30",
+      location: "Google's main campus",
+      description: "Let's learn how to design stuffs"
+    },
+    {
+      id : 3,
+      name: "Aaron's Graduation",
+      date: "1/12",
+      location: "UCSD",
+      description: "Celebrating Aaron for getting his PhD."
+    },
+    {
+      id : 4,
+      name: "Winter quarter at UC Irvine",
+      date: "1/30",
+      location: "Univerisity of California, Irvine",
+      description: "GDI!!! Back to school time"
     }]
   });
 });

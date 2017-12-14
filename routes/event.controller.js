@@ -25,7 +25,11 @@ router.post('/createEvent', function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
     db.Event.findOne({
-        id: req.params.id
+        id: req.params.id,
+        include: [{
+            model: db.Category,
+            as: "categories"
+        }]
     }).then(function(myEvent) {
         res.status(200).json(myEvent);
     });

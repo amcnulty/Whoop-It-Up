@@ -14,22 +14,48 @@
           width: 100%;
         }
       }
-    #eventName {
-        display: block;
 
+      .event-section {
+        width: 320px;
+        max-width: 100%;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .event-row, .invite-row {
+          position: relative;
+          width: 100%;
+          margin: 5px 0;
+          border: 1px solid silver;
+          border-radius: 3px;
+          display: flex;
+          align-items: center;
+          padding: 10px 0;
+          opacity: 0;
+
+          .event-name {
+            font-size: 13px;
+          }
+          .event-date {
+            font-size: 12px;
+            font-weight: bold;
+          }
+        }
+      }
+    /*#eventName {
+        display: block;
         float: left;
         padding: 0;
     }
     #eventDate {
-        
         margin: 0;
         display: block;
-       
-    }
-    ul {
+    }*/
+    /*ul {
     
         text-align: left;
         padding: 0;
-    }
+    }*/
     }
   }
