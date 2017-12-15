@@ -1,13 +1,51 @@
 .landing-page {
+  margin: 0;
+  padding: 0;
+
   .home-link {
     opacity: 0;
   }
 
+  .region {
+    background-image: url('../images/japan.png');
+    background-repeat: no-repeat;
+    background-position: 50% 101%;
+    background-size: 101%;
+
+    &.top-region {
+      height: 40vh;  
+    }
+    &.bottom-region {
+      height: 60vh;  
+    }
+  }
+
+  .flip-bkg {
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: FlipV;
+    -ms-filter: "FlipV";
+  }
+  
   .wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: absolute;
+
+    width: 280px;
+    border: 1px solid green;
+    margin-top: -250px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 25px;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 10px;
     
     h1 {
       font-size: 3rem;
