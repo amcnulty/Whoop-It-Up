@@ -1,0 +1,13 @@
+.event-page {
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  
+    .g-map {
+      height: 200px;
+      width: 350px;
+    }
+  }
+}

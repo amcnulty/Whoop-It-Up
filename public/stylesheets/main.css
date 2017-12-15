@@ -286,4 +286,13 @@
     .profile-page .event-section .event-row .fa-times.active, .profile-page .event-section .invite-row .fa-times.active {
       color: red; }
 
+.event-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .event-page .wrapper .g-map {
+    height: 200px;
+    width: 350px; }
+
 /*# sourceMappingURL=main.css.map */

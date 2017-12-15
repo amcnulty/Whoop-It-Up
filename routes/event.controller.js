@@ -31,7 +31,21 @@ router.get('/:id', function(req, res, next) {
             as: "categories"
         }]
     }).then(function(myEvent) {
-        res.status(200).json(myEvent);
+        if (typeof myEvent === 'undefined' || myEvent == null) {
+            res.render('event', {
+              id    : 1,
+              name  : "Brendan's Pool Party",
+              date  : "12/21",
+              placeID : '',
+              latlng : '-33.8569,151.2152',
+              location    : "Brendan's Place",
+              description : "This is the best POOL party in the world!"
+            });
+        }
+        else {
+            res.status(200).json(myEvent);    
+        }
+        
     });
 });
 
