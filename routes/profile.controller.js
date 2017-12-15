@@ -111,7 +111,7 @@ router.delete('/delete/:userId', function(req, res, next) {
     });
 });
 
-router.get('/userPresent', function(req, res, next) {
+router.get('/userpresent', function(req, res, next) {
   if(!req.session.user) {
     return res.send(false).end();
   }
