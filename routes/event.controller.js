@@ -4,17 +4,18 @@ var db = require('../models');
 
 router.post('/createevent', function(req, res, next) {
     db.Event.create({
-        eventName: req.body.eventName,
-        eventHost: req.body.eventHost,
+        name: req.body.name,
+        description: req.body.description,
+        host: req.body.host,
         hostId:req.body.hostId,
-        isPublic: req.body.isPublic,
-        eventDate: req.body.eventDate,
-        eventTime: req.body.eventTime,
+        isPrivate: req.body.isPrivate,
+        date: req.body.date,
+        time: req.body.time,
         location: req.body.location
     })
         .then(function(savedEvent) {
             const eventId = savedEvent.dataValues.id;
-            const categoryIds = req.body.categories;
+            const categoryIds = JSON.parse(req.body.categories);
             const promises = categoryIds.map(function (categoryId) {
                 return db.EventCategory.create({
                     EventId: eventId,

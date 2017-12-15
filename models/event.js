@@ -1,25 +1,28 @@
 module.exports = function(sequelize, DataTypes) {
     var Event = sequelize.define('Event', {
-        eventName: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
             len: [1]
             }
         },
-        eventHost: {
+        description: {
+            type: DataTypes.TEXT
+        },
+        host: {
             type: DataTypes.STRING,
         },
         hostId :{
             type: DataTypes.BIGINT,
         },
-        isPublic: {
+        isPrivate: {
             type: DataTypes.BOOLEAN,
         },        
-        eventDate: {
+        date: {
             type: DataTypes.STRING,
         },
-        eventTime: {
+        time: {
             type: DataTypes.STRING,
         },
         location: {
