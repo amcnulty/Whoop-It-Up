@@ -28,7 +28,8 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         Event.belongsToMany(model.User, {
-            through: 'UserEvent'
+            through: 'UserEvents',
+            as: 'userEvents'
         });
     }
 

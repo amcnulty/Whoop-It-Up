@@ -61,6 +61,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/bycategory/:categoryId', function(req, res, next) {
     db.EventCategory.findAll({
+        attributes: [],
         include: [db.Event],
         where: {
             CategoryId: req.params.categoryId
@@ -68,6 +69,35 @@ router.get('/bycategory/:categoryId', function(req, res, next) {
     }).then(function(events) {
         res.status(200).json(events);
     });
+});
+
+router.post('/addInvite/:userId', function(req, res, next) {
+    db.UserEvent.create({
+        EventId: req.body.eventId,
+        UserId: req.params.userId
+    }).
+        then(function(savedInvite){
+           return res.status(200).end();
+        })
+        .catch(function(err) {
+            if (err) {
+                console.log(err);
+                return res.status(500).end();
+            }
+        });
+});
+
+router.get('/invites/:eventId', function(req, res, next) {
+    db.UserEvent.findAll({
+        attributes: [],
+        include: [db.User],
+        where: {
+            EventId: req.params.eventId
+        }
+    })
+        .then(function (invitedUsers) {
+            res.status(200).json(invitedUsers).end();
+        });
 });
 
 module.exports = router;

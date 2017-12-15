@@ -72,8 +72,10 @@ router.post('/signup', function(req, res, next) {
       email: email,
       avatar: avatar
     }).then(function(savedUser) {
-      res.json(savedUser);
-      res.status(200).end();
+      return res.status(200).json(savedUser).end();
+    }).catch(function (err) {
+      console.log(err);
+      return res.status(500).end();
     });
   });
 });
@@ -87,11 +89,16 @@ router.post('/signin', function(req, res, next) {
     passwordHandler.comparePassword(password, myUser.password, function(success) {
       if (success) {
         req.session.user = myUser;
-        res.status(200).json(req.session.user);
+        res.status(200).json(req.session.user).end();
       }
       else res.status(404).end();
     });
   });
 });
+
+router.get('/signout', function(req, res, next) {
+  req.session.destroy();
+  res.status(200).end();
+})
 
 module.exports = router;

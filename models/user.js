@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var User = sequelize.define("User", {
+    var User = sequelize.define('User', {
     	username: {
     	    type: DataTypes.STRING,
       		allowNull: false,
@@ -30,7 +30,8 @@ module.exports = function(sequelize, DataTypes) {
 
     User.associate = function(model) {
         User.belongsToMany(model.Event, {
-            through: "UserEvent"
+			through: 'UserEvents',
+			as: 'userEvents'
         });
     }
 
