@@ -1,0 +1,19 @@
+<div class="container event-page main-container">
+    {{> header }}
+    <div class="wrapper">
+        <input type="hidden" class="lat-long" value={{latlng}}>
+        <input type="hidden" class="place-id" value={{placeID}}>
+        <h2 class="event-name">{{name}}</h2>
+        <div class="event-date">{{date}}</div>
+        <div class="cta">
+            <button type="button" class="btn rsvp-btn btn-outline-primary">RSVP</button>
+        </div>
+        <div class="map">
+            <iframe class="g-map" frameborder="0" src=""></iframe>
+        </div>
+        <div class="event-desc">{{description}}</div>
+        <div class="share-facebook">
+            <a href="#" target="_blank" class="btn btn-outline-primary fb-btn"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</a>
+        </div>
+    </div>
+</div>

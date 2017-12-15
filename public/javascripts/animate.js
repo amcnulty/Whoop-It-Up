@@ -50,10 +50,24 @@ WIU.animate = (function() {
       }
       
     });
+  },
+  slideIn = function($divs) {
+    var timeline = new TimelineLite({paused: true});
+
+    $divs.each(function(index) {
+      var $this = $(this);
+      timeline.fromTo($this, 0.3, 
+            {opacity: 0, right: -90}, 
+            {opacity: 1, right: 0});
+    });
+
+    timeline.play();
+    
   };
 
   return {
     bounceWords : bounceWords,
-    apply : apply
+    apply : apply,
+    slideIn : slideIn
   }
 })();

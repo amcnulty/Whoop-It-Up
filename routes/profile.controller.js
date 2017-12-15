@@ -14,47 +14,51 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET for single user listing. */
+// TODO: remove `canEdit`, this should be from $_SESSION variable
+// TODO: backend logic to only query upcoming events, ignore past events
 router.get('/:id', function(req, res) {
-  // res.send('respond with a resource');
     db.User.findOne({
      where: {
        id:req.params.id
      }
     }).then(function(dbGet) {
-      res.json(dbGet);
+
+      var profileObj = dbGet;
+
+      if (typeof profileObj === 'undefined' || profileObj == null) {
+        profileObj = {
+          title     : 'Profile', 
+          id        : req.params.id,
+          avatar    : 1,
+          email     : 'test@testeste.edu',
+          username  : 'Andy K',
+          canEdit   : true,
+          invites   : [
+            {
+              id    : 0,
+              name  : "Andy's Lan Party",
+              date  : "12/12",
+              location    : "Andy's Place",
+              description : "This is the best LAN party in the world!",
+              rsvp  : false,
+            },
+            {
+              id    : 1,
+              name  : "Brendan's Pool Party",
+              date  : "12/21",
+              location    : "Brendan's Place",
+              description : "This is the best POOL party in the world!",
+              rsvp  : true
+            }
+          ]
+        }
+      }
+      
+      res.render('profile', profileObj);
+      //res.json(dbGet);  
     });
 });
-// TODO: remove `canEdit`, this should be from $_SESSION variable
-// `invites` should be a list of event the user is invited to 
-// TODO: backend logic to only query upcoming events, ignore past events
-router.get('/:id', function(req, res, next) {
-  res.render('profile', {
-    title     : 'Profile', 
-    id        : req.params.id,
-    avatar    : 1,
-    email     : 'test@testeste.edu',
-    username  : 'Andy K',
-    canEdit   : true,
-    invites   : [
-      {
-        id    : 0,
-        name  : "Andy's Lan Party",
-        date  : "12/12",
-        location    : "Andy's Place",
-        description : "This is the best LAN party in the world!",
-        rsvp  : false,
-      },
-      {
-        id    : 1,
-        name  : "Brendan's Pool Party",
-        date  : "12/21",
-        location    : "Brendan's Place",
-        description : "This is the best POOL party in the world!",
-        rsvp  : true
-      }
-    ]
-  });
-});
+
 /* User sign up route */
 router.post('/signup', function(req, res, next) {
   let password = req.body.password;

@@ -19,7 +19,6 @@
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^0.5.1",
     "grunt-contrib-watch": "^1.0.0",
-    "gsap": "^1.20.3",
     "hbs": "^4.0.1",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",

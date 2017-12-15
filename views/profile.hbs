@@ -4,12 +4,12 @@
     <div class="current-avatar avatar avatar-{{avatar}}" data-id="{{avatar}}"></div>
 
       <!-- Nav tabs -->
-      <ul class="nav nav-tabs" role="tablist">
+      <ul class="nav nav-tabs" id="profile-tabs" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">Profile</a>
+          <a class="nav-link tab-profile active" data-toggle="tab" href="#profile" role="tab">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#events" role="tab">Events</a>
+          <a class="nav-link tab-events" data-toggle="tab" href="#events" role="tab">Events</a>
         </li>
       </ul>
 
@@ -30,7 +30,7 @@
             <h3 class="fun-font">Upcoming Events</h3>
             {{#unless invites}}<p>No Events Found</p>{{/unless}}
             {{#each invites}}
-              {{> event_row }}
+              {{> invite_row }}
             {{/each}}
           </div>
         </div>
