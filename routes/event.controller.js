@@ -71,10 +71,10 @@ router.get('/bycategory/:categoryId', function(req, res, next) {
     });
 });
 
-router.post('/addInvite/:userId', function(req, res, next) {
+router.post('/addInvite', function(req, res, next) {
     db.UserEvent.create({
         EventId: req.body.eventId,
-        UserId: req.params.userId
+        UserId: req.body.userId
     }).
         then(function(savedInvite){
            return res.status(200).end();
@@ -84,6 +84,18 @@ router.post('/addInvite/:userId', function(req, res, next) {
                 console.log(err);
                 return res.status(500).end();
             }
+        });
+});
+
+router.put('/uninvite', function(req, res, next) {
+    db.UserEvent.destroy({
+        where: {
+            UserId: req.body.userId,
+            EventId: req.body.eventId
+        }
+    })
+        .then(function(results) {
+            res.status(200).end();
         });
 });
 
