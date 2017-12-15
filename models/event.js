@@ -7,6 +7,12 @@ module.exports = function(sequelize, DataTypes) {
             len: [1]
             }
         },
+        eventHost: {
+            type: DataTypes.STRING,
+        },
+        hostId :{
+            type: DataTypes.BIGINT,
+        },
         isPublic: {
             type: DataTypes.BOOLEAN,
         },        

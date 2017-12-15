@@ -5,6 +5,8 @@ var db = require('../models');
 router.post('/createEvent', function(req, res, next) {
     db.Event.create({
         eventName: req.body.eventName,
+        eventHost: req.body.eventHost,
+        hostId:req.body.hostId,
         isPublic: req.body.isPublic,
         eventDate: req.body.eventDate,
         eventTime: req.body.eventTime,
