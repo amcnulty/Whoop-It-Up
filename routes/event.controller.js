@@ -8,19 +8,23 @@ router.post('/createEvent', function(req, res, next) {
         isPublic: req.body.isPublic,
         eventDate: req.body.eventDate,
         eventTime: req.body.eventTime,
-        location: req.body.location,
-        categories: [
-            {categoryname: "concert"},
-            {categoryname: "private party"}
-        ]
-    }, {
-        include: [{
-            model: db.Category,
-            as: "categories"
-        }]
-    }).then(function(savedEvent) {
-        res.status(200).json(savedEvent);
-    });
+        location: req.body.location
+    })
+        .then(function(savedEvent) {
+            const eventId = savedEvent.dataValues.id;
+            const categoryIds = req.body.categories;
+            const promises = categoryIds.map(function (categoryId) {
+                return db.EventCategory.create({
+                    EventId: eventId,
+                    CategoryId: categoryId
+                });
+            });
+            Promise
+                .all(promises)
+                .then(function() {
+                    res.status(200).json(savedEvent);
+                });
+        });
 });
 
 router.get('/:id', function(req, res, next) {
@@ -42,10 +46,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/bycategory/:categoryId', function(req, res, next) {
-    db.sequelize.models.EventCategory.findAll({
+    db.EventCategory.findAll({
+        include: [db.Event],
         where: {
             CategoryId: req.params.categoryId
-        },
+        }
     }).then(function(events) {
         res.status(200).json(events);
     });

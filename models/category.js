@@ -1,10 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
-    var Category = sequelize.define("Category", {
+    var Category = sequelize.define('Category', {
     	categoryname: {
     	    type: DataTypes.STRING,
       		allowNull: false,
       		validate: {
-        	len: [1]
+        	    len: [1]
 	    	}
     	}
     });
@@ -12,8 +12,8 @@ module.exports = function(sequelize, DataTypes) {
 
     Category.associate = function(models) {
         Category.belongsToMany(models.Event, {
-            through: "EventCategory",
-            foreignKey: 'categoryId'
+            through: 'EventCategories',
+            as: 'categories'
         });
     }
 

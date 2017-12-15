@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Event = sequelize.define("Event", {
+    var Event = sequelize.define('Event', {
         eventName: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -23,13 +23,12 @@ module.exports = function(sequelize, DataTypes) {
 
     Event.associate = function(model) {
         Event.belongsToMany(model.Category, {
-            through: "EventCategory",
-            as: 'categories',
-            foreignKey: 'eventId'
+            through: 'EventCategories',
+            as: 'categories'
         });
 
         Event.belongsToMany(model.User, {
-            through: "UserEvent"
+            through: 'UserEvent'
         });
     }
 
