@@ -7,40 +7,60 @@ WIU.signup = (function () {
     init = function () {
       if ($('.signup-page').length) {
         $('#signUpBtn').on('click', function () {
+          var allGood = true;
+          if (!validateUsername()) {
+            $('#usernameResult').text("Please enter a valid username.");
+            allGood = false;
+          }
           if (!validate()) {
-            $('#result').text("Sorry! This email is not a valid email address");
+            $('#emailResult').text("Sorry! This email is not a valid email address.");
+            allGood = false;
           }
-          else if (emptyPassword()) {
-            $('#result').text("Please enter in a password.");
+          if (emptyPassword()) {
+            $('#pwResult').text("Please enter in a password.");
+            allGood = false;
           }
-          else if (!confirmPW()) {
+          if (!confirmPW()) {
             $('#result').text("Passwords don't match. Please try again.");
+            allGood = false;
           }
-          else {
+          if (allGood) {
             addUser();
           }
         });
+      }
+    },
+    // username validation
+    validateUsername = function () {
+      $('#usernameResult').text('');
+      var username = $('#username').val().trim();
+      if (username === "") {
+        return false;
+      } else {
+        return true;
       }
     },
     // email validation (email format)
     validateEmail = function (email) {
       var emailFormat = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return emailFormat.test(email);
+
     },
     // validating email to make sure that email is a valid email address
     validate = function () {
-      $('#result').text('');
+      $('#emailResult').text('');
       var email = $('#email').val();
       if (validateEmail(email)) {
         return true;
       } else {
-        $('#result').text(email + " is not valid");
-        $('#result').css('color', 'red');
+        $('#emailResult').text(email + " is not valid");
+        $('#emailResult').css('color', 'red');
         return false;
       }
     },
     // confirming both passwords entered are the same
     confirmPW = function () {
+      $('#result').text('');
       var pw = $('#password').val();
       var pwConfirm = $('#confirm-pw').val();
       if (pw === pwConfirm) {
@@ -51,6 +71,7 @@ WIU.signup = (function () {
     },
     // checks to make sure the user enters in a password into the input line
     emptyPassword = function () {
+      $('#pwResult').text('');
       var pw = $('#password').val();
       if (pw === "") {
         return true;
