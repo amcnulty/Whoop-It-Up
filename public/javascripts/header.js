@@ -53,6 +53,13 @@ WIU.header = (function () {
         password: $('.password').val()
       };
       console.log(user);
+      $.ajax({
+        method: 'post',
+        url: './profile/signin',
+        data: user
+      }).done(function(res) {
+        console.log(res);
+      });
     };
 
   return {

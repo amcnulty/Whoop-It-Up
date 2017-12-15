@@ -115,8 +115,16 @@ WIU.createEvent = (function() {
         eventTime = $('.start-time', page).val(),
         location  = $('.location', page).val(),
         eventDesc = $('.event-desc', page).val(),
-        invites   = $('.invite', page).val(),
+        // invites   = $('.invite', page).val(),
         isPrivate = $('.is-private-cb', page).is(':checked'),
+        categories = $('.categoryCheckboxes');
+        var checkedCategories = [];
+        for (var i = 0; i < categories.length; i++) {
+          if ($(categories[i]).is(':checked')) checkedCategories.push(
+            parseInt(categories[i].value)
+          );
+        }
+
         suggestCB = $('.suggest-cb', page).is(':checked'),
         locationObj = {
           name : location
@@ -132,10 +140,13 @@ WIU.createEvent = (function() {
       name      : eventName,
       date      : eventDate,
       time      : eventTime,
-      location  : locationObj,
-      desc      : eventDesc,
-      private   : isPrivate,
-      invites   : invites
+      location  : location,
+      description      : eventDesc,
+      isPrivate   : isPrivate,
+      // invites   : invites,
+      host:     'Gorilla Gang',
+      hostId:   1,
+      categories: JSON.stringify(checkedCategories)
     };
   },
   initCreateBtn = function() {
@@ -145,7 +156,14 @@ WIU.createEvent = (function() {
       var eventObj = getData();
 
       if (verifyData(eventObj)) {
-        console.log('event obj:', eventObj);
+        // console.log('event obj:', eventObj);
+        $.ajax({
+          method: 'POST',
+          url: './event/createevent',
+          data: eventObj
+        }).done(function(res) {
+          console.log(res);
+        });
       }
       else {
         // throw warning!
