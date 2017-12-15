@@ -2,11 +2,13 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var db = require('./models');
 
 var pageRoutes = require('./routes/pageRoutes');
-var users = require('./routes/users');
+var profile = require('./routes/profile.controller');
+var event = require('./routes/event.controller');
 
 var PORT = process.env.PORT || 8080;
 
@@ -26,9 +28,15 @@ hbs.registerPartials(__dirname + '/views/partials');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.use('/', pageRoutes);
-app.use('/users', users);
+app.use('/profile', profile);
+app.use('/event', event);
 
 db.sequelize.sync({ force: true }).then(function() {
   app.listen(PORT, function() {

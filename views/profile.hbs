@@ -1,0 +1,40 @@
+<div class="container profile-page main-container">
+  {{> header }}
+  <div class="wrapper">
+    <div class="current-avatar avatar avatar-{{avatar}}" data-id="{{avatar}}"></div>
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" id="profile-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link tab-profile active" data-toggle="tab" href="#profile" role="tab">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link tab-events" data-toggle="tab" href="#events" role="tab">Events</a>
+        </li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="profile" role="tabpanel">
+          {{#if canEdit}}
+            {{> edit_profile }}
+          {{else}}
+            <div class="info-row">
+              <h2 class="username fun-font">{{username}}</h2>
+              <div class="email fun-font">{{email}}</div>
+            </div>
+          {{/if}}
+        </div>
+        <div class="tab-pane" id="events" role="tabpanel">
+          <div class="event-section">
+            <h3 class="fun-font">Upcoming Events</h3>
+            {{#unless invites}}<p>No Events Found</p>{{/unless}}
+            {{#each invites}}
+              {{> invite_row }}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>

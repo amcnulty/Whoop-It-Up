@@ -8,7 +8,7 @@
 .site-logo {
   width: 200px;
   height: 200px;
-  background-image: url("../images/animals.jpg");
+  background-image: url("../images/animals.png");
   background-repeat: no-repeat;
   background-position: 53% 0;
   background-size: 300%;
@@ -59,6 +59,9 @@
   flex-direction: column; }
   .landing-page .wrapper h1 {
     font-size: 3rem; }
+    .landing-page .wrapper h1 div.wiu-animate {
+      display: inline-block;
+      margin-left: 10px; }
   .landing-page .wrapper .controls {
     margin-top: 40px; }
     .landing-page .wrapper .controls .btn {
@@ -123,18 +126,49 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; }
+  flex-direction: column;
+  /*#eventName {
+      display: block;
+      float: left;
+      padding: 0;
+  }
+  #eventDate {
+      margin: 0;
+      display: block;
+  }*/
+  /*ul {
+  
+      text-align: left;
+      padding: 0;
+  }*/ }
   .events-page .wrapper .controls {
     width: 320px;
     max-width: 100%; }
-    .events-page .wrapper .controls input {
-      display: block;
-      margin: 10px 0;
-      width: 100%;
-      padding: 5px 10px; }
     .events-page .wrapper .controls .show-btn {
       margin: 20px 0;
       width: 100%; }
+  .events-page .wrapper .event-section {
+    width: 320px;
+    max-width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .events-page .wrapper .event-section .event-row, .events-page .wrapper .event-section .invite-row {
+      position: relative;
+      width: 100%;
+      margin: 5px 0;
+      border: 1px solid silver;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      opacity: 0; }
+      .events-page .wrapper .event-section .event-row .event-name, .events-page .wrapper .event-section .invite-row .event-name {
+        font-size: 13px; }
+      .events-page .wrapper .event-section .event-row .event-date, .events-page .wrapper .event-section .invite-row .event-date {
+        font-size: 12px;
+        font-weight: bold; }
 
 .create-events-page .wrapper {
   display: flex;
@@ -170,5 +204,95 @@
     .create-events-page .wrapper .controls .create-btn {
       margin: 20px 0 50px 0;
       width: 100%; }
+
+.profile-page .nav-link {
+  padding: .3rem 1rem;
+  margin-top: 15px; }
+.profile-page .info-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px; }
+  .profile-page .info-row .email {
+    font-size: 20px; }
+.profile-page .edit-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  max-width: 100%;
+  margin-top: 10px; }
+  .profile-page .edit-profile .email {
+    font-size: 20px; }
+  .profile-page .edit-profile input {
+    display: block;
+    width: 90%;
+    padding: 1px 10px;
+    margin: 5px 0; }
+  .profile-page .edit-profile h3.label {
+    margin-top: 20px; }
+.profile-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+.profile-page .avatar {
+  display: inline-block;
+  width: 145px;
+  height: 145px;
+  background-image: url("../images/avatars.png");
+  background-size: 700px;
+  background-position: -57px -47px;
+  background-repeat: no-repeat; }
+  .profile-page .avatar.avatar-0 {
+    background-position: -57px -33px; }
+  .profile-page .avatar.avatar-1 {
+    background-position: -206px -344px; }
+  .profile-page .avatar.avatar-2 {
+    background-position: -353px -344px; }
+  .profile-page .avatar.avatar-3 {
+    background-position: -57px -344px; }
+.profile-page .avatar-section {
+  overflow: hidden;
+  max-width: 100%;
+  margin: 20px 0; }
+  .profile-page .avatar-section .avatar {
+    cursor: pointer;
+    background-color: white; }
+.profile-page .event-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .profile-page .event-section .event-row, .profile-page .event-section .invite-row {
+    position: relative;
+    width: 100%;
+    margin: 5px 0;
+    border: 1px solid silver;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    opacity: 0; }
+    .profile-page .event-section .event-row .event-name, .profile-page .event-section .invite-row .event-name {
+      font-size: 13px; }
+    .profile-page .event-section .event-row .event-date, .profile-page .event-section .invite-row .event-date {
+      font-size: 12px;
+      font-weight: bold; }
+    .profile-page .event-section .event-row .fa, .profile-page .event-section .invite-row .fa {
+      color: silver; }
+    .profile-page .event-section .event-row .fa-check.active, .profile-page .event-section .invite-row .fa-check.active {
+      color: green; }
+    .profile-page .event-section .event-row .fa-times.active, .profile-page .event-section .invite-row .fa-times.active {
+      color: red; }
+
+.event-page .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .event-page .wrapper .g-map {
+    height: 200px;
+    width: 350px; }
 
 /*# sourceMappingURL=main.css.map */

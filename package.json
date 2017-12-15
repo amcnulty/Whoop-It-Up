@@ -6,10 +6,12 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "debug": "^2.6.9",
     "dotenv": "^4.0.0",
     "express": "^4.15.5",
+    "express-session": "^1.15.6",
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-jshint": "~0.10.0",
@@ -17,7 +19,6 @@
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^0.5.1",
     "grunt-contrib-watch": "^1.0.0",
-    "gsap": "^1.20.3",
     "hbs": "^4.0.1",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
