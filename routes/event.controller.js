@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models');
 
-router.post('/createEvent', function(req, res, next) {
+router.post('/createevent', function(req, res, next) {
     db.Event.create({
         eventName: req.body.eventName,
         isPublic: req.body.isPublic,
@@ -71,7 +71,7 @@ router.get('/bycategory/:categoryId', function(req, res, next) {
     });
 });
 
-router.post('/addInvite', function(req, res, next) {
+router.post('/addinvite', function(req, res, next) {
     db.UserEvent.create({
         EventId: req.body.eventId,
         UserId: req.body.userId
@@ -86,6 +86,21 @@ router.post('/addInvite', function(req, res, next) {
             }
         });
 });
+// Updates the status of a user for an event.
+router.put('/updatestatus', function(req, res, next) {
+    db.UserEvent.update({
+        status: req.body.status
+    },
+    {
+        where: {
+            EventId: req.body.eventId,
+            UserId: req.body.userId
+        }
+    })
+        .then(function(results) {
+            res.status(200).end();
+        });
+});
 
 router.put('/uninvite', function(req, res, next) {
     db.UserEvent.destroy({
@@ -98,10 +113,10 @@ router.put('/uninvite', function(req, res, next) {
             res.status(200).end();
         });
 });
-
+// Get all users associated to an event with their status.
 router.get('/invites/:eventId', function(req, res, next) {
     db.UserEvent.findAll({
-        attributes: [],
+        attributes: ["status"],
         include: [db.User],
         where: {
             EventId: req.params.eventId
@@ -124,7 +139,7 @@ router.delete('/delete/:eventId', function(req, res, next) {
 });
 
 // Checks to see if a single user is invited to a single event
-router.post('/userIsInvited', function(req, res, next) {
+router.post('/userisinvited', function(req, res, next) {
     db.UserEvent.findOne({
         where: {
             UserId: req.body.userId,
