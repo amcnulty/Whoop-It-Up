@@ -15,7 +15,7 @@ WIU.event = (function () {
     },
     getPlaceID = function() {
       return $('.place-id').val();
-    },
+    }, 
 
     // TODO: q=place_id:......
     readyGoogleMap = function() {
@@ -29,18 +29,18 @@ WIU.event = (function () {
       if (latlong) {
         url += latlong;
         url += '&q=' + 'Fairmont+Empress,Victoria+BC',
-        console.log('hey', url);
+        console.log('hey!', url);
         $('.g-map').attr('src', url);
       }
       else {
         // no map
       }
 
-    }
+    },
     init = function () {
       if ($('.event-page').length) {
         bindFacebookShare();
-        readyGoogleMap();
+        //readyGoogleMap();
       }
     };
 
@@ -52,7 +52,7 @@ WIU.event = (function () {
 
 $(window).on('load', function() {
   if ($('.event-page').length) {
-    readyGoogleMap();
+    WIU.event.readyMap();
   }
 });
 
