@@ -8,10 +8,10 @@ WIU.header = (function () {
       if ($('.site-header.nav').length) {
         $('#signInBtn').on('click', function () {
           if (!validate()) {
-            $('#result').text("Sorry! This email is not a valid email address");
+            $('#signInResult').text("Sorry! This email is not a valid email address");
           }
           else if (emptyPassword()) {
-            $('#result').text("Please enter in a password.");
+            $('#signInResult').text("Please enter in a password.");
           }
           else {
             existingUser();
@@ -26,13 +26,13 @@ WIU.header = (function () {
     },
     // validating email to make sure that email is a valid email address
     validate = function () {
-      $('#result').text('');
+      $('#signInResult').text('');
       var email = $('.email').val();
       if (structureEmail(email)) {
         return true;
       } else {
-        $('#result').text(email + " is not valid");
-        $('#result').css('color', 'red');
+        $('#signInResult').text(email + " is not valid");
+        $('#signInResult').css('color', 'red');
         return false;
       }
     },

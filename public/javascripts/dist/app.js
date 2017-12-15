@@ -347,10 +347,10 @@ WIU.header = (function () {
       if ($('.site-header.nav').length) {
         $('#signInBtn').on('click', function () {
           if (!validate()) {
-            $('#result').text("Sorry! This email is not a valid email address");
+            $('#signInResult').text("Sorry! This email is not a valid email address");
           }
           else if (emptyPassword()) {
-            $('#result').text("Please enter in a password.");
+            $('#signInResult').text("Please enter in a password.");
           }
           else {
             existingUser();
@@ -365,13 +365,13 @@ WIU.header = (function () {
     },
     // validating email to make sure that email is a valid email address
     validate = function () {
-      $('#result').text('');
+      $('#signInResult').text('');
       var email = $('.email').val();
       if (structureEmail(email)) {
         return true;
       } else {
-        $('#result').text(email + " is not valid");
-        $('#result').css('color', 'red');
+        $('#signInResult').text(email + " is not valid");
+        $('#signInResult').css('color', 'red');
         return false;
       }
     },
@@ -585,6 +585,7 @@ WIU.signup = (function () {
     validateEmail = function (email) {
       var emailFormat = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return emailFormat.test(email);
+      
     },
     // validating email to make sure that email is a valid email address
     validate = function () {
@@ -626,7 +627,7 @@ WIU.signup = (function () {
       password: $('#password').val().trim()
     };
     console.log(newUser);
-  };
+  }; 
 
   return {
     init: init

@@ -26,6 +26,7 @@ WIU.signup = (function () {
     validateEmail = function (email) {
       var emailFormat = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return emailFormat.test(email);
+      
     },
     // validating email to make sure that email is a valid email address
     validate = function () {
@@ -67,7 +68,7 @@ WIU.signup = (function () {
       password: $('#password').val().trim()
     };
     console.log(newUser);
-  };
+  }; 
 
   return {
     init: init
