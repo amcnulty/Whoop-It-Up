@@ -100,4 +100,15 @@ router.get('/invites/:eventId', function(req, res, next) {
         });
 });
 
+router.delete('/delete/:eventId', function(req, res, next) {
+    db.Event.destroy({
+        where: {
+            id: req.params.eventId
+        }
+    })
+        .then(function(results) {
+            res.status(200).end();
+        });
+});
+
 module.exports = router;

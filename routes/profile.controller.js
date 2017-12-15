@@ -99,6 +99,17 @@ router.post('/signin', function(req, res, next) {
 router.get('/signout', function(req, res, next) {
   req.session.destroy();
   res.status(200).end();
-})
+});
+
+router.delete('/delete/:userId', function(req, res, next) {
+  db.User.destroy({
+    where: {
+      id: req.params.userId
+    }
+  })
+    .then(function(results) {
+      res.status(200).end();
+    });
+});
 
 module.exports = router;
