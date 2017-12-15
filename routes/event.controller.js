@@ -123,4 +123,18 @@ router.delete('/delete/:eventId', function(req, res, next) {
         });
 });
 
+// Checks to see if a single user is invited to a single event
+router.post('/userIsInvited', function(req, res, next) {
+    db.UserEvent.findOne({
+        where: {
+            UserId: req.body.userId,
+            EventId: req.body.eventId
+        }
+    })
+        .then(function(userEvent) {
+            if (!userEvent) res.send(false).end;
+            else res.send(true).end();
+        });
+});
+
 module.exports = router;
