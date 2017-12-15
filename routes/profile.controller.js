@@ -5,7 +5,6 @@ var passwordHandler = require('../logic/passwordHandler');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  // res.send('respond with a resource');
     db.User.findAll({})
     .then(function(dbGet) {
       res.json(dbGet);
@@ -16,7 +15,7 @@ router.get('/', function(req, res, next) {
 /* GET for single user listing. */
 // TODO: remove `canEdit`, this should be from $_SESSION variable
 // TODO: backend logic to only query upcoming events, ignore past events
-router.get('/:id', function(req, res) {
+router.get('getUser/:id', function(req, res) {
     db.User.findOne({
      where: {
        id:req.params.id
@@ -110,6 +109,13 @@ router.delete('/delete/:userId', function(req, res, next) {
     .then(function(results) {
       res.status(200).end();
     });
+});
+
+router.get('/userPresent', function(req, res, next) {
+  if(!req.session.user) {
+    return res.send(false).end();
+  }
+  else return res.send(true).end();
 });
 
 module.exports = router;
