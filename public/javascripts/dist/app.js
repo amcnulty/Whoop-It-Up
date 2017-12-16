@@ -20,12 +20,16 @@ WIU.animate = (function() {
   getNextStagger = function(stagger, lastIndex) {
     return stagger * lastIndex;
   },
-  apply = function($div, effect) {
+  apply = function($div, effect, callback) {
     if (effect !== '') {
       $div.addClass('animated ' + effect);
 
       $div.off('oanimationend animationend webkitAnimationEnd').on('oanimationend animationend webkitAnimationEnd', function() {
         $div.removeClass('animated ' + effect);
+
+        if (typeof callback === 'function') {
+          callback();
+        }
       })
     }
   },
@@ -68,18 +72,35 @@ WIU.animate = (function() {
     var timeline = new TimelineLite({paused: true}),
         startVal = $div.css('backgroundPosition');
 
-    timeline.fromTo($div, 0.5, 
+    timeline.fromTo($div, 0.6, 
           {opacity: 0, backgroundPosition: startVal}, 
           {opacity: 1, backgroundPosition: '50% 100%'});    
 
     timeline.play();
+  },
+  getRand = function(min, max) {
+    return Math.floor(Math.random()*(max-min+1)+min);
+  },
+  getRandEffect = function() {
+    var effects = ['hinge', 'rollOut', 'zoomOut'];
+    return effects[getRand(0, effects.length-1)];
+  }
+  leavePage = function(url) {
+    var $wrapper = $('.wrapper'),
+        effect = getRandEffect();
+
+    apply($wrapper, effect, function() {
+      $wrapper.hide(10);
+      window.location = url;  
+    });
   };
 
   return {
     bounceWords : bounceWords,
     apply : apply,
     slideIn : slideIn,
-    bkgSlideIn : bkgSlideIn
+    bkgSlideIn : bkgSlideIn,
+    leavePage : leavePage
   }
 })();
 var WIU = WIU || {};
@@ -508,34 +529,23 @@ WIU.landing = (function() {
   initFindBtn = function() {
     var $findBtn = $('.find-btn');
     $findBtn.on('click', function() {
-      window.location = '/find-events';  
+      WIU.animate.leavePage('/find-events');
     });
   },
   initCreateBtn = function() {
     var $findBtn = $('.create-btn');
     $findBtn.on('click', function() {
-      window.location = '/create-event'; 
+      WIU.animate.leavePage('/create-event');
     });
   },
-  // getRand = function(min, max) {
-  //   return Math.floor(Math.random()*(max-min+1)+min);
-  // },
   startAnimate = function() {
     // animate title
     WIU.animate.bounceWords($('.main-title'), 400, function() {
       WIU.animate.apply($('.site-logo'), 'rubberBand');
-      // WIU.animate.bkgSlideIn($('.top-region'));
-      // WIU.animate.bkgSlideIn($('.bottom-region'));
     });
   },
-  // putBackground = function($div) {
-  //   var bkgClass = 'country-' + getRand(0, 9);
-  //   $div.addClass(bkgClass);
-  // },
   init = function() {
     if ($('.landing-page').length) {
-      // putBackground($('.top-region'));
-      // putBackground($('.bottom-region'));
       startAnimate();
       initFindBtn();
       initCreateBtn();
