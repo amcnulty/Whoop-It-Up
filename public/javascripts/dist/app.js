@@ -84,7 +84,7 @@ WIU.animate = (function() {
   getRandEffect = function() {
     var effects = ['hinge', 'rollOut', 'zoomOut'];
     return effects[getRand(0, effects.length-1)];
-  }
+  },
   leavePage = function(url) {
     var $wrapper = $('.wrapper'),
         effect = getRandEffect();
@@ -801,12 +801,17 @@ WIU.site = (function () {
       var bkgClass = 'country-' + getRand(0, 9);
       $div.addClass(bkgClass);
     },
+    startTitleAnimate = function() {
+      WIU.animate.apply($('h2.fun-font'), 'tada'); 
+    },
     init = function () {
       putBackground($('.top-region'));
       putBackground($('.bottom-region'));
 
       WIU.animate.bkgSlideIn($('.top-region'));
       WIU.animate.bkgSlideIn($('.bottom-region'));
+
+      startTitleAnimate();
     };
 
   return {

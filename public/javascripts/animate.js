@@ -84,7 +84,7 @@ WIU.animate = (function() {
   getRandEffect = function() {
     var effects = ['hinge', 'rollOut', 'zoomOut'];
     return effects[getRand(0, effects.length-1)];
-  }
+  },
   leavePage = function(url) {
     var $wrapper = $('.wrapper'),
         effect = getRandEffect();
