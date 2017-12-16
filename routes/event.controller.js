@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
-
+/** Create a new event */
 router.post('/createevent', function(req, res, next) {
     db.Event.create({
         name: req.body.name,
@@ -29,10 +29,12 @@ router.post('/createevent', function(req, res, next) {
                 });
         });
 });
-
+/** Get a single event by it's ID */
 router.get('/:id', function(req, res, next) {
     db.Event.findOne({
-        id: req.params.id,
+        where: {
+            id: req.params.id
+        },
         include: [{
             model: db.Category,
             as: "categories"
@@ -55,13 +57,13 @@ router.get('/:id', function(req, res, next) {
         
     });
 });
-
+/** Get all of the events in the database */
 router.get('/', function(req, res, next) {
     db.Event.findAll({}).then(function(events) {
         res.status(200).json(events);
     });
 });
-
+/** Get all of the events with a single category */
 router.get('/bycategory/:categoryId', function(req, res, next) {
     db.EventCategory.findAll({
         attributes: [],
@@ -73,7 +75,7 @@ router.get('/bycategory/:categoryId', function(req, res, next) {
         res.status(200).json(events);
     });
 });
-
+/** Invite a user to an event */
 router.post('/addinvite', function(req, res, next) {
     db.UserEvent.create({
         EventId: req.body.eventId,
@@ -89,7 +91,7 @@ router.post('/addinvite', function(req, res, next) {
             }
         });
 });
-// Updates the status of a user for an event.
+/** Updates the status of a user for an event. */
 router.put('/updatestatus', function(req, res, next) {
     db.UserEvent.update({
         status: req.body.status
@@ -104,7 +106,7 @@ router.put('/updatestatus', function(req, res, next) {
             res.status(200).end();
         });
 });
-
+/** Uninvite a user from an event */
 router.put('/uninvite', function(req, res, next) {
     db.UserEvent.destroy({
         where: {
@@ -116,7 +118,7 @@ router.put('/uninvite', function(req, res, next) {
             res.status(200).end();
         });
 });
-// Get all users associated to an event with their status.
+/** Get all users associated to an event with their status. */
 router.get('/invites/:eventId', function(req, res, next) {
     db.UserEvent.findAll({
         attributes: ["status"],
@@ -129,7 +131,7 @@ router.get('/invites/:eventId', function(req, res, next) {
             res.status(200).json(invitedUsers).end();
         });
 });
-
+/** Delete an event from the database */
 router.delete('/delete/:eventId', function(req, res, next) {
     db.Event.destroy({
         where: {
@@ -141,7 +143,7 @@ router.delete('/delete/:eventId', function(req, res, next) {
         });
 });
 
-// Checks to see if a single user is invited to a single event
+/* Checks to see if a single user is invited to a single event */
 router.post('/userisinvited', function(req, res, next) {
     db.UserEvent.findOne({
         where: {
