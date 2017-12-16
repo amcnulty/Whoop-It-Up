@@ -181,10 +181,7 @@
         font-size: 12px; }
 
 .signup-page .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; }
+  margin-top: -300px; }
   .signup-page .wrapper .controls {
     width: 320px;
     max-width: 100%; }
