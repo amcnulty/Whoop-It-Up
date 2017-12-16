@@ -1,13 +1,11 @@
 .landing-page {
+
   .home-link {
     opacity: 0;
   }
-
+  
   .wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    width: 280px;
     
     h1 {
       font-size: 3rem;

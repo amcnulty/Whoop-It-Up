@@ -63,12 +63,23 @@ WIU.animate = (function() {
 
     timeline.play();
     
+  },
+  bkgSlideIn = function($div) {
+    var timeline = new TimelineLite({paused: true}),
+        startVal = $div.css('backgroundPosition');
+
+    timeline.fromTo($div, 0.5, 
+          {opacity: 0, backgroundPosition: startVal}, 
+          {opacity: 1, backgroundPosition: '50% 100%'});    
+
+    timeline.play();
   };
 
   return {
     bounceWords : bounceWords,
     apply : apply,
-    slideIn : slideIn
+    slideIn : slideIn,
+    bkgSlideIn : bkgSlideIn
   }
 })();
 var WIU = WIU || {};
@@ -506,14 +517,25 @@ WIU.landing = (function() {
       window.location = '/create-event'; 
     });
   },
+  // getRand = function(min, max) {
+  //   return Math.floor(Math.random()*(max-min+1)+min);
+  // },
   startAnimate = function() {
     // animate title
     WIU.animate.bounceWords($('.main-title'), 400, function() {
       WIU.animate.apply($('.site-logo'), 'rubberBand');
+      // WIU.animate.bkgSlideIn($('.top-region'));
+      // WIU.animate.bkgSlideIn($('.bottom-region'));
     });
   },
+  // putBackground = function($div) {
+  //   var bkgClass = 'country-' + getRand(0, 9);
+  //   $div.addClass(bkgClass);
+  // },
   init = function() {
     if ($('.landing-page').length) {
+      // putBackground($('.top-region'));
+      // putBackground($('.bottom-region'));
       startAnimate();
       initFindBtn();
       initCreateBtn();
@@ -755,3 +777,33 @@ $(function () {
 
 
 
+
+var WIU = WIU || {};
+
+// JS that run on ALL pages
+WIU.site = (function () {
+
+  var
+    getRand = function(min, max) {
+      return Math.floor(Math.random()*(max-min+1)+min);
+    }, 
+    putBackground = function($div) {
+      var bkgClass = 'country-' + getRand(0, 9);
+      $div.addClass(bkgClass);
+    },
+    init = function () {
+      putBackground($('.top-region'));
+      putBackground($('.bottom-region'));
+
+      WIU.animate.bkgSlideIn($('.top-region'));
+      WIU.animate.bkgSlideIn($('.bottom-region'));
+    };
+
+  return {
+    init: init
+  }
+})();
+
+$(function () {
+  WIU.site.init();
+});

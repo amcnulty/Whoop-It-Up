@@ -39,10 +39,10 @@
   }
 
   .wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    margin-top: -350px;
+    .current-avatar {
+      margin-top: 15px;
+    }
   }
   
   .avatar {

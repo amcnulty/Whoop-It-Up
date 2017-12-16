@@ -1,9 +1,10 @@
-<div class="container event-page main-container">
+<div class="container-fluid event-page main-container">
     {{> header }}
+    <div class="region top-region"></div>
     <div class="wrapper">
         <input type="hidden" class="lat-long" value={{latlng}}>
         <input type="hidden" class="place-id" value={{placeID}}>
-        <h2 class="event-name">{{name}}</h2>
+        <h2 class="event-name fun-font">{{name}}</h2>
         <div class="event-date">{{date}}</div>
         <div class="cta">
             <button type="button" class="btn rsvp-btn btn-outline-primary">RSVP</button>
@@ -16,4 +17,5 @@
             <a href="#" target="_blank" class="btn btn-outline-primary fb-btn"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</a>
         </div>
     </div>
+    <div class="region bottom-region flip-bkg"></div>
 </div>
