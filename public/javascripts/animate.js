@@ -63,11 +63,22 @@ WIU.animate = (function() {
 
     timeline.play();
     
+  },
+  bkgSlideIn = function($div) {
+    var timeline = new TimelineLite({paused: true}),
+        startVal = $div.css('backgroundPosition');
+
+    timeline.fromTo($div, 0.5, 
+          {opacity: 0, backgroundPosition: startVal}, 
+          {opacity: 1, backgroundPosition: '50% 100%'});    
+
+    timeline.play();
   };
 
   return {
     bounceWords : bounceWords,
     apply : apply,
-    slideIn : slideIn
+    slideIn : slideIn,
+    bkgSlideIn : bkgSlideIn
   }
 })();

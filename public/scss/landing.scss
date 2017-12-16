@@ -7,16 +7,59 @@
   }
 
   .region {
-    background-image: url('../images/japan.png');
+    background-image: url('../images/country-0.png');
     background-repeat: no-repeat;
-    background-position: 50% 101%;
-    background-size: 101%;
+    background-position: 50% 320%;
+    background-size: 151%;
+    opacity: 0;
+
+    @media (min-width: 768px) {
+      background-size: 90%;
+    }
+
+    @media (min-width: 1200px) {
+      background-size: 70%;
+    }
+
+    @media (min-width: 1800px) {
+      background-size: 60%;
+    }
 
     &.top-region {
-      height: 40vh;  
+      height: 40vh;
+      background-position: 50% 320%;
+      @media (min-width: 1200px) {
+        background-position: 50% -350%;
+      }
     }
     &.bottom-region {
-      height: 60vh;  
+      height: 60vh;
+      background-position: 50% 320%;
+      @media (min-width: 1200px) {
+        background-position: 50% 351%;
+      }
+    }
+
+    &.country-0 {
+      background-image: url('../images/country-0.png');
+    }
+    &.country-1 {
+      background-image: url('../images/country-1.png');
+    }
+    &.country-2 {
+      background-image: url('../images/country-2.png');
+    }
+    &.country-3 {
+      background-image: url('../images/country-3.png');
+    }
+    &.country-4 {
+      background-image: url('../images/country-4.png');
+    }
+    &.country-5 {
+      background-image: url('../images/country-5.png');
+    }
+    &.country-6 {
+      background-image: url('../images/country-6.png');
     }
   }
 
@@ -45,6 +88,7 @@
     left: 0;
     right: 0;
     background: white;
+    z-index: 10;
     border-radius: 10px;
     
     h1 {

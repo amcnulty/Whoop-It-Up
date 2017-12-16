@@ -56,14 +56,46 @@
   .landing-page .home-link {
     opacity: 0; }
   .landing-page .region {
-    background-image: url("../images/japan.png");
+    background-image: url("../images/country-0.png");
     background-repeat: no-repeat;
-    background-position: 50% 101%;
-    background-size: 101%; }
+    background-position: 50% 320%;
+    background-size: 151%;
+    opacity: 0; }
+    @media (min-width: 768px) {
+      .landing-page .region {
+        background-size: 90%; } }
+    @media (min-width: 1200px) {
+      .landing-page .region {
+        background-size: 70%; } }
+    @media (min-width: 1800px) {
+      .landing-page .region {
+        background-size: 60%; } }
     .landing-page .region.top-region {
-      height: 40vh; }
+      height: 40vh;
+      background-position: 50% 320%; }
+      @media (min-width: 1200px) {
+        .landing-page .region.top-region {
+          background-position: 50% -350%; } }
     .landing-page .region.bottom-region {
-      height: 60vh; }
+      height: 60vh;
+      background-position: 50% 320%; }
+      @media (min-width: 1200px) {
+        .landing-page .region.bottom-region {
+          background-position: 50% 351%; } }
+    .landing-page .region.country-0 {
+      background-image: url("../images/country-0.png"); }
+    .landing-page .region.country-1 {
+      background-image: url("../images/country-1.png"); }
+    .landing-page .region.country-2 {
+      background-image: url("../images/country-2.png"); }
+    .landing-page .region.country-3 {
+      background-image: url("../images/country-3.png"); }
+    .landing-page .region.country-4 {
+      background-image: url("../images/country-4.png"); }
+    .landing-page .region.country-5 {
+      background-image: url("../images/country-5.png"); }
+    .landing-page .region.country-6 {
+      background-image: url("../images/country-6.png"); }
   .landing-page .flip-bkg {
     -moz-transform: scaleY(-1);
     -o-transform: scaleY(-1);
@@ -86,6 +118,7 @@
     left: 0;
     right: 0;
     background: white;
+    z-index: 10;
     border-radius: 10px; }
     .landing-page .wrapper h1 {
       font-size: 3rem; }
