@@ -1,5 +1,5 @@
 <div class="row site-header nav">
-  <div class="home-link"><a class="gohome" href="/">Home</a></div>
+  <div class="home-link"><a class="gohome" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home</a></div>
   <div class="login-signup">
     <ul>
       <li><a class="sign-in" data-toggle="modal" data-target="#header-signin" href="#">Sign in</a></li>
@@ -12,10 +12,15 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+      {{#if signIn}}
+        <i class="fa fa-user" aria-hidden="true"></i>Hello! <a href="//profile/getUser/{{signIn.id}}">{{signIn.username}}</a>
+        <a href="">Log out</a>
+      {{else}}
         <h3 class="modal-title fun-font"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+      {{/if}}
       </div>
       <div class="modal-body">
         <input class="email" type="text" placeholder="Email">

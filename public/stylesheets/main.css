@@ -249,11 +249,9 @@
       .create-events-page .wrapper .controls input.is-private-cb, .create-events-page .wrapper .controls input.suggest-cb {
         display: inline-block;
         width: auto; }
-    .create-events-page .wrapper .controls .is-private {
-      margin-bottom: 10px; }
-      .create-events-page .wrapper .controls .is-private .label {
-        margin-left: 5px;
-        font-size: 12px; }
+    .create-events-page .wrapper .controls .is-private .label {
+      margin-left: 5px;
+      font-size: 12px; }
     .create-events-page .wrapper .controls .address-suggest-div .label {
       margin-left: 5px;
       font-size: 12px; }
@@ -265,7 +263,7 @@
       width: 100%;
       height: 200px; }
     .create-events-page .wrapper .controls .create-btn {
-      margin: 20px 0 50px 0;
+      margin: 10px 0 20px 0;
       width: 100%; }
 
 .profile-page .nav-link {
