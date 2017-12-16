@@ -39,7 +39,8 @@
   right: 0;
   background: white;
   z-index: 10;
-  border-radius: 10px; }
+  border-radius: 10px;
+  box-shadow: 0 8px 6px -6px darkgrey; }
 
 .flip-bkg {
   -moz-transform: scaleY(-1);
@@ -144,41 +145,36 @@
       display: block;
       width: 200px; }
 
-.find-events-page .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; }
-  .find-events-page .wrapper .controls {
-    margin: 20px 0 10px 0;
-    text-align: center; }
-    .find-events-page .wrapper .controls .event-search-box {
-      min-width: 320px;
-      max-width: 95%;
-      padding: 10px; }
-    .find-events-page .wrapper .controls input {
+.find-events-page .wrapper .controls {
+  margin: 20px 0 10px 0;
+  text-align: center; }
+  .find-events-page .wrapper .controls .event-search-box {
+    min-width: 320px;
+    max-width: 95%;
+    padding: 10px; }
+  .find-events-page .wrapper .controls input {
+    display: block; }
+  .find-events-page .wrapper .controls span.advance-option {
+    display: block;
+    margin: 10px 0; }
+  .find-events-page .wrapper .controls .advance-filters {
+    margin: 20px 0; }
+    .find-events-page .wrapper .controls .advance-filters.hide {
+      display: none; }
+    .find-events-page .wrapper .controls .advance-filters .advance-opt {
+      margin: 10px auto; }
+    .find-events-page .wrapper .controls .advance-filters .event-type-dd {
+      min-width: 300px;
       display: block; }
-    .find-events-page .wrapper .controls span.advance-option {
+    .find-events-page .wrapper .controls .advance-filters #start-date {
       display: block;
-      margin: 10px 0; }
-    .find-events-page .wrapper .controls .advance-filters {
-      margin: 20px 0; }
-      .find-events-page .wrapper .controls .advance-filters.hide {
-        display: none; }
-      .find-events-page .wrapper .controls .advance-filters .advance-opt {
-        margin: 10px auto; }
-      .find-events-page .wrapper .controls .advance-filters .event-type-dd {
-        min-width: 300px;
-        display: block; }
-      .find-events-page .wrapper .controls .advance-filters #start-date {
-        display: block;
-        min-width: 300px;
-        padding: 10px; }
-      .find-events-page .wrapper .controls .advance-filters .near-you .near-you-cb {
-        display: inline; }
-      .find-events-page .wrapper .controls .advance-filters .near-you .label {
-        margin-left: 5px;
-        font-size: 12px; }
+      min-width: 300px;
+      padding: 10px; }
+    .find-events-page .wrapper .controls .advance-filters .near-you .near-you-cb {
+      display: inline; }
+    .find-events-page .wrapper .controls .advance-filters .near-you .label {
+      margin-left: 5px;
+      font-size: 12px; }
 
 .signup-page .wrapper {
   margin-top: -300px; }
@@ -195,10 +191,6 @@
       width: 100%; }
 
 .events-page .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   /*#eventName {
       display: block;
       float: left;
@@ -354,13 +346,8 @@
     .profile-page .event-section .event-row .fa-times.active, .profile-page .event-section .invite-row .fa-times.active {
       color: red; }
 
-.event-page .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; }
-  .event-page .wrapper .g-map {
-    height: 200px;
-    width: 350px; }
+.event-page .wrapper .g-map {
+  height: 200px;
+  width: 350px; }
 
 /*# sourceMappingURL=main.css.map */
