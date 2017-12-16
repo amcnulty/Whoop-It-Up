@@ -55,7 +55,6 @@ console.log('asdfa!');
       }
       
       res.render('profile', profileObj);
-      //res.json(dbGet);  
     });
 });
 
@@ -79,7 +78,7 @@ router.post('/signup', function(req, res, next) {
     });
   });
 });
-
+/** Signs a user in and starts a session */
 router.post('/signin', function(req, res, next) {
   let email = req.body.email;
   let password = req.body.password;
@@ -95,12 +94,12 @@ router.post('/signin', function(req, res, next) {
     });
   });
 });
-
+/** Signs a user out and ends the session */
 router.get('/signout', function(req, res, next) {
   req.session.destroy();
   res.status(200).end();
 });
-
+/** Deletes user from database */
 router.delete('/delete/:userId', function(req, res, next) {
   db.User.destroy({
     where: {
@@ -111,12 +110,31 @@ router.delete('/delete/:userId', function(req, res, next) {
       res.status(200).end();
     });
 });
-
+/** Checks if a user is signed in with the session */
 router.get('/userpresent', function(req, res, next) {
   if(!req.session.user) {
     return res.send(false).end();
   }
   else return res.send(true).end();
+});
+/** Returns all of the events a user is associated with */
+router.get('/:id/events', function(req, res, next) {
+  db.UserEvent.findAll({
+    attributes: ["status"],
+    where: {
+      UserId: req.params.id
+    },
+    include: [db.Event]
+  })
+    .then(function(events) {
+      res.status(200).json(events).end();
+  })
+  .catch(function(err) {
+    if (err) {
+      console.log(err);
+      res.status(500).end();
+    }
+  });
 });
 
 module.exports = router;
