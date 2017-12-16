@@ -304,10 +304,9 @@
   .profile-page .edit-profile h3.label {
     margin-top: 20px; }
 .profile-page .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; }
+  margin-top: -350px; }
+  .profile-page .wrapper .current-avatar {
+    margin-top: 15px; }
 .profile-page .avatar {
   display: inline-block;
   width: 145px;

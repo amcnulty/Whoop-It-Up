@@ -15,13 +15,14 @@ router.get('/', function(req, res, next) {
 /* GET for single user listing. */
 // TODO: remove `canEdit`, this should be from $_SESSION variable
 // TODO: backend logic to only query upcoming events, ignore past events
-router.get('getUser/:id', function(req, res) {
+router.get('/getuser/:id', function(req, res) {
     db.User.findOne({
      where: {
        id:req.params.id
      }
     }).then(function(dbGet) {
 
+console.log('asdfa!');
       var profileObj = dbGet;
 
       if (typeof profileObj === 'undefined' || profileObj == null) {
