@@ -85,9 +85,16 @@ WIU.signup = (function () {
     var newUser = {
       username: $('#username').val().trim(),
       email: $('#email').val().trim(),
-      password: $('#password').val().trim()
+      password: $('#password').val().trim(),
+      avatar: Math.floor(Math.random() * 4)
     };
-    console.log(newUser);
+    $.ajax({
+      method: 'POST',
+      url: './profile/signup',
+      data: newUser
+    }).done(function(res) {
+      console.log(res);
+    });
   };
 
   return {

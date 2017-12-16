@@ -5,7 +5,6 @@ var passwordHandler = require('../logic/passwordHandler');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  // res.send('respond with a resource');
     db.User.findAll({})
     .then(function(dbGet) {
       res.json(dbGet);
@@ -16,7 +15,7 @@ router.get('/', function(req, res, next) {
 /* GET for single user listing. */
 // TODO: remove `canEdit`, this should be from $_SESSION variable
 // TODO: backend logic to only query upcoming events, ignore past events
-router.get('/:id', function(req, res) {
+router.get('getUser/:id', function(req, res) {
     db.User.findOne({
      where: {
        id:req.params.id
@@ -72,8 +71,10 @@ router.post('/signup', function(req, res, next) {
       email: email,
       avatar: avatar
     }).then(function(savedUser) {
-      res.json(savedUser);
-      res.status(200).end();
+      return res.status(200).json(savedUser).end();
+    }).catch(function (err) {
+      console.log(err);
+      return res.status(500).end();
     });
   });
 });
@@ -87,11 +88,34 @@ router.post('/signin', function(req, res, next) {
     passwordHandler.comparePassword(password, myUser.password, function(success) {
       if (success) {
         req.session.user = myUser;
-        res.status(200).json(req.session.user);
+        res.status(200).json(req.session.user).end();
       }
       else res.status(404).end();
     });
   });
+});
+
+router.get('/signout', function(req, res, next) {
+  req.session.destroy();
+  res.status(200).end();
+});
+
+router.delete('/delete/:userId', function(req, res, next) {
+  db.User.destroy({
+    where: {
+      id: req.params.userId
+    }
+  })
+    .then(function(results) {
+      res.status(200).end();
+    });
+});
+
+router.get('/userpresent', function(req, res, next) {
+  if(!req.session.user) {
+    return res.send(false).end();
+  }
+  else return res.send(true).end();
 });
 
 module.exports = router;

@@ -18,7 +18,10 @@
       <span class=></span>
       <textarea class="event-desc"></textarea>
       <div class="is-private"><input type="checkbox" class="is-private-cb"><span class="label">This is a private event</span></div>
-      <input type="text" class="invite" placeholder="Who to invite">
+      {{#each categories}}
+        <input id="{{categoryname}}Checkbox" class="categoryCheckboxes" type="checkbox" value="{{id}}">
+        <label for="{{categoryname}}Checkbox">{{categoryname}}</label>
+      {{/each}}
       <button type="button" class="btn btn-outline-primary create-btn">Create Event</button>
     </div>
   </div>
