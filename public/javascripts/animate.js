@@ -82,7 +82,7 @@ WIU.animate = (function() {
     return Math.floor(Math.random()*(max-min+1)+min);
   },
   getRandEffect = function() {
-    var effects = ['hinge', 'rollOut', 'zoomOut'];
+    var effects = ['hinge', 'rollOut', 'zoomOutDown', 'bounceOut'];
     return effects[getRand(0, effects.length-1)];
   },
   leavePage = function(url) {
