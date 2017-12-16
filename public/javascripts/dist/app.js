@@ -529,7 +529,7 @@ WIU.landing = (function() {
     });
   },
   putBackground = function($div) {
-    var bkgClass = 'country-' + getRand(0, 6);
+    var bkgClass = 'country-' + getRand(0, 9);
     $div.addClass(bkgClass);
   },
   init = function() {
