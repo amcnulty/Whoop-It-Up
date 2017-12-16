@@ -1,9 +1,6 @@
 .create-events-page {
   .wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    margin-top: -350px;
 
     .controls {
       width: 320px;
@@ -13,7 +10,7 @@
         display: block;
         margin: 0 0 10px 0;
         width: 100%;
-        padding: 5px 10px;
+        padding: 3px 10px;
 
         &.is-private-cb,
         &.suggest-cb {

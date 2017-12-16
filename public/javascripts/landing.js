@@ -15,25 +15,25 @@ WIU.landing = (function() {
       window.location = '/create-event'; 
     });
   },
-  getRand = function(min, max) {
-    return Math.floor(Math.random()*(max-min+1)+min);
-  },
+  // getRand = function(min, max) {
+  //   return Math.floor(Math.random()*(max-min+1)+min);
+  // },
   startAnimate = function() {
     // animate title
     WIU.animate.bounceWords($('.main-title'), 400, function() {
       WIU.animate.apply($('.site-logo'), 'rubberBand');
-      WIU.animate.bkgSlideIn($('.top-region'));
-      WIU.animate.bkgSlideIn($('.bottom-region'));
+      // WIU.animate.bkgSlideIn($('.top-region'));
+      // WIU.animate.bkgSlideIn($('.bottom-region'));
     });
   },
-  putBackground = function($div) {
-    var bkgClass = 'country-' + getRand(0, 9);
-    $div.addClass(bkgClass);
-  },
+  // putBackground = function($div) {
+  //   var bkgClass = 'country-' + getRand(0, 9);
+  //   $div.addClass(bkgClass);
+  // },
   init = function() {
     if ($('.landing-page').length) {
-      putBackground($('.top-region'));
-      putBackground($('.bottom-region'));
+      // putBackground($('.top-region'));
+      // putBackground($('.bottom-region'));
       startAnimate();
       initFindBtn();
       initCreateBtn();

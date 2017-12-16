@@ -22,6 +22,84 @@
   font-size: 12px;
   font-weight: bold; }
 
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  overflow: hidden;
+  width: 350px;
+  border: 1px solid green;
+  margin-top: -250px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 25px;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 10;
+  border-radius: 10px; }
+
+.flip-bkg {
+  -moz-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
+  filter: FlipV;
+  -ms-filter: "FlipV"; }
+
+.region {
+  background-image: url("../images/country-0.png");
+  background-repeat: no-repeat;
+  background-position: 50% 320%;
+  background-size: 151%;
+  opacity: 0; }
+  @media (min-width: 768px) {
+    .region {
+      background-size: 90%; } }
+  @media (min-width: 1200px) {
+    .region {
+      background-size: 70%; } }
+  @media (min-width: 1800px) {
+    .region {
+      background-size: 60%; } }
+  .region.top-region {
+    height: 40vh;
+    background-position: 50% 320%; }
+    @media (min-width: 1200px) {
+      .region.top-region {
+        background-position: 50% 350%; } }
+    @media (min-width: 1800px) {
+      .region.top-region {
+        background-position: 50% 320%; } }
+  .region.bottom-region {
+    height: 60vh;
+    background-position: 50% 320%; }
+    @media (min-width: 1200px) {
+      .region.bottom-region {
+        background-position: 50% 351%; } }
+  .region.country-0 {
+    background-image: url("../images/country-0.png"); }
+  .region.country-1 {
+    background-image: url("../images/country-1.png"); }
+  .region.country-2 {
+    background-image: url("../images/country-2.png"); }
+  .region.country-3 {
+    background-image: url("../images/country-3.png"); }
+  .region.country-4 {
+    background-image: url("../images/country-4.png"); }
+  .region.country-5 {
+    background-image: url("../images/country-5.png"); }
+  .region.country-6 {
+    background-image: url("../images/country-6.png"); }
+  .region.country-7 {
+    background-image: url("../images/country-7.png"); }
+  .region.country-8 {
+    background-image: url("../images/country-8.png"); }
+  .region.country-9 {
+    background-image: url("../images/country-9.png"); }
+
 .site-header.nav {
   display: flex;
   flex-direction: row;
@@ -50,87 +128,21 @@
     width: 80%;
     margin-bottom: 20px; }
 
-.landing-page {
-  margin: 0;
-  padding: 0; }
-  .landing-page .home-link {
-    opacity: 0; }
-  .landing-page .region {
-    background-image: url("../images/country-0.png");
-    background-repeat: no-repeat;
-    background-position: 50% 320%;
-    background-size: 151%;
-    opacity: 0; }
-    @media (min-width: 768px) {
-      .landing-page .region {
-        background-size: 90%; } }
-    @media (min-width: 1200px) {
-      .landing-page .region {
-        background-size: 70%; } }
-    @media (min-width: 1800px) {
-      .landing-page .region {
-        background-size: 60%; } }
-    .landing-page .region.top-region {
-      height: 40vh;
-      background-position: 50% 320%; }
-      @media (min-width: 1200px) {
-        .landing-page .region.top-region {
-          background-position: 50% -350%; } }
-    .landing-page .region.bottom-region {
-      height: 60vh;
-      background-position: 50% 320%; }
-      @media (min-width: 1200px) {
-        .landing-page .region.bottom-region {
-          background-position: 50% 351%; } }
-    .landing-page .region.country-0 {
-      background-image: url("../images/country-0.png"); }
-    .landing-page .region.country-1 {
-      background-image: url("../images/country-1.png"); }
-    .landing-page .region.country-2 {
-      background-image: url("../images/country-2.png"); }
-    .landing-page .region.country-3 {
-      background-image: url("../images/country-3.png"); }
-    .landing-page .region.country-4 {
-      background-image: url("../images/country-4.png"); }
-    .landing-page .region.country-5 {
-      background-image: url("../images/country-5.png"); }
-    .landing-page .region.country-6 {
-      background-image: url("../images/country-6.png"); }
-  .landing-page .flip-bkg {
-    -moz-transform: scaleY(-1);
-    -o-transform: scaleY(-1);
-    -webkit-transform: scaleY(-1);
-    transform: scaleY(-1);
-    filter: FlipV;
-    -ms-filter: "FlipV"; }
-  .landing-page .wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: absolute;
-    width: 280px;
-    border: 1px solid green;
-    margin-top: -250px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-bottom: 25px;
-    left: 0;
-    right: 0;
-    background: white;
-    z-index: 10;
-    border-radius: 10px; }
-    .landing-page .wrapper h1 {
-      font-size: 3rem; }
-      .landing-page .wrapper h1 div.wiu-animate {
-        display: inline-block;
-        margin-left: 10px; }
-    .landing-page .wrapper .controls {
-      margin-top: 40px; }
-      .landing-page .wrapper .controls .btn {
-        margin: 10px auto;
-        display: block;
-        width: 200px; }
+.landing-page .home-link {
+  opacity: 0; }
+.landing-page .wrapper {
+  width: 280px; }
+  .landing-page .wrapper h1 {
+    font-size: 3rem; }
+    .landing-page .wrapper h1 div.wiu-animate {
+      display: inline-block;
+      margin-left: 10px; }
+  .landing-page .wrapper .controls {
+    margin-top: 40px; }
+    .landing-page .wrapper .controls .btn {
+      margin: 10px auto;
+      display: block;
+      width: 200px; }
 
 .find-events-page .wrapper {
   display: flex;
@@ -234,10 +246,7 @@
         font-weight: bold; }
 
 .create-events-page .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; }
+  margin-top: -350px; }
   .create-events-page .wrapper .controls {
     width: 320px;
     max-width: 100%; }
@@ -245,7 +254,7 @@
       display: block;
       margin: 0 0 10px 0;
       width: 100%;
-      padding: 5px 10px; }
+      padding: 3px 10px; }
       .create-events-page .wrapper .controls input.is-private-cb, .create-events-page .wrapper .controls input.suggest-cb {
         display: inline-block;
         width: auto; }
