@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models');
 var passwordHandler = require('../logic/passwordHandler');
+var profileEvents = require('../logic/profileEvents');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -16,12 +17,13 @@ router.get('/', function(req, res, next) {
 // TODO: remove `canEdit`, this should be from $_SESSION variable
 // TODO: backend logic to only query upcoming events, ignore past events
 router.get('/getuser/:id', function(req, res) {
-    db.User.findOne({
-     where: {
-       id:req.params.id
-     }
-    }).then(function(dbGet) {
-
+  db.User.findOne({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(function(dbGet) {
+      console.log(JSON.stringify(dbGet, null, 2));
       var profileObj = dbGet;
 
       if (typeof profileObj === 'undefined' || profileObj == null) {
@@ -52,8 +54,34 @@ router.get('/getuser/:id', function(req, res) {
           ]
         }
       }
-      
-      res.render('profile', profileObj);
+      db.UserEvent.findAll({
+        attributes: ["status"],
+        where: {
+          UserId: req.params.id
+        },
+        include: [db.Event]
+      })
+        .then(function(events) {
+          var categorizedEvents = profileEvents.categorize(events, profileObj.id);
+          console.log(JSON.stringify({
+            title: 'Profile',
+            id: profileObj.id,
+            avatar: profileObj.avatar,
+            email: profileObj.email,
+            username: profileObj.username,
+            invites: categorizedEvents.invited,
+            hosting: categorizedEvents.hosting
+          }, null, 2));
+          res.render('profile', {
+            title: 'Profile',
+            id: profileObj.id,
+            avatar: profileObj.avatar,
+            email: profileObj.email,
+            username: profileObj.username,
+            invites: categorizedEvents.invited,
+            hosting: categorizedEvents.hosting
+          });
+      })
     });
 });
 
