@@ -141,6 +141,8 @@
   .landing-page .wrapper .controls {
     margin-top: 40px; }
     .landing-page .wrapper .controls .btn {
+      position: relative;
+      opacity: 0;
       margin: 10px auto;
       display: block;
       width: 200px; }

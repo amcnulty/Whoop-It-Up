@@ -543,6 +543,7 @@ WIU.landing = (function() {
     WIU.animate.bounceWords($('.main-title'), 400, function() {
       WIU.animate.apply($('.site-logo'), 'rubberBand');
     });
+    WIU.animate.slideIn($('.btn'));
   },
   init = function() {
     if ($('.landing-page').length) {
