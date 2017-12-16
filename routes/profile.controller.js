@@ -22,7 +22,6 @@ router.get('/getuser/:id', function(req, res) {
      }
     }).then(function(dbGet) {
 
-console.log('asdfa!');
       var profileObj = dbGet;
 
       if (typeof profileObj === 'undefined' || profileObj == null) {
@@ -74,7 +73,7 @@ router.post('/signup', function(req, res, next) {
       return res.status(200).json(savedUser).end();
     }).catch(function (err) {
       console.log(err);
-      return res.status(500).end();
+      return res.status(409).end();
     });
   });
 });
@@ -82,22 +81,27 @@ router.post('/signup', function(req, res, next) {
 router.post('/signin', function(req, res, next) {
   let email = req.body.email;
   let password = req.body.password;
+
   db.User.findOne({
-    email: email
+    where: {
+      email: email
+    }
   }).then(function(myUser) {
     passwordHandler.comparePassword(password, myUser.password, function(success) {
       if (success) {
         req.session.user = myUser;
         res.status(200).json(req.session.user).end();
       }
-      else res.status(404).end();
+      else {
+        res.status(404).end();
+      }
     });
   });
 });
 /** Signs a user out and ends the session */
 router.get('/signout', function(req, res, next) {
   req.session.destroy();
-  res.status(200).end();
+  res.redner('/index',{});
 });
 /** Deletes user from database */
 router.delete('/delete/:userId', function(req, res, next) {

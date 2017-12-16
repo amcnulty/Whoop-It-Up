@@ -757,23 +757,41 @@ WIU.signup = (function () {
       else {
         return false;
       }
-    }
-  // adding user information into the new user object
-  addUser = function () {
-    var newUser = {
-      username: $('#username').val().trim(),
-      email: $('#email').val().trim(),
-      password: $('#password').val().trim(),
-      avatar: Math.floor(Math.random() * 4)
+    },
+    signInUser = function(userObj) {
+      $.ajax({
+        method: "POST",
+        url: "./profile/signin",
+        data: {
+          email : userObj.email,
+          password : userObj.password
+        }
+      })
+      .done(function(res) {
+        // window.location = './profile/getuser/' + res.id;
+        WIU.animate.leavePage('./profile/getuser/' + res.id);
+      });
+    },
+    // adding user information into the new user object
+    addUser = function () {
+      var newUser = {
+        username: $('#username').val().trim(),
+        email: $('#email').val().trim(),
+        password: $('#password').val().trim(),
+        avatar: Math.floor(Math.random() * 4)
+      };
+      $.ajax({
+        method: 'POST',
+        url: './profile/signup',
+        data: newUser
+      })
+      .done(function(res, status, xhr) {
+        signInUser(newUser);
+      })
+      .fail(function(res, status, xhr) {
+        console.log('haha it failed!', res, status, xhr);
+      })
     };
-    $.ajax({
-      method: 'POST',
-      url: './profile/signup',
-      data: newUser
-    }).done(function(res) {
-      console.log(res);
-    });
-  };
 
   return {
     init: init

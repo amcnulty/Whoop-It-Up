@@ -5,9 +5,9 @@ var categoryHandler = require('../logic/categoryHandler');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  console.log('hey fuck', {user: req.session.user});
   res.render('index', {user: req.session.user});
 });
-
 
 router.get('/create-event', function (req, res, next) {
   db.Category.findAll({}).then(function(results) {
