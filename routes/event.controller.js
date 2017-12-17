@@ -13,21 +13,21 @@ router.post('/createevent', function(req, res, next) {
         time: req.body.time,
         location: req.body.location
     })
-        .then(function(savedEvent) {
-            const eventId = savedEvent.dataValues.id;
-            const categoryIds = JSON.parse(req.body.categories);
-            const promises = categoryIds.map(function (categoryId) {
-                return db.EventCategory.create({
-                    EventId: eventId,
-                    CategoryId: categoryId
-                });
+    .then(function(savedEvent) {
+        const eventId = savedEvent.dataValues.id;
+        const categoryIds = JSON.parse(req.body.categories);
+        const promises = categoryIds.map(function (categoryId) {
+            return db.EventCategory.create({
+                EventId: eventId,
+                CategoryId: categoryId
             });
-            Promise
-                .all(promises)
-                .then(function() {
-                    res.status(200).json(savedEvent);
-                });
         });
+        Promise
+            .all(promises)
+            .then(function() {
+                res.status(200).json(savedEvent);
+            });
+    });
 });
 /** Get a single event by it's ID */
 router.get('/:id', function(req, res, next) {
@@ -52,7 +52,7 @@ router.get('/:id', function(req, res, next) {
             });
         }
         else {
-            res.status(200).json(myEvent);    
+            res.render('event', myEvent);
         }
         
     });

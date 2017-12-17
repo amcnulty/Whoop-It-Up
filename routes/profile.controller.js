@@ -24,7 +24,8 @@ router.get('/getuser/:id', function(req, res) {
   })
     .then(function(dbGet) {
       console.log(JSON.stringify(dbGet, null, 2));
-      var profileObj = dbGet;
+      // var profileObj = dbGet;
+      var profileObj = null;
 
       if (typeof profileObj === 'undefined' || profileObj == null) {
         profileObj = {
@@ -53,6 +54,7 @@ router.get('/getuser/:id', function(req, res) {
             }
           ]
         }
+        res.render('profile', profileObj);
       }
       db.UserEvent.findAll({
         attributes: ["status"],
@@ -129,7 +131,7 @@ router.post('/signin', function(req, res, next) {
 /** Signs a user out and ends the session */
 router.get('/signout', function(req, res, next) {
   req.session.destroy();
-  res.redner('/index',{});
+  res.render('index');
 });
 /** Deletes user from database */
 router.delete('/delete/:userId', function(req, res, next) {
