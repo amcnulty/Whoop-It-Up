@@ -42,6 +42,7 @@ router.get('/:id', function(req, res, next) {
     }).then(function(myEvent) {
         if (typeof myEvent === 'undefined' || myEvent == null) {
             res.render('event', {
+              user  : req.session.user,
               id    : 1,
               name  : "Brendan's Pool Party",
               date  : "12/21",
@@ -52,7 +53,17 @@ router.get('/:id', function(req, res, next) {
             });
         }
         else {
-            res.render('event', myEvent);
+            var eventObj = {
+                user : req.session.user,
+                id   : myEvent.id,
+                name : myEvent.name,
+                date : myEvent.date,
+                placeID : '',
+                location : myEvent.location,
+                description : myEvent.description,
+            };
+            console.log('raw event item', myEvent);
+            res.render('event', eventObj);
         }
         
     });
