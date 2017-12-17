@@ -351,7 +351,8 @@
     .profile-page .event-section .invite-row .event-date,
     .profile-page .event-section .host-row .event-date {
       font-size: 12px;
-      font-weight: bold; }
+      font-weight: bold;
+      overflow: hidden; }
     .profile-page .yours-section .event-row .fa, .profile-page .yours-section .invite-row .fa, .profile-page .yours-section .host-row .fa,
     .profile-page .event-section .event-row .fa,
     .profile-page .event-section .invite-row .fa,

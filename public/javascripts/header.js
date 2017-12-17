@@ -105,10 +105,10 @@ WIU.header = (function () {
         email: $('.email').val(),
         password: $('.password').val()
       };
-      //console.log(user);
+      console.log('hey fucker!', user);
       $.ajax({
         method: 'post',
-        url: './profile/signin',
+        url: '/profile/signin',
         data: user
       })
       .done(function(res) {

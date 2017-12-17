@@ -113,7 +113,7 @@ WIU.profile = (function() {
     var $addEventBtn = $('.create-btn', '.yours-section');
 
     $addEventBtn.on('click', function() {
-      WIU.animate.leavePage('/create-event');
+      WIU.animate.leavePage('/create-event'); 
     });
   },
   bindFindEvent = function() {
@@ -124,7 +124,7 @@ WIU.profile = (function() {
     });
   },
   init = function() {
-    if ($('.edit-profile', '.profile-page').length) {
+    if ($('.profile-page').length) {
       bindDeleteProfile();
       bindTabShown();
       bindAddEvent();

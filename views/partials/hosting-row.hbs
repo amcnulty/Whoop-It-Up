@@ -1,9 +1,9 @@
 {{#if @root.canEdit}}
-  <div class="row host-row event-{{this.id}}">
+  <div class="row host-row event-{{this.Event.id}}">
     <div class="col-9 event-name">
-      <a href="/event/{{this.id}}" class="event-link">{{this.name}}</a>
+      <a href="/event/{{this.Event.id}}" class="event-link">{{this.Event.name}}</a>
     </div>
-    <div class="col-3 event-date">{{this.date}}</div>
+    <div class="col-3 event-date">{{this.Event.date}}</div>
   </div>
 {{else}}
   <div class="error message">Please login to view the page</div>
