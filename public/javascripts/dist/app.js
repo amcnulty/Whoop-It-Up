@@ -640,8 +640,16 @@ WIU.landing = (function() {
   },
   initCreateBtn = function() {
     var $findBtn = $('.create-btn');
+
     $findBtn.on('click', function() {
-      WIU.animate.leavePage('/create-event');
+
+      if ($findBtn.hasClass('need-signin')) {
+        $('.sign-in', '.site-header').click();
+        return false;
+      }
+      else {
+        WIU.animate.leavePage('/create-event');  
+      }
     });
   },
   startAnimate = function() {
