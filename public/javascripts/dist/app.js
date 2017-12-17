@@ -90,7 +90,7 @@ WIU.animate = (function() {
         effect = getRandEffect();
 
     apply($wrapper, effect, function() {
-      $wrapper.hide(10);
+      $wrapper.css( "display", "none" );
       window.location = url;  
     });
   };
@@ -455,26 +455,41 @@ WIU.header = (function () {
   var
   // working with all the functions
     init = function () {
-      bindLogOut();
-
+      if ($('.site-header.nav').length) {
+        bindLogOut();
+        bindSignin();
+      }
+    },
+    processLogin = function() {
       var $result = $('#signInResult');
 
-      if ($('.site-header.nav').length) {
-        $('#signInBtn').on('click', function () {
-          putSpinner();
-          if (!validate()) {
-            $result.text("Sorry! This email is not a valid email address");
-            removeSpinner();
-          }
-          else if (emptyPassword()) {
-            $result.text("Please enter in a password.");
-            removeSpinner();
-          }
-          else {
-            existingUser();
+      putSpinner();
+
+      if (!validate()) {
+        $result.text("Sorry! This email is not a valid email address");
+        removeSpinner();
+      }
+      else if (emptyPassword()) {
+        $result.text("Please enter in a password.");
+        removeSpinner();
+      }
+      else {
+        existingUser();
+      }
+    },
+    bindSignin = function() {
+      var $signInBtn = $('#signInBtn'),
+          $passwordBox = $('.password', '#header-signin');
+
+        $signInBtn.on('click', function () {
+          processLogin();
+        });
+
+        $passwordBox.on('keyup', function(e) {
+          if (e.keyCode == 13) {
+            processLogin();
           }
         });
-      }
     },
     activateBtn = function($btn) {
       $btn.removeClass('btn-outline-secondary');
@@ -539,7 +554,7 @@ WIU.header = (function () {
         e.preventDefault();
         $.ajax({
           method: 'post',
-          url: './profile/signout'
+          url: '/profile/signout'
         })
         .done(function(res) {          
           WIU.animate.leavePage('/');
@@ -555,7 +570,6 @@ WIU.header = (function () {
         email: $('.email').val(),
         password: $('.password').val()
       };
-      console.log('hey fucker!', user);
       $.ajax({
         method: 'post',
         url: '/profile/signin',
