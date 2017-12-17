@@ -10,7 +10,10 @@
           <a class="nav-link tab-profile active" data-toggle="tab" href="#profile" role="tab">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link tab-events" data-toggle="tab" href="#events" role="tab">Events</a>
+          <a class="nav-link tab-yours" data-toggle="tab" href="#yours" role="tab">Hosting</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link tab-events" data-toggle="tab" href="#events" role="tab">Invites</a>
         </li>
       </ul>
 
@@ -26,10 +29,25 @@
             </div>
           {{/if}}
         </div>
+        <div class="tab-pane" id="yours" role="tabpanel">
+          <div class="yours-section">
+            <h3 class="fun-font">Events By You</h3>
+            {{#unless hostings}}
+              <div><p>No Events Found</p></div>
+              <button type="button" class="btn btn-outline-success create-btn">Create Event</button>
+            {{/unless}}
+            {{#each hostings}}
+              {{> hosting_row }}
+            {{/each}}
+          </div>
+        </div>
         <div class="tab-pane" id="events" role="tabpanel">
           <div class="event-section">
             <h3 class="fun-font">Upcoming Events</h3>
-            {{#unless invites}}<p>No Events Found</p>{{/unless}}
+            {{#unless invites}}
+              <div><p>No Events Found</p></div>
+              <button type="button" class="btn btn-outline-success find-btn">Find Events</button>
+            {{/unless}}
             {{#each invites}}
               {{> invite_row }}
             {{/each}}

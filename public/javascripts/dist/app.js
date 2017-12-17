@@ -455,15 +455,19 @@ WIU.header = (function () {
   var
   // working with all the functions
     init = function () {
+      bindLogOut();
+
+      var $result = $('#signInResult');
+
       if ($('.site-header.nav').length) {
         $('#signInBtn').on('click', function () {
           putSpinner();
           if (!validate()) {
-            $('#signInResult').text("Sorry! This email is not a valid email address");
+            $result.text("Sorry! This email is not a valid email address");
             removeSpinner();
           }
           else if (emptyPassword()) {
-            $('#signInResult').text("Please enter in a password.");
+            $result.text("Please enter in a password.");
             removeSpinner();
           }
           else {
@@ -528,6 +532,23 @@ WIU.header = (function () {
         }
       });
     },
+    bindLogOut = function() {
+      var $logoutBtn = $('.logoutBtn', '.site-header');
+
+      $logoutBtn.on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+          method: 'post',
+          url: './profile/signout'
+        })
+        .done(function(res) {          
+          WIU.animate.leavePage('/');
+        })
+        .fail(function(res, status, xhr) {
+          console.log('An error occured', res);
+        });
+      });
+    }
     // putting the existing user into an object
     existingUser = function () {
       var user = {
@@ -694,6 +715,9 @@ WIU.profile = (function() {
   isEventTab = function(classes) {
     return classes.indexOf('tab-events') !== -1;
   },
+  isHostTab = function(classes) {
+    return classes.indexOf('tab-yours') !== -1;
+  },
   bindTabShown = function() {
     var $navTabs = $('#profile-tabs');
 
@@ -702,14 +726,40 @@ WIU.profile = (function() {
       if (isEventTab(e.target.className)) {
         WIU.animate.slideIn($('.invite-row', '.event-section'));
       }
-      else {
-        $('.event-row').css('opacity', '0');
+      else if (isHostTab(e.target.className)) {
+        WIU.animate.slideIn($('.host-row', '.yours-section')); 
       }
-    })
+    });
+  },
+  bindDeleteProfile = function() {
+    var $delBtn = $('.delete-btn', '.control');
+
+    $delBtn.on('click', function() {
+      // popup modal to warning them
+      // call api to delete
+      // on success, redirect them back to the landing page
+    });
+  },
+  bindAddEvent = function() {
+    var $addEventBtn = $('.create-btn', '.yours-section');
+
+    $addEventBtn.on('click', function() {
+      WIU.animate.leavePage('/create-event');
+    });
+  },
+  bindFindEvent = function() {
+    var $addEventBtn = $('.find-btn', '.event-section');
+
+    $addEventBtn.on('click', function() {
+      WIU.animate.leavePage('/find-events');
+    });
   },
   init = function() {
     if ($('.edit-profile', '.profile-page').length) {
+      bindDeleteProfile();
       bindTabShown();
+      bindAddEvent();
+      bindFindEvent();
       bindAvatarSelect();
       bindUpdateBtn();
     }

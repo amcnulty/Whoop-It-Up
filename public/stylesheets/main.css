@@ -321,12 +321,17 @@
   .profile-page .avatar-section .avatar {
     cursor: pointer;
     background-color: white; }
+.profile-page .yours-section,
 .profile-page .event-section {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center; }
-  .profile-page .event-section .event-row, .profile-page .event-section .invite-row {
+  align-items: center;
+  width: 320px; }
+  .profile-page .yours-section .event-row, .profile-page .yours-section .invite-row, .profile-page .yours-section .host-row,
+  .profile-page .event-section .event-row,
+  .profile-page .event-section .invite-row,
+  .profile-page .event-section .host-row {
     position: relative;
     width: 100%;
     margin: 5px 0;
@@ -336,16 +341,31 @@
     align-items: center;
     padding: 10px 0;
     opacity: 0; }
-    .profile-page .event-section .event-row .event-name, .profile-page .event-section .invite-row .event-name {
+    .profile-page .yours-section .event-row .event-name, .profile-page .yours-section .invite-row .event-name, .profile-page .yours-section .host-row .event-name,
+    .profile-page .event-section .event-row .event-name,
+    .profile-page .event-section .invite-row .event-name,
+    .profile-page .event-section .host-row .event-name {
       font-size: 13px; }
-    .profile-page .event-section .event-row .event-date, .profile-page .event-section .invite-row .event-date {
+    .profile-page .yours-section .event-row .event-date, .profile-page .yours-section .invite-row .event-date, .profile-page .yours-section .host-row .event-date,
+    .profile-page .event-section .event-row .event-date,
+    .profile-page .event-section .invite-row .event-date,
+    .profile-page .event-section .host-row .event-date {
       font-size: 12px;
       font-weight: bold; }
-    .profile-page .event-section .event-row .fa, .profile-page .event-section .invite-row .fa {
+    .profile-page .yours-section .event-row .fa, .profile-page .yours-section .invite-row .fa, .profile-page .yours-section .host-row .fa,
+    .profile-page .event-section .event-row .fa,
+    .profile-page .event-section .invite-row .fa,
+    .profile-page .event-section .host-row .fa {
       color: silver; }
-    .profile-page .event-section .event-row .fa-check.active, .profile-page .event-section .invite-row .fa-check.active {
+    .profile-page .yours-section .event-row .fa-check.active, .profile-page .yours-section .invite-row .fa-check.active, .profile-page .yours-section .host-row .fa-check.active,
+    .profile-page .event-section .event-row .fa-check.active,
+    .profile-page .event-section .invite-row .fa-check.active,
+    .profile-page .event-section .host-row .fa-check.active {
       color: green; }
-    .profile-page .event-section .event-row .fa-times.active, .profile-page .event-section .invite-row .fa-times.active {
+    .profile-page .yours-section .event-row .fa-times.active, .profile-page .yours-section .invite-row .fa-times.active, .profile-page .yours-section .host-row .fa-times.active,
+    .profile-page .event-section .event-row .fa-times.active,
+    .profile-page .event-section .invite-row .fa-times.active,
+    .profile-page .event-section .host-row .fa-times.active {
       color: red; }
 
 .event-page .wrapper .g-map {

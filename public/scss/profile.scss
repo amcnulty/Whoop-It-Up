@@ -78,14 +78,16 @@
       background-color: white;
     }
   }
-
+  
+  .yours-section,
   .event-section {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 320px;
 
-    .event-row, .invite-row {
+    .event-row, .invite-row, .host-row {
       position: relative;
       width: 100%;
       margin: 5px 0;

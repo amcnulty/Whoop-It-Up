@@ -5,15 +5,19 @@ WIU.header = (function () {
   var
   // working with all the functions
     init = function () {
+      bindLogOut();
+
+      var $result = $('#signInResult');
+
       if ($('.site-header.nav').length) {
         $('#signInBtn').on('click', function () {
           putSpinner();
           if (!validate()) {
-            $('#signInResult').text("Sorry! This email is not a valid email address");
+            $result.text("Sorry! This email is not a valid email address");
             removeSpinner();
           }
           else if (emptyPassword()) {
-            $('#signInResult').text("Please enter in a password.");
+            $result.text("Please enter in a password.");
             removeSpinner();
           }
           else {
@@ -78,6 +82,23 @@ WIU.header = (function () {
         }
       });
     },
+    bindLogOut = function() {
+      var $logoutBtn = $('.logoutBtn', '.site-header');
+
+      $logoutBtn.on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+          method: 'post',
+          url: './profile/signout'
+        })
+        .done(function(res) {          
+          WIU.animate.leavePage('/');
+        })
+        .fail(function(res, status, xhr) {
+          console.log('An error occured', res);
+        });
+      });
+    }
     // putting the existing user into an object
     existingUser = function () {
       var user = {

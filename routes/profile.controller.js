@@ -52,6 +52,22 @@ router.get('/getuser/:id', function(req, res) {
               description : "This is the best POOL party in the world!",
               rsvp  : true
             }
+          ],
+          hostings  : [
+            {
+              id    : 2,
+              name  : "My Bird watching event",
+              date  : "12/15",
+              location    : "Andy's Place",
+              description : "Bird watching time!",
+            },
+            {
+              id    : 3,
+              name  : "My Star glazing party",
+              date  : "12/17",
+              location    : "Brendan's Place",
+              description : "Watch some start and get drunk",
+            }
           ]
         }
         res.render('profile', profileObj);
@@ -118,6 +134,7 @@ router.post('/signin', function(req, res, next) {
     }
   }).then(function(myUser) {
     passwordHandler.comparePassword(password, myUser.password, function(success) {
+      console.log('compare pw', password, myUser.password);
       if (success) {
         req.session.user = myUser;
         res.status(200).json(req.session.user).end();
@@ -128,11 +145,13 @@ router.post('/signin', function(req, res, next) {
     });
   });
 });
+
 /** Signs a user out and ends the session */
-router.get('/signout', function(req, res, next) {
+router.post('/signout', function(req, res, next) {
   req.session.destroy();
-  res.render('index');
+  res.status(200).end();
 });
+
 /** Deletes user from database */
 router.delete('/delete/:userId', function(req, res, next) {
   db.User.destroy({
@@ -140,9 +159,9 @@ router.delete('/delete/:userId', function(req, res, next) {
       id: req.params.userId
     }
   })
-    .then(function(results) {
-      res.status(200).end();
-    });
+  .then(function(results) {
+    res.status(200).end();
+  });
 });
 /** Checks if a user is signed in with the session */
 router.get('/userpresent', function(req, res, next) {
