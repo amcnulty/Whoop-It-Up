@@ -53,15 +53,25 @@ router.get('/:id', function(req, res, next) {
             });
         }
         else {
-            var eventObj = {
-                user : req.session.user,
-                id   : myEvent.id,
-                name : myEvent.name,
-                date : myEvent.date,
-                placeID : '',
-                location : myEvent.location,
-                description : myEvent.description,
-            };
+            var isHost = false,
+                eventObj = {
+                    isHost : isHost,
+                    user : req.session.user,
+                    id   : myEvent.id,
+                    name : myEvent.name,
+                    date : myEvent.date,
+                    placeID : '',
+                    location : myEvent.location,
+                    description : myEvent.description,
+                };
+
+            if (typeof (req.session) !== 'undefined' && 
+                typeof (req.session.user) !== 'undefined' &&
+                typeof (req.session.user.id) !== 'undefined') {
+                isHost = req.session.user.id == myEvent.hostId ? true : false;
+                eventObj.isHost = isHost;
+            }
+
             console.log('raw event item', myEvent);
             res.render('event', eventObj);
         }

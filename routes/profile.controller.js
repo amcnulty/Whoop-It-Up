@@ -45,6 +45,7 @@ router.get('/getuser/:id', function(req, res) {
           canEdit = true;
         }
 
+
         console.log(JSON.stringify({
           user: req.session.user,
           canEdit : canEdit,
@@ -131,7 +132,7 @@ router.post('/signup', function(req, res, next) {
 router.post('/signin', function(req, res, next) {
   let email = req.body.email;
   let password = req.body.password;
-console.log('fuckfincuk!');
+
   db.User.findOne({
     where: {
       email: email
