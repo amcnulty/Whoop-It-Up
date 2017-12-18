@@ -8,11 +8,13 @@
       <input class="event-search-box" type="text" placeholder="Event Name">
       <a class="toggle-advance-options" href="#"><span class="advance-option">advance options</span></a>
       <div class="advance-filters hide">
-        <select class="advance-opt event-type-dd" name="event-type">
-          <option value="">Select...</option>
-        </select>
+        {{#each categories}}
+          <div class="category-item">
+            <input id="{{categoryname}}-cb" class="event-category" type="checkbox" value="{{id}}">
+            <label class="category-label" for="{{categoryname}}-cb">{{categoryname}}</label>
+          </div>
+        {{/each}}
         <input type="text" class="advance-opt" placeholder="Event Date" id="start-date">
-        <div class="advance-opt near-you"><input type="checkbox" class="near-you-cb"><span class="label">Show only events near you</span></div>
       </div>
       <button type="button" class="btn btn-outline-primary find-btn">Find Events</button>
     </div>

@@ -5,5 +5,45 @@
       height: 200px;
       width: 350px;
     }
+    
+    .controls {
+      width: 320px;
+      max-width: 100%;
+    }
+
+    input {
+      display: block;
+      margin: 0 0 10px 0;
+      width: 100%;
+      padding: 3px 10px;
+
+      &.is-private-cb,
+      &.suggest-cb {
+        display: inline-block;
+        width: auto; 
+      }
+
+      &.event-category {
+        display: inline-block;
+        width: auto;
+      }
+    }
+    
+    .button-row {
+      text-align: center;
+    }
+
+    .is-private {
+      .label {
+        margin-left: 5px;
+        font-size: 12px;
+      }
+    }
+
+    textarea.event-desc {
+      margin: 10px 0;
+      width: 100%;
+      height: 200px;
+    }
   }
 }

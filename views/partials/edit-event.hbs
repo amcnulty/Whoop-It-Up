@@ -1,0 +1,26 @@
+<h2 class="fun-font">Edit Event</h2>
+<div class="controls">
+    <input class="event-name" placeholder="Event Name" value="{{name}}">
+    <input class="event-date" value="{{date}}">
+    <input class="start-time" type="text" value={{time}} placeholder="Start Time">
+    <input class="location" type="text" placeholder="Location" value={{location}}>
+    <textarea class="event-desc">{{description}}</textarea>
+    <div class="is-private">
+    <input type="checkbox" {{#if isPrivate}}checked{{/if}} class="is-private-cb"><span class="label">This is a private event</span>
+    </div>
+    <div class="category-section">
+    {{#each categories}}
+    <div class="category-item">
+      <input id="{{categoryname}}-cb" class="event-category" type="checkbox" value="{{id}}">
+      <label class="category-label" for="{{categoryname}}-cb">{{categoryname}}</label>
+    </div>
+    {{/each}}
+    </div>
+    <div class="invite-row">
+        <input type="text" placeholder="Invite Users">
+    </div>
+    <div class="button-row">
+        <button type="button" class="btn btn-outline-primary update-btn">Update Event</button>
+        <button type="button" class="btn btn-outline-danger delete-btn">Delete Event</button>
+    </div>
+</div>

@@ -60,6 +60,8 @@ router.get('/:id', function(req, res, next) {
                     id   : myEvent.id,
                     name : myEvent.name,
                     date : myEvent.date,
+                    time : myEvent.time,
+                    isPrivate : myEvent.isPrivate,
                     placeID : '',
                     location : myEvent.location,
                     description : myEvent.description,
@@ -71,8 +73,10 @@ router.get('/:id', function(req, res, next) {
                 isHost = req.session.user.id == myEvent.hostId ? true : false;
                 eventObj.isHost = isHost;
             }
+            // DEBUG: remove later
+            eventObj.isHost = true;
 
-            console.log('raw event item', myEvent);
+            console.log('raw event item', eventObj);
             res.render('event', eventObj);
         }
         

@@ -174,11 +174,6 @@
       display: block;
       min-width: 300px;
       padding: 10px; }
-    .find-events-page .wrapper .controls .advance-filters .near-you .near-you-cb {
-      display: inline; }
-    .find-events-page .wrapper .controls .advance-filters .near-you .label {
-      margin-left: 5px;
-      font-size: 12px; }
 
 .signup-page .wrapper {
   margin-top: -300px; }
@@ -381,5 +376,28 @@
 .event-page .wrapper .g-map {
   height: 200px;
   width: 350px; }
+.event-page .wrapper .controls {
+  width: 320px;
+  max-width: 100%; }
+.event-page .wrapper input {
+  display: block;
+  margin: 0 0 10px 0;
+  width: 100%;
+  padding: 3px 10px; }
+  .event-page .wrapper input.is-private-cb, .event-page .wrapper input.suggest-cb {
+    display: inline-block;
+    width: auto; }
+  .event-page .wrapper input.event-category {
+    display: inline-block;
+    width: auto; }
+.event-page .wrapper .button-row {
+  text-align: center; }
+.event-page .wrapper .is-private .label {
+  margin-left: 5px;
+  font-size: 12px; }
+.event-page .wrapper textarea.event-desc {
+  margin: 10px 0;
+  width: 100%;
+  height: 200px; }
 
 /*# sourceMappingURL=main.css.map */
