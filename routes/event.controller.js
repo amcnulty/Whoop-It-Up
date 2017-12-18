@@ -85,6 +85,7 @@ router.get('/:id', function(req, res, next) {
         
     });
 });
+
 /** Get all of the events in the database */
 router.get('/', function(req, res, next) {
     db.Event.findAll({}).then(function(events) {

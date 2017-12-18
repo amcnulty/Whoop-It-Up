@@ -189,6 +189,12 @@ router.put('/updatepwd', function(req, res, next) {
         });
   });
 });
+/** Get all categories in the database */
+router.get('/allcategory', function(req, res, next) {
+    db.Category.findAll({}).then(function(allCat) {
+        res.status(200).json(allCat);
+    });
+});
 /** Signs a user out and ends the session */
 router.post('/signout', function(req, res, next) {
   req.session.destroy();
