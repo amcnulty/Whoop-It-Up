@@ -36,6 +36,10 @@
     .signInBtn {
       width: 80%;
       margin-bottom: 20px;
+
+      i.fa-spinner {
+        font-size: 16px;
+      }
     }
   }
 }

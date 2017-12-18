@@ -24,6 +24,22 @@ WIU.findEvents = (function() {
     $advFilters.show(speed, 'linear');
     $advFilters.removeClass('hide');
   },
+  getEventCategory = function() {
+    var categories = $('.event-category'),
+        checkedCategories = [];
+
+    for (var i = 0; i < categories.length; i++) {
+      if ($(categories[i]).is(':checked')) checkedCategories.push(
+        parseInt(categories[i].value)
+      );
+    }
+
+    if (checkedCategories.length == 0) {
+      checkedCategories.push(7);
+    }
+
+    return checkedCategories;
+  },
   initAdvOptions = function() {
     var $advOptsLink = $('.toggle-advance-options');
 

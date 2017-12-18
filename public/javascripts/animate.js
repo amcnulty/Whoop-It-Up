@@ -90,7 +90,7 @@ WIU.animate = (function() {
         effect = getRandEffect();
 
     apply($wrapper, effect, function() {
-      $wrapper.hide(10);
+      $wrapper.css( "display", "none" );
       window.location = url;  
     });
   };

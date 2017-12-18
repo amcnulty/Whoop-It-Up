@@ -128,6 +128,8 @@
   #header-signin .modal-body .signInBtn {
     width: 80%;
     margin-bottom: 20px; }
+    #header-signin .modal-body .signInBtn i.fa-spinner {
+      font-size: 16px; }
 
 .landing-page .home-link {
   opacity: 0; }
@@ -172,11 +174,6 @@
       display: block;
       min-width: 300px;
       padding: 10px; }
-    .find-events-page .wrapper .controls .advance-filters .near-you .near-you-cb {
-      display: inline; }
-    .find-events-page .wrapper .controls .advance-filters .near-you .label {
-      margin-left: 5px;
-      font-size: 12px; }
 
 .signup-page .wrapper {
   margin-top: -300px; }
@@ -249,6 +246,15 @@
       .create-events-page .wrapper .controls input.is-private-cb, .create-events-page .wrapper .controls input.suggest-cb {
         display: inline-block;
         width: auto; }
+      .create-events-page .wrapper .controls input.event-category {
+        display: inline-block;
+        width: auto; }
+    .create-events-page .wrapper .controls .category-section .category-item {
+      display: inline-block;
+      width: 25%; }
+    .create-events-page .wrapper .controls .category-section .category-label {
+      font-size: 12px;
+      margin-left: 3px; }
     .create-events-page .wrapper .controls .is-private .label {
       margin-left: 5px;
       font-size: 12px; }
@@ -319,12 +325,17 @@
   .profile-page .avatar-section .avatar {
     cursor: pointer;
     background-color: white; }
+.profile-page .yours-section,
 .profile-page .event-section {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center; }
-  .profile-page .event-section .event-row, .profile-page .event-section .invite-row {
+  align-items: center;
+  width: 320px; }
+  .profile-page .yours-section .event-row, .profile-page .yours-section .invite-row, .profile-page .yours-section .host-row,
+  .profile-page .event-section .event-row,
+  .profile-page .event-section .invite-row,
+  .profile-page .event-section .host-row {
     position: relative;
     width: 100%;
     margin: 5px 0;
@@ -334,20 +345,59 @@
     align-items: center;
     padding: 10px 0;
     opacity: 0; }
-    .profile-page .event-section .event-row .event-name, .profile-page .event-section .invite-row .event-name {
+    .profile-page .yours-section .event-row .event-name, .profile-page .yours-section .invite-row .event-name, .profile-page .yours-section .host-row .event-name,
+    .profile-page .event-section .event-row .event-name,
+    .profile-page .event-section .invite-row .event-name,
+    .profile-page .event-section .host-row .event-name {
       font-size: 13px; }
-    .profile-page .event-section .event-row .event-date, .profile-page .event-section .invite-row .event-date {
+    .profile-page .yours-section .event-row .event-date, .profile-page .yours-section .invite-row .event-date, .profile-page .yours-section .host-row .event-date,
+    .profile-page .event-section .event-row .event-date,
+    .profile-page .event-section .invite-row .event-date,
+    .profile-page .event-section .host-row .event-date {
       font-size: 12px;
-      font-weight: bold; }
-    .profile-page .event-section .event-row .fa, .profile-page .event-section .invite-row .fa {
+      font-weight: bold;
+      overflow: hidden; }
+    .profile-page .yours-section .event-row .fa, .profile-page .yours-section .invite-row .fa, .profile-page .yours-section .host-row .fa,
+    .profile-page .event-section .event-row .fa,
+    .profile-page .event-section .invite-row .fa,
+    .profile-page .event-section .host-row .fa {
       color: silver; }
-    .profile-page .event-section .event-row .fa-check.active, .profile-page .event-section .invite-row .fa-check.active {
+    .profile-page .yours-section .event-row .fa-check.active, .profile-page .yours-section .invite-row .fa-check.active, .profile-page .yours-section .host-row .fa-check.active,
+    .profile-page .event-section .event-row .fa-check.active,
+    .profile-page .event-section .invite-row .fa-check.active,
+    .profile-page .event-section .host-row .fa-check.active {
       color: green; }
-    .profile-page .event-section .event-row .fa-times.active, .profile-page .event-section .invite-row .fa-times.active {
+    .profile-page .yours-section .event-row .fa-times.active, .profile-page .yours-section .invite-row .fa-times.active, .profile-page .yours-section .host-row .fa-times.active,
+    .profile-page .event-section .event-row .fa-times.active,
+    .profile-page .event-section .invite-row .fa-times.active,
+    .profile-page .event-section .host-row .fa-times.active {
       color: red; }
 
 .event-page .wrapper .g-map {
   height: 200px;
   width: 350px; }
+.event-page .wrapper .controls {
+  width: 320px;
+  max-width: 100%; }
+.event-page .wrapper input {
+  display: block;
+  margin: 0 0 10px 0;
+  width: 100%;
+  padding: 3px 10px; }
+  .event-page .wrapper input.is-private-cb, .event-page .wrapper input.suggest-cb {
+    display: inline-block;
+    width: auto; }
+  .event-page .wrapper input.event-category {
+    display: inline-block;
+    width: auto; }
+.event-page .wrapper .button-row {
+  text-align: center; }
+.event-page .wrapper .is-private .label {
+  margin-left: 5px;
+  font-size: 12px; }
+.event-page .wrapper textarea.event-desc {
+  margin: 10px 0;
+  width: 100%;
+  height: 200px; }
 
 /*# sourceMappingURL=main.css.map */

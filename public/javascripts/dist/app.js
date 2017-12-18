@@ -90,7 +90,7 @@ WIU.animate = (function() {
         effect = getRandEffect();
 
     apply($wrapper, effect, function() {
-      $wrapper.hide(10);
+      $wrapper.css( "display", "none" );
       window.location = url;  
     });
   };
@@ -129,21 +129,16 @@ WIU.createEvent = (function() {
         requestURL = apiURL + 'address=' + address + '&key=' + apiKey,
         addressObj = {};
 
-    //console.log('restURL: ', requestURL);
-
     $.ajax({
       method: "GET",
       url: requestURL
     })
     .done(function(data) {
-      //console.log('what google said:', data);
       if (data.status === 'OK' && data.results.length == 1) {
         var lat = data.results[0].geometry.location.lat,
             lng = data.results[0].geometry.location.lng,
             placeID = data.results[0].place_id,
             formattedAddy = data.results[0].formatted_address;
-
-        //console.log('hey', lat, lng, placeID, formattedAddy);
 
         addressObj.latlng     = lat +', ' + lng;
         addressObj.placeID    = placeID;
@@ -213,6 +208,38 @@ WIU.createEvent = (function() {
       $formatted.val('');
     }
   },
+  getHostInfo = function() {
+    var $hostName = $('.host-name'),
+        $hostID = $('.host-id'),
+        host = {
+          id    : 1,
+          name  : 'Gorilla Gang'
+        };
+
+    if ($hostName.length && $hostID.length) {
+      host = {
+        id    : $hostID.val(),
+        name  : $hostName.val()
+      };
+    }
+    return host;
+  },
+  getEventCategory = function() {
+    var categories = $('.event-category'),
+        checkedCategories = [];
+
+    for (var i = 0; i < categories.length; i++) {
+      if ($(categories[i]).is(':checked')) checkedCategories.push(
+        parseInt(categories[i].value)
+      );
+    }
+
+    if (checkedCategories.length == 0) {
+      checkedCategories.push(7);
+    }
+
+    return checkedCategories;
+  },
   getData = function() {
     var page = '.create-events-page',
         eventName = $('.event-name', page).val(),
@@ -220,15 +247,9 @@ WIU.createEvent = (function() {
         eventTime = $('.start-time', page).val(),
         location  = $('.location', page).val(),
         eventDesc = $('.event-desc', page).val(),
-        // invites   = $('.invite', page).val(),
         isPrivate = $('.is-private-cb', page).is(':checked'),
-        categories = $('.categoryCheckboxes');
-        var checkedCategories = [];
-        for (var i = 0; i < categories.length; i++) {
-          if ($(categories[i]).is(':checked')) checkedCategories.push(
-            parseInt(categories[i].value)
-          );
-        }
+        hostObj = getHostInfo(),
+        checkedCategories = getEventCategory();
 
         suggestCB = $('.suggest-cb', page).is(':checked'),
         locationObj = {
@@ -246,11 +267,10 @@ WIU.createEvent = (function() {
       date      : eventDate,
       time      : eventTime,
       location  : location,
-      description      : eventDesc,
+      description : eventDesc,
       isPrivate   : isPrivate,
-      // invites   : invites,
-      host:     'Gorilla Gang',
-      hostId:   1,
+      host      : hostObj.name,
+      hostId    : hostObj.id,
       categories: JSON.stringify(checkedCategories)
     };
   },
@@ -261,13 +281,17 @@ WIU.createEvent = (function() {
       var eventObj = getData();
 
       if (verifyData(eventObj)) {
-        // console.log('event obj:', eventObj);
         $.ajax({
           method: 'POST',
           url: './event/createevent',
           data: eventObj
-        }).done(function(res) {
-          console.log(res);
+        })
+        .done(function(res) {
+          var eventID = parseInt(res.id);
+          WIU.animate.leavePage('/event/' + eventID);
+        })
+        .fail(function(res, status, xhr) {
+          console.log('An error occured', res);
         });
       }
       else {
@@ -404,6 +428,22 @@ WIU.findEvents = (function() {
     $advFilters.show(speed, 'linear');
     $advFilters.removeClass('hide');
   },
+  getEventCategory = function() {
+    var categories = $('.event-category'),
+        checkedCategories = [];
+
+    for (var i = 0; i < categories.length; i++) {
+      if ($(categories[i]).is(':checked')) checkedCategories.push(
+        parseInt(categories[i].value)
+      );
+    }
+
+    if (checkedCategories.length == 0) {
+      checkedCategories.push(7);
+    }
+
+    return checkedCategories;
+  },
   initAdvOptions = function() {
     var $advOptsLink = $('.toggle-advance-options');
 
@@ -456,18 +496,60 @@ WIU.header = (function () {
   // working with all the functions
     init = function () {
       if ($('.site-header.nav').length) {
-        $('#signInBtn').on('click', function () {
-          if (!validate()) {
-            $('#signInResult').text("Sorry! This email is not a valid email address");
-          }
-          else if (emptyPassword()) {
-            $('#signInResult').text("Please enter in a password.");
-          }
-          else {
-            existingUser();
+        bindLogOut();
+        bindSignin();
+      }
+    },
+    processLogin = function() {
+      var $result = $('#signInResult');
+
+      putSpinner();
+
+      if (!validate()) {
+        $result.text("Sorry! This email is not a valid email address");
+        removeSpinner();
+      }
+      else if (emptyPassword()) {
+        $result.text("Please enter in a password.");
+        removeSpinner();
+      }
+      else {
+        existingUser();
+      }
+    },
+    bindSignin = function() {
+      var $signInBtn = $('#signInBtn'),
+          $passwordBox = $('.password', '#header-signin');
+
+        $signInBtn.on('click', function () {
+          processLogin();
+        });
+
+        $passwordBox.on('keyup', function(e) {
+          if (e.keyCode == 13) {
+            processLogin();
           }
         });
-      }
+    },
+    activateBtn = function($btn) {
+      $btn.removeClass('btn-outline-secondary');
+      $btn.addClass('btn-primary');
+      $btn.prop('disabled', false);
+    },
+    deactiveBtn = function($btn) {
+      $btn.removeClass('btn-primary');
+      $btn.addClass('btn-outline-secondary');
+      $btn.prop('disabled', true);
+    },
+    putSpinner = function() {
+      var $signInBtn = $('.signInBtn');
+      deactiveBtn($signInBtn);
+      $signInBtn.html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>');
+    },
+    removeSpinner = function() {
+      var $signInBtn = $('.signInBtn');
+      activateBtn($signInBtn);
+      $signInBtn.html('Sign In');
     },
     // email validation (email format)
     structureEmail = function (email) {
@@ -496,19 +578,59 @@ WIU.header = (function () {
         return false;
       }
     },
+    closeModal = function($modal, callback) {
+      $modal.modal('hide');
+
+      $modal.off('hidden.bs.modal').on('hidden.bs.modal', function() {
+        if (typeof callback === 'function') {
+          callback();
+        }
+      });
+    },
+    bindLogOut = function() {
+      var $logoutBtn = $('.logoutBtn', '.site-header');
+
+      $logoutBtn.on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+          method: 'post',
+          url: '/profile/signout'
+        })
+        .done(function(res) {          
+          WIU.animate.leavePage('/');
+        })
+        .fail(function(res, status, xhr) {
+          console.log('An error occured', res);
+        });
+      });
+    }
     // putting the existing user into an object
     existingUser = function () {
       var user = {
         email: $('.email').val(),
         password: $('.password').val()
       };
-      console.log(user);
       $.ajax({
         method: 'post',
-        url: './profile/signin',
+        url: '/profile/signin',
         data: user
-      }).done(function(res) {
-        console.log(res);
+      })
+      .done(function(res) {
+        removeSpinner();
+        closeModal($('#header-signin'), function() {
+          WIU.animate.leavePage(window.location.href);
+        });
+      })
+      .fail(function(res, status, xhr) {
+        var $result = $('#signInResult');
+
+        if (res.status === 404) {
+          $result.html('Incorrect email and/or password');
+        }
+        else {
+          $result.html('An error occured. Please try again later.');
+        }
+        removeSpinner();
       });
     };
 
@@ -534,8 +656,16 @@ WIU.landing = (function() {
   },
   initCreateBtn = function() {
     var $findBtn = $('.create-btn');
+
     $findBtn.on('click', function() {
-      WIU.animate.leavePage('/create-event');
+
+      if ($findBtn.hasClass('need-signin')) {
+        $('.sign-in', '.site-header').click();
+        return false;
+      }
+      else {
+        WIU.animate.leavePage('/create-event');  
+      }
     });
   },
   startAnimate = function() {
@@ -647,6 +777,9 @@ WIU.profile = (function() {
   isEventTab = function(classes) {
     return classes.indexOf('tab-events') !== -1;
   },
+  isHostTab = function(classes) {
+    return classes.indexOf('tab-yours') !== -1;
+  },
   bindTabShown = function() {
     var $navTabs = $('#profile-tabs');
 
@@ -655,14 +788,40 @@ WIU.profile = (function() {
       if (isEventTab(e.target.className)) {
         WIU.animate.slideIn($('.invite-row', '.event-section'));
       }
-      else {
-        $('.event-row').css('opacity', '0');
+      else if (isHostTab(e.target.className)) {
+        WIU.animate.slideIn($('.host-row', '.yours-section')); 
       }
-    })
+    });
+  },
+  bindDeleteProfile = function() {
+    var $delBtn = $('.delete-btn', '.control');
+
+    $delBtn.on('click', function() {
+      // popup modal to warning them
+      // call api to delete
+      // on success, redirect them back to the landing page
+    });
+  },
+  bindAddEvent = function() {
+    var $addEventBtn = $('.create-btn', '.yours-section');
+
+    $addEventBtn.on('click', function() {
+      WIU.animate.leavePage('/create-event'); 
+    });
+  },
+  bindFindEvent = function() {
+    var $addEventBtn = $('.find-btn', '.event-section');
+
+    $addEventBtn.on('click', function() {
+      WIU.animate.leavePage('/find-events');
+    });
   },
   init = function() {
-    if ($('.edit-profile', '.profile-page').length) {
+    if ($('.profile-page').length) {
+      bindDeleteProfile();
       bindTabShown();
+      bindAddEvent();
+      bindFindEvent();
       bindAvatarSelect();
       bindUpdateBtn();
     }

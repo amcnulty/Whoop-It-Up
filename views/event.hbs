@@ -1,21 +1,26 @@
-<div class="container-fluid event-page main-container">
+<div class="container-fluid event-page main-container event-{{id}}">
     {{> header }}
     <div class="region top-region"></div>
     <div class="wrapper">
-        <input type="hidden" class="lat-long" value={{latlng}}>
+        <input type="hidden" class="latlong" value={{latlng}}>
         <input type="hidden" class="place-id" value={{placeID}}>
-        <h2 class="event-name fun-font">{{name}}</h2>
-        <div class="event-date">{{date}}</div>
-        <div class="cta">
-            <button type="button" class="btn rsvp-btn btn-outline-primary">RSVP</button>
-        </div>
-        <div class="map">
-            <iframe class="g-map" frameborder="0" src=""></iframe>
-        </div>
-        <div class="event-desc">{{description}}</div>
-        <div class="share-facebook">
-            <a href="#" target="_blank" class="btn btn-outline-primary fb-btn"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</a>
-        </div>
+        <input type="hidden" class="formatted-addy" value="{{formattedAddy}}">
+        {{#if isHost}}
+            {{> edit_event}}
+        {{else}}
+            <h2 class="event-name fun-font">{{name}}</h2>
+            <div class="event-date">{{date}}</div>
+            <div class="cta">
+                <button type="button" class="btn rsvp-btn btn-outline-primary">RSVP</button>
+            </div>
+            <div class="map">
+                <iframe class="g-map" frameborder="0" src=""></iframe>
+            </div>
+            <div class="event-desc">{{description}}</div>
+            <div class="share-facebook">
+                <a href="#" target="_blank" class="btn btn-outline-primary fb-btn"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</a>
+            </div>
+        {{/if}}
     </div>
     <div class="region bottom-region flip-bkg"></div>
 </div>

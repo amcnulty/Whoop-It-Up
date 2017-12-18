@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
 
 });
 
+
 /* GET for single user listing. */
 // TODO: remove `canEdit`, this should be from $_SESSION variable
 // TODO: backend logic to only query upcoming events, ignore past events
@@ -22,38 +23,13 @@ router.get('/getuser/:id', function(req, res) {
       id: req.params.id
     }
   })
-    .then(function(dbGet) {
-      console.log(JSON.stringify(dbGet, null, 2));
-      var profileObj = dbGet;
+  .then(function(dbGet) {
+    console.log(JSON.stringify(dbGet, null, 2));
 
-      if (typeof profileObj === 'undefined' || profileObj == null) {
-        profileObj = {
-          title     : 'Profile', 
-          id        : req.params.id,
-          avatar    : 1,
-          email     : 'test@testeste.edu',
-          username  : 'Andy K',
-          canEdit   : true,
-          invites   : [
-            {
-              id    : 0,
-              name  : "Andy's Lan Party",
-              date  : "12/12",
-              location    : "Andy's Place",
-              description : "This is the best LAN party in the world!",
-              rsvp  : false,
-            },
-            {
-              id    : 1,
-              name  : "Brendan's Pool Party",
-              date  : "12/21",
-              location    : "Brendan's Place",
-              description : "This is the best POOL party in the world!",
-              rsvp  : true
-            }
-          ]
-        }
-      }
+    if (typeof dbGet === 'undefined' || dbGet == null) {
+      res.render('error', {message: 'Invalid user ID'});
+    }
+    else {
       db.UserEvent.findAll({
         attributes: ["status"],
         where: {
@@ -61,28 +37,75 @@ router.get('/getuser/:id', function(req, res) {
         },
         include: [db.Event]
       })
-        .then(function(events) {
-          var categorizedEvents = profileEvents.categorize(events, profileObj.id);
-          console.log(JSON.stringify({
-            title: 'Profile',
-            id: profileObj.id,
-            avatar: profileObj.avatar,
-            email: profileObj.email,
-            username: profileObj.username,
-            invites: categorizedEvents.invited,
-            hosting: categorizedEvents.hosting
-          }, null, 2));
-          res.render('profile', {
-            title: 'Profile',
-            id: profileObj.id,
-            avatar: profileObj.avatar,
-            email: profileObj.email,
-            username: profileObj.username,
-            invites: categorizedEvents.invited,
-            hosting: categorizedEvents.hosting
-          });
-      })
-    });
+      .then(function(events) {
+        var categorizedEvents = profileEvents.categorize(events, dbGet.id),
+            canEdit = false;
+
+        if (req.session.user && dbGet.id === req.session.user.id) {
+          canEdit = true;
+        }
+
+
+        console.log(JSON.stringify({
+          user: req.session.user,
+          canEdit : canEdit,
+          title: 'Profile',
+          id: dbGet.id,
+          avatar: dbGet.avatar,
+          email: dbGet.email,
+          username: dbGet.username,
+          invites: categorizedEvents.invited,
+          hosting: categorizedEvents.hosting
+        }, null, 2));
+
+        res.render('profile', {
+          user      : req.session.user,
+          canEdit   : canEdit,
+          title     : 'Profile',
+          id        : dbGet.id,
+          avatar    : dbGet.avatar,
+          email     : dbGet.email,
+          username  : dbGet.username,
+          invites   : categorizedEvents.invited,
+          hosting   : categorizedEvents.hosting
+        });
+
+        // res.render('profile', {
+        //     title     : 'Profile', 
+        //     id        : req.params.id,
+        //     avatar    : 1,
+        //     email     : 'test@testeste.edu',
+        //     username  : 'Andy K',
+        //     canEdit   : true,
+        //     invites   : [
+        //       {
+        //         status : "I",
+        //         Event : {
+        //           id    : 0,
+        //           name  : "Andy's Lan Party",
+        //           date  : "12/12",
+        //           location    : "Andy's Place",
+        //           description : "This is the best LAN party in the world!",
+        //           rsvp  : false,
+        //         }
+                
+        //       },
+        //       {
+        //         status : "I",
+        //         Event : {
+        //           id    : 1,
+        //           name  : "Brendan's Pool Party",
+        //           date  : "12/21",
+        //           location    : "Brendan's Place",
+        //           description : "This is the best POOL party in the world!",
+        //           rsvp  : true  
+        //         }
+        //       }
+        //     ]
+        //   });
+      });
+    }
+  });
 });
 
 /* User sign up route */
@@ -116,6 +139,7 @@ router.post('/signin', function(req, res, next) {
     }
   }).then(function(myUser) {
     passwordHandler.comparePassword(password, myUser.password, function(success) {
+      console.log('compare pw', password, myUser.password);
       if (success) {
         req.session.user = myUser;
         res.status(200).json(req.session.user).end();
@@ -166,10 +190,11 @@ router.put('/updatepwd', function(req, res, next) {
   });
 });
 /** Signs a user out and ends the session */
-router.get('/signout', function(req, res, next) {
+router.post('/signout', function(req, res, next) {
   req.session.destroy();
-  res.redner('/index',{});
+  res.status(200).end();
 });
+
 /** Deletes user from database */
 router.delete('/delete/:userId', function(req, res, next) {
   db.User.destroy({
@@ -177,9 +202,9 @@ router.delete('/delete/:userId', function(req, res, next) {
       id: req.params.userId
     }
   })
-    .then(function(results) {
-      res.status(200).end();
-    });
+  .then(function(results) {
+    res.status(200).end();
+  });
 });
 /** Checks if a user is signed in with the session */
 router.get('/userpresent', function(req, res, next) {

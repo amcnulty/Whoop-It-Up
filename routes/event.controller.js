@@ -13,21 +13,21 @@ router.post('/createevent', function(req, res, next) {
         time: req.body.time,
         location: req.body.location
     })
-        .then(function(savedEvent) {
-            const eventId = savedEvent.dataValues.id;
-            const categoryIds = JSON.parse(req.body.categories);
-            const promises = categoryIds.map(function (categoryId) {
-                return db.EventCategory.create({
-                    EventId: eventId,
-                    CategoryId: categoryId
-                });
+    .then(function(savedEvent) {
+        const eventId = savedEvent.dataValues.id;
+        const categoryIds = JSON.parse(req.body.categories);
+        const promises = categoryIds.map(function (categoryId) {
+            return db.EventCategory.create({
+                EventId: eventId,
+                CategoryId: categoryId
             });
-            Promise
-                .all(promises)
-                .then(function() {
-                    res.status(200).json(savedEvent);
-                });
         });
+        Promise
+            .all(promises)
+            .then(function() {
+                res.status(200).json(savedEvent);
+            });
+    });
 });
 /** Get a single event by it's ID */
 router.get('/:id', function(req, res, next) {
@@ -42,6 +42,7 @@ router.get('/:id', function(req, res, next) {
     }).then(function(myEvent) {
         if (typeof myEvent === 'undefined' || myEvent == null) {
             res.render('event', {
+              user  : req.session.user,
               id    : 1,
               name  : "Brendan's Pool Party",
               date  : "12/21",
@@ -55,6 +56,31 @@ router.get('/:id', function(req, res, next) {
             var mmdd = myEvent.date.split('/')
             myEvent.date = mmdd[0] + '/' + mmdd[1];
             res.status(200).json(myEvent);    
+            var isHost = false,
+                eventObj = {
+                    isHost : isHost,
+                    user : req.session.user,
+                    id   : myEvent.id,
+                    name : myEvent.name,
+                    date : myEvent.date,
+                    time : myEvent.time,
+                    isPrivate : myEvent.isPrivate,
+                    placeID : '',
+                    location : myEvent.location,
+                    description : myEvent.description,
+                };
+
+            if (typeof (req.session) !== 'undefined' && 
+                typeof (req.session.user) !== 'undefined' &&
+                typeof (req.session.user.id) !== 'undefined') {
+                isHost = req.session.user.id == myEvent.hostId ? true : false;
+                eventObj.isHost = isHost;
+            }
+            // DEBUG: remove later
+            eventObj.isHost = true;
+
+            console.log('raw event item', eventObj);
+            res.render('event', eventObj);
         }
         
     });

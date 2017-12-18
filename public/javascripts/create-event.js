@@ -24,21 +24,16 @@ WIU.createEvent = (function() {
         requestURL = apiURL + 'address=' + address + '&key=' + apiKey,
         addressObj = {};
 
-    //console.log('restURL: ', requestURL);
-
     $.ajax({
       method: "GET",
       url: requestURL
     })
     .done(function(data) {
-      //console.log('what google said:', data);
       if (data.status === 'OK' && data.results.length == 1) {
         var lat = data.results[0].geometry.location.lat,
             lng = data.results[0].geometry.location.lng,
             placeID = data.results[0].place_id,
             formattedAddy = data.results[0].formatted_address;
-
-        //console.log('hey', lat, lng, placeID, formattedAddy);
 
         addressObj.latlng     = lat +', ' + lng;
         addressObj.placeID    = placeID;
@@ -108,6 +103,38 @@ WIU.createEvent = (function() {
       $formatted.val('');
     }
   },
+  getHostInfo = function() {
+    var $hostName = $('.host-name'),
+        $hostID = $('.host-id'),
+        host = {
+          id    : 1,
+          name  : 'Gorilla Gang'
+        };
+
+    if ($hostName.length && $hostID.length) {
+      host = {
+        id    : $hostID.val(),
+        name  : $hostName.val()
+      };
+    }
+    return host;
+  },
+  getEventCategory = function() {
+    var categories = $('.event-category'),
+        checkedCategories = [];
+
+    for (var i = 0; i < categories.length; i++) {
+      if ($(categories[i]).is(':checked')) checkedCategories.push(
+        parseInt(categories[i].value)
+      );
+    }
+
+    if (checkedCategories.length == 0) {
+      checkedCategories.push(7);
+    }
+
+    return checkedCategories;
+  },
   getData = function() {
     var page = '.create-events-page',
         eventName = $('.event-name', page).val(),
@@ -115,15 +142,9 @@ WIU.createEvent = (function() {
         eventTime = $('.start-time', page).val(),
         location  = $('.location', page).val(),
         eventDesc = $('.event-desc', page).val(),
-        // invites   = $('.invite', page).val(),
         isPrivate = $('.is-private-cb', page).is(':checked'),
-        categories = $('.categoryCheckboxes');
-        var checkedCategories = [];
-        for (var i = 0; i < categories.length; i++) {
-          if ($(categories[i]).is(':checked')) checkedCategories.push(
-            parseInt(categories[i].value)
-          );
-        }
+        hostObj = getHostInfo(),
+        checkedCategories = getEventCategory();
 
         suggestCB = $('.suggest-cb', page).is(':checked'),
         locationObj = {
@@ -141,11 +162,10 @@ WIU.createEvent = (function() {
       date      : eventDate,
       time      : eventTime,
       location  : location,
-      description      : eventDesc,
+      description : eventDesc,
       isPrivate   : isPrivate,
-      // invites   : invites,
-      host:     'Gorilla Gang',
-      hostId:   1,
+      host      : hostObj.name,
+      hostId    : hostObj.id,
       categories: JSON.stringify(checkedCategories)
     };
   },
@@ -156,13 +176,17 @@ WIU.createEvent = (function() {
       var eventObj = getData();
 
       if (verifyData(eventObj)) {
-        // console.log('event obj:', eventObj);
         $.ajax({
           method: 'POST',
           url: './event/createevent',
           data: eventObj
-        }).done(function(res) {
-          console.log(res);
+        })
+        .done(function(res) {
+          var eventID = parseInt(res.id);
+          WIU.animate.leavePage('/event/' + eventID);
+        })
+        .fail(function(res, status, xhr) {
+          console.log('An error occured', res);
         });
       }
       else {
