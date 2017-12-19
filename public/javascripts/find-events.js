@@ -58,14 +58,46 @@ WIU.findEvents = (function() {
       }
     });
   },
-  bindFindBtn = function() {
+  findEvent = function () {
+    var findEvent = $('.event-search-box').val();
+    if (findEvent === "") {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  // eventConfirm = function () {
+  //   var eventDetail = {
+  //     eventName: $('.event-search-box').val(),
+  //     eventDate: $('#start-date').val()
+  //   };
+  //   return true;
+  // },
+  bindFindBtn = function () {
     var $findBtn = $('.find-btn');
 
-    $findBtn.on('click', function() {
+    $findBtn.on('click', function () {
+      $('#eventResult').text("");
+      if (!findEvent()) {
+        $('#eventResult').text("Please enter in an event.");
+      } else {
+        loadEvent();
+      }
       // do ajax POST call, then let server render results page
+      loadEvent = function () {
+        $.ajax({
+          method: 'GET',
+          url: './find-events',
+          data: {
+            eventName: $('.event-search-box').val(),
+            eventDate: $('#start-date').val()
+          }
+        }).done(function (res) {
+          console.log(res);
+        });
+      }
 
       // TODO: remove this when backend is ready
-      window.location = '/events';
     });
   },
   init = function() {
