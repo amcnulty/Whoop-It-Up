@@ -53,6 +53,9 @@ router.get('/:id', function(req, res, next) {
             });
         }
         else {
+            var mmdd = myEvent.date.split('/')
+            myEvent.date = mmdd[0] + '/' + mmdd[1];
+            res.status(200).json(myEvent);    
             var isHost = false,
                 eventObj = {
                     isHost : isHost,
@@ -82,6 +85,7 @@ router.get('/:id', function(req, res, next) {
         
     });
 });
+
 /** Get all of the events in the database */
 router.get('/', function(req, res, next) {
     db.Event.findAll({}).then(function(events) {

@@ -151,6 +151,50 @@ router.post('/signin', function(req, res, next) {
   });
 });
 
+// Check if the new password is the same as the password stored in the table.
+router.post('/checksamepwd', function(req, res, next) {
+  let email = req.body.email;
+  let password = req.body.password;
+
+  db.User.findOne({
+    where: {
+      email: email
+    }
+  }).then(function(myUser) {
+    passwordHandler.comparePassword(password, myUser.password, function(samePwd) {
+      if (samePwd) { //Both old and new passwords are the same
+        return res.send(true).end();
+      }
+      else {
+         return res.send(false).end();
+      }
+    });
+  });
+});
+
+// Replace the password in the table after hashing
+router.put('/updatepwd', function(req, res, next) {
+  let password = req.body.password;
+  passwordHandler.hashPassword(password, function(hashedPassword) {
+    db.User.update({
+        password: hashedPassword
+    },
+    {
+        where: {
+            email: req.body.email
+        }
+    })
+        .then(function(results) {
+            res.status(200).end();
+        });
+  });
+});
+/** Get all categories in the database */
+router.get('/allcategory', function(req, res, next) {
+    db.Category.findAll({}).then(function(allCat) {
+        res.status(200).json(allCat);
+    });
+});
 /** Signs a user out and ends the session */
 router.post('/signout', function(req, res, next) {
   req.session.destroy();
