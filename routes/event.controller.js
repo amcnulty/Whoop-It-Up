@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
+var eventHandler = require('../logic/eventHandler');
 /** Create a new event */
 router.post('/createevent', function (req, res, next) {
     db.Event.create({
@@ -100,10 +101,12 @@ router.get('/bycategory/:categoryId', function (req, res, next) {
         }
     }).then(function (events) {
         console.log(JSON.stringify(events, null, 2));
-        res.render('events', {
-            user: req.session.user,
-            title: 'Events',
-            events: events
+        eventHandler.prepareForView(events, function(preparedEvents) {
+            res.render('events', {
+                user: req.session.user,
+                title: 'Events',
+                events: preparedEvents
+            });
         });
     });
 });
