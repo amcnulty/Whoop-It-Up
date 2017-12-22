@@ -44,10 +44,4 @@ router.get('/events', function (req, res, next) {
   });
 });
 
-router.get('/event', function (req, res, next) {
-  res.render('/event', {
-    user: req.session.user,
-    title: 'Event'
-  })
-})
   module.exports = router;
