@@ -11,7 +11,11 @@
     <div class="category-section">
     {{#each categories}}
     <div class="category-item">
-      <input id="{{categoryname}}-cb" class="event-category" type="checkbox" value="{{id}}">
+        {{#if matched}}
+            <input id="{{categoryname}}-cb" class="event-category" type="checkbox" value="{{id}}" checked>
+        {{else}}
+            <input id="{{categoryname}}-cb" class="event-category" type="checkbox" value="{{id}}">
+        {{/if}}
       <label class="category-label" for="{{categoryname}}-cb">{{categoryname}}</label>
     </div>
     {{/each}}

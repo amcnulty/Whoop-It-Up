@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models');
 var eventHandler = require('../logic/eventHandler');
+var categoryHandler = require('../logic/categoryHandler');
 /** Create a new event */
 router.post('/createevent', function (req, res, next) {
     db.Event.create({
@@ -54,7 +55,6 @@ router.get('/:id', function (req, res, next) {
         else {
             var mmdd = myEvent.date.split('/')
             myEvent.date = mmdd[0] + '/' + mmdd[1];
-            // res.status(200).json(myEvent);    
             var isHost = false,
                 eventObj = {
                     isHost: isHost,
@@ -66,7 +66,7 @@ router.get('/:id', function (req, res, next) {
                     isPrivate: myEvent.isPrivate,
                     placeID: '',
                     location: myEvent.location,
-                    description: myEvent.description,
+                    description: myEvent.description
                 };
 
             if (typeof (req.session) !== 'undefined' &&
@@ -75,13 +75,21 @@ router.get('/:id', function (req, res, next) {
                 isHost = req.session.user.id == myEvent.hostId ? true : false;
                 eventObj.isHost = isHost;
             }
-            // DEBUG: remove later
-            // eventObj.isHost = true;
-
-            console.log('raw event item', eventObj);
-            res.render('event', eventObj);
+            db.Category.findAll({})
+            .then(function(allCategories) {
+                db.EventCategory.findAll({
+                    attributes: [],
+                    include: [db.Category],
+                    where: {
+                        EventId: eventObj.id
+                    }
+                })
+                .then(function(eventCategories) {
+                    eventObj.categories = categoryHandler.findMatchedCategories(allCategories, eventCategories);
+                    res.render('event', eventObj);
+                });
+            });
         }
-
     });
 });
 
@@ -109,6 +117,24 @@ router.get('/bycategory/:categoryId', function (req, res, next) {
             });
         });
     });
+});
+/** Get the categories associated with an event */
+router.get('/allcategories/:eventId', function(req, res, next) {
+    db.EventCategory.findAll({
+        attributes: [],
+        include: [db.Category],
+        where: {
+            EventId: req.params.eventId
+        }
+    }).then(function(categories) {
+        return res.status(200).send(categories).end();
+    }).catch(function(err) {
+        if (err) {
+            console.log(err);
+            return res.status(500).end();
+        }
+        return res.status(404).end();
+    })
 });
 /** Invite a user to an event */
 router.post('/addinvite', function (req, res, next) {

@@ -8,6 +8,21 @@ const categoryHandler = {
             });
         }
         return organizedData;
+    },
+    findMatchedCategories(allCategories, eventCategories) {
+        let orgCat = this.organizeCategories(allCategories);
+        let match = false;
+        for (var i = 0; i < allCategories.length; i++) {
+            match = false;
+            for (var ii = 0; ii < eventCategories.length; ii++) {
+                if (allCategories[i].dataValues.id === eventCategories[ii].Category.dataValues.id) {
+                    match = true;
+                    break;
+                }
+            }
+            orgCat[i].matched = match;
+        }
+        return orgCat;
     }
 }
 
