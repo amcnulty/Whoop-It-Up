@@ -55,7 +55,7 @@ router.get('/:id', function(req, res, next) {
         else {
             var mmdd = myEvent.date.split('/')
             myEvent.date = mmdd[0] + '/' + mmdd[1];
-            res.status(200).json(myEvent);    
+            //res.status(200).json(myEvent);    
             var isHost = false,
                 eventObj = {
                     isHost : isHost,
