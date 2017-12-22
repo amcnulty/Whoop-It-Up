@@ -14,19 +14,26 @@ router.post('/createevent', function(req, res, next) {
         location: req.body.location
     })
     .then(function(savedEvent) {
-        const eventId = savedEvent.dataValues.id;
-        const categoryIds = JSON.parse(req.body.categories);
-        const promises = categoryIds.map(function (categoryId) {
-            return db.EventCategory.create({
-                EventId: eventId,
-                CategoryId: categoryId
+       db.UserEvent.create({
+        EventId: savedEvent.dataValues.id,
+        UserId: req.body.hostId
+        })
+       .then(function(result) {
+            const eventId = savedEvent.dataValues.id;
+            const categoryIds = JSON.parse(req.body.categories);
+            const promises = categoryIds.map(function (categoryId) {
+                return db.EventCategory.create({
+                    EventId: eventId,
+                    CategoryId: categoryId
+                });
             });
-        });
-        Promise
-            .all(promises)
-            .then(function() {
-                res.status(200).json(savedEvent);
-            });
+            Promise
+                .all(promises)
+                .then(function() {
+                    res.status(200).json(savedEvent);
+                });
+            
+           })
     });
 });
 /** Get a single event by it's ID */
@@ -55,7 +62,7 @@ router.get('/:id', function(req, res, next) {
         else {
             var mmdd = myEvent.date.split('/')
             myEvent.date = mmdd[0] + '/' + mmdd[1];
-            res.status(200).json(myEvent);    
+            // res.status(200).json(myEvent);    
             var isHost = false,
                 eventObj = {
                     isHost : isHost,
@@ -106,6 +113,8 @@ router.get('/bycategory/:categoryId', function(req, res, next) {
 });
 /** Invite a user to an event */
 router.post('/addinvite', function(req, res, next) {
+    console.log('event id : ',req.body.eventId);
+    console.log('user id : ', req.body.userId);    
     db.UserEvent.create({
         EventId: req.body.eventId,
         UserId: req.body.userId
