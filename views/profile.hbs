@@ -32,11 +32,11 @@
         <div class="tab-pane" id="yours" role="tabpanel">
           <div class="yours-section">
             <h3 class="fun-font">Events By You</h3>
-            {{#unless hostings}}
+            {{#unless hosting}}
               <div><p>No Events Found</p></div>
               <button type="button" class="btn btn-outline-success create-btn">Create Event</button>
             {{/unless}}
-            {{#each hostings}}
+            {{#each hosting}}
               {{> hosting_row }}
             {{/each}}
           </div>
