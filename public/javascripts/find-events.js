@@ -77,29 +77,16 @@ WIU.findEvents = (function() {
     var $findBtn = $('.find-btn');
 
     $findBtn.on('click', function () {
-      $('#eventResult').text("");
-      if (!findEvent()) {
-        $('#eventResult').text("Please enter in an event.");
-      } else {
-        loadEvent();
-      }
-      // do ajax POST call, then let server render results page
-      loadEvent = function () {
-        $.ajax({
-          method: 'GET',
-          url: './find-events',
-          data: {
-            eventName: $('.event-search-box').val(),
-            eventDate: $('#start-date').val()
-          }
-        }).done(function (res) {
-          console.log(res);
-        });
-      }
-
-      // TODO: remove this when backend is ready
+      var checkedCategories = checkedCategories();
+      $.ajax({
+        method: 'GET',
+        url: "/event/bycategory/" + checkedCategories[0]
+      }).done(function(res) {
+        console.log(res);
+      })
     });
   },
+
   init = function() {
     if ($('.find-events-page').length) {
       initDatepicker(); 
