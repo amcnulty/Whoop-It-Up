@@ -9,7 +9,9 @@ var profileEvents = {
      * @param {Number} userId 
      * @returns {Object}
      */
-    categorize(events, userId) {    
+    categorize(events, userId) { 
+        this.hosting = [];
+        this.invited = [];   
         for (var i = 0; i < events.length; i++) {
             if (events[i].Event.hostId === userId) {
                 this.hosting.push(events[i]);
