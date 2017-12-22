@@ -37,6 +37,15 @@ WIU.event = (function () {
       }
 
     },
+    eventCategoryData = function() {
+      $.ajax({
+        method: 'POST',
+        url: '',
+        data: page
+      }).done(function() {
+        window.location = window.location.href;
+      })
+    },
     init = function () {
       if ($('.event-page').length) {
         bindFacebookShare();
@@ -59,3 +68,4 @@ $(window).on('load', function() {
 $(function () {
   WIU.event.init();
 });
+

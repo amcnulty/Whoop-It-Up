@@ -58,16 +58,35 @@ WIU.findEvents = (function() {
       }
     });
   },
-  bindFindBtn = function() {
+  findEvent = function () {
+    var findEvent = $('.event-search-box').val();
+    if (findEvent === "") {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  // eventConfirm = function () {
+  //   var eventDetail = {
+  //     eventName: $('.event-search-box').val(),
+  //     eventDate: $('#start-date').val()
+  //   };
+  //   return true;
+  // },
+  bindFindBtn = function () {
     var $findBtn = $('.find-btn');
 
-    $findBtn.on('click', function() {
-      // do ajax POST call, then let server render results page
-
-      // TODO: remove this when backend is ready
-      window.location = '/events';
+    $findBtn.on('click', function () {
+      var checkedCategories = checkedCategories();
+      $.ajax({
+        method: 'GET',
+        url: "/event/bycategory/" + checkedCategories[0]
+      }).done(function(res) {
+        console.log(res);
+      })
     });
   },
+
   init = function() {
     if ($('.find-events-page').length) {
       initDatepicker(); 

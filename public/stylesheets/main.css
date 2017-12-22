@@ -234,6 +234,7 @@
         font-size: 13px; }
       .events-page .wrapper .event-section .event-row .event-date, .events-page .wrapper .event-section .invite-row .event-date {
         font-size: 12px;
+        padding-left: 0px;
         font-weight: bold; }
 
 .create-events-page .wrapper {
