@@ -39,6 +39,7 @@ router.get('/signup', function (req, res, next) {
 // location should be lat and long value for used w. the google map API
 router.get('/events', function (req, res, next) {
   db.Event.findAll({}).then(function(events) {
+    console.log(JSON.stringify(events, null, 2));
     res.render('events', {
       user: req.session.user,
       title: 'Events',

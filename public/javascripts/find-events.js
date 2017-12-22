@@ -77,13 +77,8 @@ WIU.findEvents = (function() {
     var $findBtn = $('.find-btn');
 
     $findBtn.on('click', function () {
-      var checkedCategories = checkedCategories();
-      $.ajax({
-        method: 'GET',
-        url: "/event/bycategory/" + checkedCategories[0]
-      }).done(function(res) {
-        console.log(res);
-      })
+      var checkedCategories = getEventCategory();
+      window.location = './event/bycategory/' + checkedCategories[0];
     });
   },
 

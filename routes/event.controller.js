@@ -99,7 +99,12 @@ router.get('/bycategory/:categoryId', function (req, res, next) {
             CategoryId: req.params.categoryId
         }
     }).then(function (events) {
-        res.status(200).json(events);
+        console.log(JSON.stringify(events, null, 2));
+        res.render('events', {
+            user: req.session.user,
+            title: 'Events',
+            events: events
+        });
     });
 });
 /** Invite a user to an event */
