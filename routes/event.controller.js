@@ -75,7 +75,7 @@ router.get('/:id', function (req, res, next) {
                 eventObj.isHost = isHost;
             }
             // DEBUG: remove later
-            eventObj.isHost = true;
+            // eventObj.isHost = true;
 
             console.log('raw event item', eventObj);
             res.render('event', eventObj);
