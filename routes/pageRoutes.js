@@ -19,9 +19,12 @@ router.get('/create-event', function (req, res, next) {
 });
 
 router.get('/find-events', function (req, res, next) {
-  res.render('find-events', { 
-    user: req.session.user,
-    title: 'Find Events'
+  db.Category.findAll({}).then(function(results) {
+    res.render('find-events', { 
+      user: req.session.user,
+      title: 'Find Events',
+      categories: categoryHandler.organizeCategories(results)
+    });
   });
 });
 
