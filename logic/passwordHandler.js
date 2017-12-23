@@ -17,6 +17,13 @@ const passwordHandler = {
             });
         });
     },
+    /**
+     * This method compares a plain text password string with the hashed password that
+     * is stored in the database.
+     * @param {String} plainText - Password to be compared
+     * @param {String} hash - Hashed password in database
+     * @param {Function} cb - Callback function that with boolean result as parameter
+     */
     comparePassword(plainText, hash, cb) {
         bcrypt.compare(plainText, hash, function(err, res) {
             cb(res);

@@ -34,11 +34,11 @@
             <h3 class="fun-font">Events By You</h3>
             {{#unless hosting}}
               <div><p>No Events Found</p></div>
-              <button type="button" class="btn btn-outline-success create-btn">Create Event</button>
             {{/unless}}
             {{#each hosting}}
               {{> hosting_row }}
             {{/each}}
+              <button type="button" class="btn btn-outline-success create-btn">Create Event</button>
           </div>
         </div>
         <div class="tab-pane" id="events" role="tabpanel">
@@ -46,11 +46,11 @@
             <h3 class="fun-font">Upcoming Events</h3>
             {{#unless invites}}
               <div><p>No Events Found</p></div>
-              <button type="button" class="btn btn-outline-success find-btn">Find Events</button>
             {{/unless}}
             {{#each invites}}
               {{> invite_row }}
             {{/each}}
+              <button type="button" class="btn btn-outline-success find-btn">Find Events</button>
           </div>
         </div>
       </div>

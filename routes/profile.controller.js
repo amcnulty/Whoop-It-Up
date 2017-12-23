@@ -189,6 +189,41 @@ router.put('/updatepwd', function(req, res, next) {
         });
   });
 });
+/** Route for when user updates profile */
+router.put('/updateuser', function(req, res, next) {
+  db.User.findOne({
+    where: {
+      Id: req.body.userId
+    }
+  })
+    .then(function(user) {
+      passwordHandler.comparePassword(req.body.oldPW, user.password, function(isMatch) {
+        if (isMatch) {
+          passwordHandler.hashPassword(req.body.newPW, function(hashedPassword) {
+            db.User.update({
+              avatar: req.body.avatar,
+              password: hashedPassword
+            },
+            {
+              where: {
+                Id: req.body.userId
+              }
+            })
+              .then(function(results) {
+                res.status(200).end();
+              })
+              .catch(function(err) {
+                if (err) console.log(err);
+                res.status(500).end();
+              });
+          });
+        }
+        else {
+          return res.status(401).end();
+        }
+      });
+    });
+});
 /** Get all categories in the database */
 router.get('/allcategory', function(req, res, next) {
     db.Category.findAll({}).then(function(allCat) {
