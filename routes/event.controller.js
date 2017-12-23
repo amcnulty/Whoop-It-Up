@@ -138,21 +138,25 @@ router.get('/allcategories/:eventId', function(req, res, next) {
 });
 /** Invite a user to an event */
 router.post('/addinvite', function (req, res, next) {
-    console.log('event id : ', req.body.eventId);
-    console.log('user id : ', req.body.userId);
-    db.UserEvent.create({
-        EventId: req.body.eventId,
-        UserId: req.body.userId
-    }).
-        then(function (savedInvite) {
-            return res.status(200).end();
-        })
-        .catch(function (err) {
-            if (err) {
-                console.log(err);
-                return res.status(500).end();
-            }
-        });
+    db.User.findOne({
+        where: {
+            username: req.body.username
+        }
+    }).then(function(user) {
+        db.UserEvent.create({
+            EventId: req.body.eventId,
+            UserId: user.dataValues.id
+        }).
+            then(function (savedInvite) {
+                return res.status(200).end();
+            })
+            .catch(function (err) {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).end();
+                }
+            });
+    });
 });
 /** Updates the status of a user for an event. */
 router.put('/updatestatus', function (req, res, next) {

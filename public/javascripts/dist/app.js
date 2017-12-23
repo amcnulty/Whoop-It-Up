@@ -367,9 +367,27 @@ WIU.event = (function () {
         window.location = window.location.href;
       })
     },
+    populateAutocomplete = function() {
+      var userNames = [];
+      $.ajax({
+        method: 'GET',
+        url: '../profile/'
+      }).done(function(users) {
+        for(var i = 0; i < users.length; i++) {
+          userNames.push(users[i].username);
+        }
+        $('#inviteUser').autocomplete({
+          minLength: 3,
+          delay: 50,
+          appendTo: '#inviteUserSearchContainer',
+          source: userNames
+        });
+      });
+    },
     init = function () {
       if ($('.event-page').length) {
         bindFacebookShare();
+        populateAutocomplete();
         //readyGoogleMap();
       }
     };
@@ -384,6 +402,19 @@ $(window).on('load', function() {
   if ($('.event-page').length) {
     WIU.event.readyMap();
   }
+});
+
+$('.update-btn', '.button-row').on('click', function(e) {
+  $.ajax({
+    method: 'POST',
+    url: '../event/addinvite',
+    data: {
+      eventId: window.location.href.match(/\d*$/)[0],
+      username: $('#inviteUser').val()
+    }
+  }).done(function(res) {
+    // do something when user is invited
+  });
 });
 
 $(function () {
