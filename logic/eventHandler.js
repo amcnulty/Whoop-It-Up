@@ -12,6 +12,13 @@ const eventHandler = {
             preparedEvents.push(event);
         }
         cb(preparedEvents);
+    },
+    getIds(events) {
+        let ids = [];
+        for (var i = 0; i < events.length; i++) {
+            ids.push(events[i].Event.id);
+        }
+        return ids;
     }
 }
 

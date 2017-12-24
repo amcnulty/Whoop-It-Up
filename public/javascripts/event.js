@@ -20,7 +20,7 @@ WIU.event = (function () {
             username: $('#inviteUser').val()
           }
         }).done(function(res) {
-          // do something when user is invited
+          WIU.animate.leavePage('/profile/getuser/' + $('#hostLabel').attr('data-id'));
         });
       });
     },

@@ -341,7 +341,7 @@ WIU.event = (function () {
             username: $('#inviteUser').val()
           }
         }).done(function(res) {
-          // do something when user is invited
+          WIU.animate.leavePage('/profile/getuser/' + $('#hostLabel').attr('data-id'));
         });
       });
     },
@@ -840,12 +840,22 @@ WIU.profile = (function() {
           url: '/profile/updateuser',
           data: data
         }).done(function(res) {
-          console.log(res);
+          WIU.animate.leavePage(window.location.href);
         });
       }
       else {
         console.log('problem with your input!')
       }
+    });
+  },
+  bindDeleteBtn = function() {
+    $('.delete-btn').on('click', function(e) {
+      $.ajax({
+        method: 'DELETE',
+        url: '/profile/delete/' + window.location.href.match(/\d*$/)[0]
+      }).done(function(res) {
+        WIU.animate.leavePage('/');
+      });
     });
   },
   isEventTab = function(classes) {
@@ -898,6 +908,7 @@ WIU.profile = (function() {
       bindFindEvent();
       bindAvatarSelect();
       bindUpdateBtn();
+      bindDeleteBtn();
     }
   };
 

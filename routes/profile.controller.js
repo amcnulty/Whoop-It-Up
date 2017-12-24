@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models');
 var passwordHandler = require('../logic/passwordHandler');
+var eventHandler = require('../logic/eventHandler');
 var profileEvents = require('../logic/profileEvents');
 
 /* GET users listing. */
@@ -238,13 +239,30 @@ router.post('/signout', function(req, res, next) {
 
 /** Deletes user from database */
 router.delete('/delete/:userId', function(req, res, next) {
-  db.User.destroy({
+  db.UserEvent.findAll({
+    attributes: [],
     where: {
-      id: req.params.userId
-    }
+      UserId: req.params.userId
+    },
+    include: [db.Event]
   })
-  .then(function(results) {
-    res.status(200).end();
+  .then(function(events) {
+    db.Event.destroy({
+      where: {
+        id: eventHandler.getIds(events)
+      }
+    })
+    .then(function(response) {
+      db.User.destroy({
+        where: {
+          id: req.params.userId
+        }
+      })
+      .then(function(results) {
+          req.session.destroy();
+          res.status(200).end();
+        });
+      });
   });
 });
 /** Checks if a user is signed in with the session */
