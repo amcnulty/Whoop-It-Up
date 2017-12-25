@@ -1,3 +1,10 @@
+/**
+ * Event Controller
+ * ----------------
+ * 
+ * The event controller handles requests related to events, performs application
+ * logic, and performs database operations to the events table and the event join tables.
+ */
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
@@ -34,7 +41,6 @@ router.post('/createevent', function (req, res, next) {
                         .then(function () {
                             res.status(200).json(savedEvent);
                         });
-
                 })
         });
 });
@@ -92,7 +98,6 @@ router.get('/:id', function (req, res, next) {
         }
     });
 });
-
 /** Get all of the events in the database */
 router.get('/', function (req, res, next) {
     db.Event.findAll({}).then(function (events) {
@@ -108,7 +113,6 @@ router.get('/bycategory/:categoryId', function (req, res, next) {
             CategoryId: req.params.categoryId
         }
     }).then(function (events) {
-        console.log(JSON.stringify(events, null, 2));
         eventHandler.prepareForView(events, function(preparedEvents) {
             res.render('events', {
                 user: req.session.user,
@@ -209,7 +213,6 @@ router.delete('/delete/:eventId', function (req, res, next) {
             res.status(200).end();
         });
 });
-
 /* Checks to see if a single user is invited to a single event */
 router.post('/userisinvited', function (req, res, next) {
     db.UserEvent.findOne({

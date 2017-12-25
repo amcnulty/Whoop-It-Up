@@ -111,7 +111,7 @@ WIU.signup = (function () {
         signInUser(newUser);
       })
       .fail(function(res, status, xhr) {
-        console.log('haha it failed!', res, status, xhr);
+        console.log('An Error has occurred ', res, status, xhr);
       })
     };
 

@@ -118,7 +118,6 @@ WIU.createEvent = (function() {
         matched++;
       }
     });
-    console.log('matched ' + matched + ' out of ' + total);
 
     return (matched/total).toFixed(2);
   },
@@ -374,7 +373,6 @@ WIU.event = (function () {
       if (latlong) {
         url += latlong;
         url += '&q=' + 'Fairmont+Empress,Victoria+BC',
-        console.log('hey!', url);
         $('.g-map').attr('src', url);
       }
       else {
@@ -1033,7 +1031,7 @@ WIU.signup = (function () {
         signInUser(newUser);
       })
       .fail(function(res, status, xhr) {
-        console.log('haha it failed!', res, status, xhr);
+        console.log('An Error has occurred ', res, status, xhr);
       })
     };
 

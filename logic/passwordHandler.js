@@ -1,6 +1,13 @@
+/**
+ * Password Handler
+ * ----------------
+ * 
+ * This file is used for doing operations with user passwords. Passwords need
+ * to be hashed and hashed passwords need to be checked with plain text values.
+ */
 const bcrypt = require('bcrypt');
+/** The salt work factor for hashing the password */
 const SALT = 10;
-
 const passwordHandler = {
     /**
      * This method takes a plain text password string and hashes it using bcrypt.

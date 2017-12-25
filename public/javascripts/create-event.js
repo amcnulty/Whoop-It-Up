@@ -13,7 +13,6 @@ WIU.createEvent = (function() {
         matched++;
       }
     });
-    console.log('matched ' + matched + ' out of ' + total);
 
     return (matched/total).toFixed(2);
   },

@@ -1,26 +1,28 @@
+/**
+ * Profile Events
+ * --------------
+ * 
+ * This file is used to do logical operations for events that are display on user profiles.
+ */
 var profileEvents = {
-    /** Array to hold hosted events */
-    hosting: [],
-    /** Array to hold invited events */
-    invited: [],
     /**
-     * Categories array of events into hosted and invited arrays. Returns both arrays as object.
-     * @param {Array} events 
-     * @param {Number} userId 
+     * Categorizes array of events into hosted and invited arrays. Returns both arrays as object.
+     * @param {Object[]} events - Events from the database
+     * @param {Number} userId - The user id for the current profile
      * @returns {Object}
      */
     categorize(events, userId) { 
-        this.hosting = [];
-        this.invited = [];   
+        let hosting = [];
+        let invited = [];   
         for (var i = 0; i < events.length; i++) {
             if (events[i].Event.hostId === userId) {
-                this.hosting.push(events[i]);
+                hosting.push(events[i]);
             }
-            else this.invited.push(events[i]);
+            else invited.push(events[i]);
         }
         return {
-            hosting: this.hosting,
-            invited: this.invited
+            hosting: hosting,
+            invited: invited
         }
     }
 }

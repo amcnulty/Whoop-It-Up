@@ -1,4 +1,16 @@
+/**
+ * Event Handler
+ * -------------
+ * 
+ * This file is used for handling logical operations and tasks that involve the event records
+ * from the database. Information about events need to manipulated for use with the view.
+ */
 const eventHandler = {
+    /**
+     * Prepares event results from the database for the view.
+     * @param {Object[]} events - Events from the database
+     * @param {Function} cb - Callback function that passes the prepared events.
+     */
     prepareForView(events, cb) {
         let preparedEvents = [];
         let event = {};
@@ -13,6 +25,11 @@ const eventHandler = {
         }
         cb(preparedEvents);
     },
+    /**
+     * Returns an array of the ids associated with the events passed to this method.
+     * @param {Object[]} events - Events from the database
+     * @returns {Number[]}
+     */
     getIds(events) {
         let ids = [];
         for (var i = 0; i < events.length; i++) {

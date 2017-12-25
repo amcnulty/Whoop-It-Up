@@ -53,7 +53,6 @@ WIU.event = (function () {
       if (latlong) {
         url += latlong;
         url += '&q=' + 'Fairmont+Empress,Victoria+BC',
-        console.log('hey!', url);
         $('.g-map').attr('src', url);
       }
       else {
