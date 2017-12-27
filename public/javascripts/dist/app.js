@@ -270,6 +270,7 @@ WIU.createEvent = (function() {
       isPrivate   : isPrivate,
       host      : hostObj.name,
       hostId    : hostObj.id,
+      geoData   : locationObj,
       categories: JSON.stringify(checkedCategories)
     };
   },

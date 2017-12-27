@@ -408,6 +408,9 @@
   padding: 10px 15px; }
   .event-page .wrapper .section.event-desc {
     margin-bottom: 10px; }
+.event-page .wrapper .desc {
+  max-height: 150px;
+  overflow-y: scroll; }
 .event-page .wrapper .btn {
   width: 280px;
   margin-bottom: 5px; }

@@ -9,6 +9,11 @@
         margin-bottom: 10px;
       }
     }
+    
+    .desc {
+      max-height: 150px;
+      overflow-y: scroll;
+    }
 
     .btn {
       width: 280px;

@@ -30,10 +30,11 @@
                 <h4 class="section-title fun-font">Desc.</h4>
                 <div class="desc">{{description}}</div>
             </div>
-
-            <div class="cta">
-                <button type="button" class="btn rsvp-btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> RSVP</button>
-            </div>
+            {{#if user}}
+                <div class="cta">
+                    <button type="button" class="btn rsvp-btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> RSVP</button>
+                </div>
+            {{/if}}
             <div class="share-facebook">
                 <a href="#" target="_blank" class="btn btn-outline-primary fb-btn"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</a>
             </div>
