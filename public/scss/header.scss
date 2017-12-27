@@ -4,8 +4,11 @@
   justify-content: space-between;
   padding: 5px;
   margin-bottom: 5vh;
+  /*width: 650px;*/
+  
+  justify-content: center;
+  width: 280px;
 
-  width: 650px;
   max-width: 90%;
   margin: 0 auto;
 
@@ -14,10 +17,27 @@
       display: inline;
       list-style-type: none;
     }
-    li + li:before{
+    /*li + li:before{
       content: ' | ';
+    }*/
+  }
+
+  div {
+    display: inline-block;
+    margin: 0 10px;
+    border: 1px solid green;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 0 10px;
+    &.login-signup {
+      border: 0px;
     }
-  }  
+  }
+  .header-btn {
+    width: 55px;
+    text-align: center;
+    opacity: 0.5;
+  }
 }
 
 #header-signin {

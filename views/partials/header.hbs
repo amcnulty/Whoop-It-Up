@@ -1,5 +1,5 @@
 <div class="row site-header nav">
-  <div class="home-link"><a class="gohome" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home</a></div>
+  <div class="home-link header-btn"><a class="gohome" href="/"><i class="fa fa-home" aria-hidden="true"></i><span class="sr-only">Home</span></a></div>
   <div class="login-signup">
   {{#if user}}
     <ul>
@@ -7,10 +7,15 @@
       <li><a href="#" class="logoutBtn">Log out</a></li>
     </ul>
   {{else}}
-    <ul>
-      <li><a class="sign-in" data-toggle="modal" data-target="#header-signin" href="#">Sign in</a></li>
-      <li><a class="sign-up" href="/signup">Sign up</a></li>
-    </ul>
+    <div class="header-btn">
+      <a class="sign-in" data-toggle="modal" data-target="#header-signin" href="#">
+        <i class="fa fa-sign-in" aria-hidden="true"></i><span class="sr-only">Sign in</span>
+      </a>
+    </div>
+    <div class="header-btn">
+      <a class="sign-up" href="/signup">
+        <i class="fa fa-user-plus" aria-hidden="true"></i><span class="sr-only">Sign up</span></a>
+    </div>
   {{/if}}
   </div>
 </div>

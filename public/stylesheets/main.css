@@ -107,14 +107,31 @@
   justify-content: space-between;
   padding: 5px;
   margin-bottom: 5vh;
-  width: 650px;
+  /*width: 650px;*/
+  justify-content: center;
+  width: 280px;
   max-width: 90%;
   margin: 0 auto; }
-  .site-header.nav .login-signup li {
-    display: inline;
-    list-style-type: none; }
-  .site-header.nav .login-signup li + li:before {
-    content: ' | '; }
+  .site-header.nav .login-signup {
+    /*li + li:before{
+      content: ' | ';
+    }*/ }
+    .site-header.nav .login-signup li {
+      display: inline;
+      list-style-type: none; }
+  .site-header.nav div {
+    display: inline-block;
+    margin: 0 10px;
+    border: 1px solid green;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 0 10px; }
+    .site-header.nav div.login-signup {
+      border: 0px; }
+  .site-header.nav .header-btn {
+    width: 55px;
+    text-align: center;
+    opacity: 0.5; }
 
 #header-signin .modal-title {
   margin-left: 10%; }
