@@ -1,22 +1,25 @@
+/**
+ * Profile Controller
+ * ------------------
+ * 
+ * The profile controller handles requests related to user information, performs
+ * application logic, and performs database operations to the users table and the
+ * users join tables.
+ */
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
 var passwordHandler = require('../logic/passwordHandler');
+var eventHandler = require('../logic/eventHandler');
 var profileEvents = require('../logic/profileEvents');
-
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     db.User.findAll({})
     .then(function(dbGet) {
       res.json(dbGet);
     });
-
 });
-
-
-/* GET for single user listing. */
-// TODO: remove `canEdit`, this should be from $_SESSION variable
-// TODO: backend logic to only query upcoming events, ignore past events
+/* Renders the user profile page for the given userId. */
 router.get('/getuser/:id', function(req, res) {
   db.User.findOne({
     where: {
@@ -24,8 +27,6 @@ router.get('/getuser/:id', function(req, res) {
     }
   })
   .then(function(dbGet) {
-    console.log(JSON.stringify(dbGet, null, 2));
-
     if (typeof dbGet === 'undefined' || dbGet == null) {
       res.render('error', {message: 'Invalid user ID'});
     }
@@ -44,20 +45,6 @@ router.get('/getuser/:id', function(req, res) {
         if (req.session.user && dbGet.id === req.session.user.id) {
           canEdit = true;
         }
-
-
-        console.log(JSON.stringify({
-          user: req.session.user,
-          canEdit : canEdit,
-          title: 'Profile',
-          id: dbGet.id,
-          avatar: dbGet.avatar,
-          email: dbGet.email,
-          username: dbGet.username,
-          invites: categorizedEvents.invited,
-          hosting: categorizedEvents.hosting
-        }, null, 2));
-
         res.render('profile', {
           user      : req.session.user,
           canEdit   : canEdit,
@@ -69,46 +56,11 @@ router.get('/getuser/:id', function(req, res) {
           invites   : categorizedEvents.invited,
           hosting   : categorizedEvents.hosting
         });
-
-        // res.render('profile', {
-        //     title     : 'Profile', 
-        //     id        : req.params.id,
-        //     avatar    : 1,
-        //     email     : 'test@testeste.edu',
-        //     username  : 'Andy K',
-        //     canEdit   : true,
-        //     invites   : [
-        //       {
-        //         status : "I",
-        //         Event : {
-        //           id    : 0,
-        //           name  : "Andy's Lan Party",
-        //           date  : "12/12",
-        //           location    : "Andy's Place",
-        //           description : "This is the best LAN party in the world!",
-        //           rsvp  : false,
-        //         }
-                
-        //       },
-        //       {
-        //         status : "I",
-        //         Event : {
-        //           id    : 1,
-        //           name  : "Brendan's Pool Party",
-        //           date  : "12/21",
-        //           location    : "Brendan's Place",
-        //           description : "This is the best POOL party in the world!",
-        //           rsvp  : true  
-        //         }
-        //       }
-        //     ]
-        //   });
       });
     }
   });
 });
-
-/* User sign up route */
+/* User sign up route. */
 router.post('/signup', function(req, res, next) {
   let password = req.body.password;
   let username = req.body.username;
@@ -128,18 +80,16 @@ router.post('/signup', function(req, res, next) {
     });
   });
 });
-/** Signs a user in and starts a session */
+/** Signs a user in and starts a session. */
 router.post('/signin', function(req, res, next) {
   let email = req.body.email;
   let password = req.body.password;
-
   db.User.findOne({
     where: {
       email: email
     }
   }).then(function(myUser) {
     passwordHandler.comparePassword(password, myUser.password, function(success) {
-      console.log('compare pw', password, myUser.password);
       if (success) {
         req.session.user = myUser;
         res.status(200).json(req.session.user).end();
@@ -150,7 +100,6 @@ router.post('/signin', function(req, res, next) {
     });
   });
 });
-
 // Check if the new password is the same as the password stored in the table.
 router.post('/checksamepwd', function(req, res, next) {
   let email = req.body.email;
@@ -171,7 +120,6 @@ router.post('/checksamepwd', function(req, res, next) {
     });
   });
 });
-
 // Replace the password in the table after hashing
 router.put('/updatepwd', function(req, res, next) {
   let password = req.body.password;
@@ -189,37 +137,88 @@ router.put('/updatepwd', function(req, res, next) {
         });
   });
 });
-/** Get all categories in the database */
+/** Route for when user updates profile */
+router.put('/updateuser', function(req, res, next) {
+  db.User.findOne({
+    where: {
+      Id: req.body.userId
+    }
+  })
+    .then(function(user) {
+      passwordHandler.comparePassword(req.body.oldPW, user.password, function(isMatch) {
+        if (isMatch) {
+          passwordHandler.hashPassword(req.body.newPW, function(hashedPassword) {
+            db.User.update({
+              avatar: req.body.avatar,
+              password: hashedPassword
+            },
+            {
+              where: {
+                Id: req.body.userId
+              }
+            })
+              .then(function(results) {
+                res.status(200).end();
+              })
+              .catch(function(err) {
+                if (err) console.log(err);
+                res.status(500).end();
+              });
+          });
+        }
+        else {
+          return res.status(401).end();
+        }
+      });
+    });
+});
+/** Get all categories in the database. */
 router.get('/allcategory', function(req, res, next) {
     db.Category.findAll({}).then(function(allCat) {
         res.status(200).json(allCat);
     });
 });
-/** Signs a user out and ends the session */
+/** Signs a user out and ends the session. */
 router.post('/signout', function(req, res, next) {
   req.session.destroy();
   res.status(200).end();
 });
-
-/** Deletes user from database */
+/** Deletes user from database. */
 router.delete('/delete/:userId', function(req, res, next) {
-  db.User.destroy({
+  db.UserEvent.findAll({
+    attributes: [],
     where: {
-      id: req.params.userId
-    }
+      UserId: req.params.userId
+    },
+    include: [db.Event]
   })
-  .then(function(results) {
-    res.status(200).end();
+  .then(function(events) {
+    db.Event.destroy({
+      where: {
+        id: eventHandler.getIds(events)
+      }
+    })
+    .then(function(response) {
+      db.User.destroy({
+        where: {
+          id: req.params.userId
+        }
+      })
+      .then(function(results) {
+          req.session.destroy();
+          res.status(200).end();
+        });
+      });
   });
 });
-/** Checks if a user is signed in with the session */
+/** Checks if a user is signed in with the session. */
 router.get('/userpresent', function(req, res, next) {
   if(!req.session.user) {
     return res.send(false).end();
   }
   else return res.send(true).end();
 });
-/** Returns all of the events a user is associated with */
+/** Returns all of the events a user is associated with. */
 router.get('/:id/events', function(req, res, next) {
   db.UserEvent.findAll({
     attributes: ["status"],

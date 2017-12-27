@@ -118,7 +118,6 @@ WIU.createEvent = (function() {
         matched++;
       }
     });
-    console.log('matched ' + matched + ' out of ' + total);
 
     return (matched/total).toFixed(2);
   },
@@ -326,10 +325,34 @@ WIU.event = (function () {
   var
     bindFacebookShare = function() {
       var $fbBtn = $('.fb-btn'),
-          currentURL = window.location.href,
-          shareURL = 'https://www.facebook.com/sharer/sharer.php?u=';
-
+      currentURL = window.location.href,
+      shareURL = 'https://www.facebook.com/sharer/sharer.php?u=';
+      
       $fbBtn.attr('href', shareURL + currentURL);
+    },
+    bindUpdateButton = function() {
+      $('.update-btn', '.button-row').on('click', function(e) {
+        $.ajax({
+          method: 'POST',
+          url: '../event/addinvite',
+          data: {
+            eventId: window.location.href.match(/\d*$/)[0],
+            username: $('#inviteUser').val()
+          }
+        }).done(function(res) {
+          WIU.animate.leavePage('/profile/getuser/' + $('#hostLabel').attr('data-id'));
+        });
+      });
+    },
+    bindDeleteButton = function() {
+      $('.delete-btn', '.button-row').on('click', function(e) {
+        $.ajax({
+          method: 'DELETE',
+          url: '/event/delete/' + window.location.href.match(/\d*$/)[0]
+        }).done(function(res) {
+          WIU.animate.leavePage('/profile/getuser/' + $('#hostLabel').attr('data-id'));
+        });
+      });
     },
     getLatLong = function() {
       return $('.lat-long').val();
@@ -337,20 +360,19 @@ WIU.event = (function () {
     getPlaceID = function() {
       return $('.place-id').val();
     }, 
-
+    
     // TODO: q=place_id:......
     readyGoogleMap = function() {
       var key = 'AIzaSyCmiSi2gWmkkVWPwz-lk8N1Htd4Q50-Qz4',
-          url = "https://www.google.com/maps/embed/v1/search?key=" + key + '&zoom=18&center=',
-          latlong = getLatLong();
-
+      url = "https://www.google.com/maps/embed/v1/search?key=" + key + '&zoom=18&center=',
+      latlong = getLatLong();
+      
       // TODO: remove this when we have backend
       latlong = latlong || '-33.8569,151.2152';
-
+      
       if (latlong) {
         url += latlong;
         url += '&q=' + 'Fairmont+Empress,Victoria+BC',
-        console.log('hey!', url);
         $('.g-map').attr('src', url);
       }
       else {
@@ -367,9 +389,29 @@ WIU.event = (function () {
         window.location = window.location.href;
       })
     },
+    populateAutocomplete = function() {
+      var userNames = [];
+      $.ajax({
+        method: 'GET',
+        url: '../profile/'
+      }).done(function(users) {
+        for(var i = 0; i < users.length; i++) {
+          userNames.push(users[i].username);
+        }
+        $('#inviteUser').autocomplete({
+          minLength: 3,
+          delay: 50,
+          appendTo: '#inviteUserSearchContainer',
+          source: userNames
+        });
+      });
+    },
     init = function () {
       if ($('.event-page').length) {
         bindFacebookShare();
+        bindUpdateButton();
+        bindDeleteButton();
+        populateAutocomplete();
         //readyGoogleMap();
       }
     };
@@ -385,6 +427,7 @@ $(window).on('load', function() {
     WIU.event.readyMap();
   }
 });
+
 
 $(function () {
   WIU.event.init();
@@ -739,37 +782,33 @@ WIU.profile = (function() {
     });
   },
   confirmPassword = function(oldPW, newPW) {
+    if (typeof oldPW === 'undefined' || 
+        oldPW === null ||
+        oldPW.trim() === '' ||
+        typeof newPW === 'undefined' ||
+        newPW === null ||
+        newPW.trim() === '') return false;
     return (oldPW === newPW);
   },
   hasOldPassword = function(data) {
-    if (typeof data.newPW !== 'undefined' && data.newPW !== null && data.newPW.trim() !== '') {
-      if (typeof data.oldPW !== 'undefined' && data.oldPW.trim() !== '') {
+    if (typeof data.oldPW === 'undefined' ||
+        data.oldPW === null ||
+        data.oldPW.trim() === '') return false;
         return true;
-      }
-      else {
-        return false;
-      }
-    }
-    else {
-      return true;
-    }
   },
   verifyData = function(data) {
-    var allGood = true;
-
     // hide all existing error messages
     $('.error').addClass('hidden');
-
-    if (!confirmPassword(data.newPW, data.confirmPW)) {
-      $('.error-confirm').removeClass('hidden');
-      allGood = false;
-    }
-
     if (!hasOldPassword(data)) {
       $('.error-old-pw').removeClass('hidden'); 
-      allGood = false;
+      return false;
     }
-    return allGood;
+    if (!confirmPassword(data.newPW, data.confirmPW)) {
+      $('.error-confirm').removeClass('hidden');
+      return false;
+    }
+
+    return true;
   },
   getUserData = function() {
     var editDiv = '.edit-profile',
@@ -779,7 +818,9 @@ WIU.profile = (function() {
         confirmPW = $('.confirm-pw', editDiv).val();
 
     return {
+      userId: window.location.href.match(/\d*$/)[0],
       username  : username,
+      avatar: $('.avatar').attr('data-id'),
       oldPW     : oldPW,
       newPW     : newPW,
       confirmPW : confirmPW
@@ -792,11 +833,27 @@ WIU.profile = (function() {
       var data = getUserData();
 
       if (verifyData(data)) {
-        console.log('user data is good: ', data);
+        $.ajax({
+          method: 'PUT',
+          url: '/profile/updateuser',
+          data: data
+        }).done(function(res) {
+          WIU.animate.leavePage(window.location.href);
+        });
       }
       else {
         console.log('problem with your input!')
       }
+    });
+  },
+  bindDeleteBtn = function() {
+    $('.delete-btn').on('click', function(e) {
+      $.ajax({
+        method: 'DELETE',
+        url: '/profile/delete/' + window.location.href.match(/\d*$/)[0]
+      }).done(function(res) {
+        WIU.animate.leavePage('/');
+      });
     });
   },
   isEventTab = function(classes) {
@@ -849,6 +906,7 @@ WIU.profile = (function() {
       bindFindEvent();
       bindAvatarSelect();
       bindUpdateBtn();
+      bindDeleteBtn();
     }
   };
 
@@ -973,7 +1031,7 @@ WIU.signup = (function () {
         signInUser(newUser);
       })
       .fail(function(res, status, xhr) {
-        console.log('haha it failed!', res, status, xhr);
+        console.log('An Error has occurred ', res, status, xhr);
       })
     };
 

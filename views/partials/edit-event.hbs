@@ -1,3 +1,4 @@
+<h2 id="hostLabel" class="fun-font" data-id="{{user.id}}">Host:<span>{{user.username}}</span></h2>
 <h2 class="fun-font">Edit Event</h2>
 <div class="controls">
     <input class="event-name" placeholder="Event Name" value="{{name}}">
@@ -11,13 +12,18 @@
     <div class="category-section">
     {{#each categories}}
     <div class="category-item">
-      <input id="{{categoryname}}-cb" class="event-category" type="checkbox" value="{{id}}">
+        {{#if matched}}
+            <input id="{{categoryname}}-cb" class="event-category" type="checkbox" value="{{id}}" checked>
+        {{else}}
+            <input id="{{categoryname}}-cb" class="event-category" type="checkbox" value="{{id}}">
+        {{/if}}
       <label class="category-label" for="{{categoryname}}-cb">{{categoryname}}</label>
     </div>
     {{/each}}
     </div>
     <div class="invite-row">
-        <input type="text" placeholder="Invite Users">
+        <input id="inviteUser" type="text" placeholder="Invite Users">
+        <div id="inviteUserSearchContainer"></div>
     </div>
     <div class="button-row">
         <button type="button" class="btn btn-outline-primary update-btn">Update Event</button>
