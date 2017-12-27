@@ -91,7 +91,9 @@ router.get('/:id', function (req, res, next) {
                     }
                 })
                 .then(function(eventCategories) {
-                    eventObj.categories = categoryHandler.findMatchedCategories(allCategories, eventCategories);
+                    if (typeof eventCategories !== 'undefined' && eventCategories != null) {
+                        eventObj.categories = categoryHandler.findMatchedCategories(allCategories, eventCategories);    
+                    }
                     res.render('event', eventObj);
                 });
             });
