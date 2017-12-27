@@ -2,10 +2,11 @@
   <div class="home-link header-btn"><a class="gohome" href="/"><i class="fa fa-home" aria-hidden="true"></i><span class="link-label">Home</span></a></div>
   
   {{#if user}}
-    <ul>
-      <li>Hello! <a href="/profile/getUser/{{user.id}}">{{user.username}}</a></li>
-      <li><a href="#" class="logoutBtn">Log out</a></li>
-    </ul>
+    
+    <div class="header-btn"><a href="/profile/getUser/{{user.id}}"><i class="fa fa-user" aria-hidden="true"></i><span class="link-label">Profile</span></a></div>
+
+    <div class="header-btn"><a href="#" class="logoutBtn"><i class="fa fa-sign-out" aria-hidden="true"></i><span class="link-label">Logout</span></a></div>
+    
   {{else}}
     <div class="header-btn">
       <a class="sign-in" data-toggle="modal" data-target="#header-signin" href="#">
