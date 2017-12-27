@@ -30,7 +30,7 @@
   position: absolute;
   overflow: hidden;
   width: 350px;
-  border: 1px solid green;
+  border: 1px solid darkcyan;
   margin-top: -250px;
   margin-left: auto;
   margin-right: auto;
@@ -102,36 +102,33 @@
     background-image: url("../images/country-9.png"); }
 
 .site-header.nav {
+  position: relative;
+  top: 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 5px;
   margin-bottom: 5vh;
-  /*width: 650px;*/
   justify-content: center;
   width: 280px;
   max-width: 90%;
   margin: 0 auto; }
-  .site-header.nav .login-signup {
-    /*li + li:before{
-      content: ' | ';
-    }*/ }
-    .site-header.nav .login-signup li {
-      display: inline;
-      list-style-type: none; }
-  .site-header.nav div {
-    display: inline-block;
-    margin: 0 10px;
-    border: 1px solid green;
-    border-radius: 5px;
-    font-size: 30px;
-    padding: 0 10px; }
-    .site-header.nav div.login-signup {
-      border: 0px; }
   .site-header.nav .header-btn {
-    width: 55px;
+    display: inline-block;
+    padding: 0 10px;
+    margin: 0;
+    width: 30%;
     text-align: center;
-    opacity: 0.5; }
+    opacity: 0.5;
+    cursor: pointer; }
+    .site-header.nav .header-btn .fa {
+      color: mediumpurple;
+      font-size: 25px; }
+    .site-header.nav .header-btn .link-label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 10px;
+      line-height: 0.7; }
 
 #header-signin .modal-title {
   margin-left: 10%; }

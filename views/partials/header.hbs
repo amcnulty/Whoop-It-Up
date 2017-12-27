@@ -1,6 +1,6 @@
 <div class="row site-header nav">
-  <div class="home-link header-btn"><a class="gohome" href="/"><i class="fa fa-home" aria-hidden="true"></i><span class="sr-only">Home</span></a></div>
-  <div class="login-signup">
+  <div class="home-link header-btn"><a class="gohome" href="/"><i class="fa fa-home" aria-hidden="true"></i><span class="link-label">Home</span></a></div>
+  
   {{#if user}}
     <ul>
       <li>Hello! <a href="/profile/getUser/{{user.id}}">{{user.username}}</a></li>
@@ -9,15 +9,15 @@
   {{else}}
     <div class="header-btn">
       <a class="sign-in" data-toggle="modal" data-target="#header-signin" href="#">
-        <i class="fa fa-sign-in" aria-hidden="true"></i><span class="sr-only">Sign in</span>
+        <i class="fa fa-sign-in" aria-hidden="true"></i><span class="link-label">Signin</span>
       </a>
     </div>
     <div class="header-btn">
       <a class="sign-up" href="/signup">
-        <i class="fa fa-user-plus" aria-hidden="true"></i><span class="sr-only">Sign up</span></a>
+        <i class="fa fa-user-plus" aria-hidden="true"></i><span class="link-label">Signup</span></a>
     </div>
   {{/if}}
-  </div>
+  
 </div>
 
 <div id="header-signin" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
