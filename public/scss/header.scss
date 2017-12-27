@@ -1,23 +1,41 @@
 .site-header.nav {
+  position: relative;
+  top: 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 5px;
   margin-bottom: 5vh;
 
-  width: 650px;
+  justify-content: center;
+  width: 280px;
   max-width: 90%;
   margin: 0 auto;
 
-  .login-signup {
-    li {
-      display: inline;
-      list-style-type: none;
+
+  .header-btn {
+    display: inline-block;
+    padding: 0 10px;
+    margin: 0;
+    width: 30%;
+    text-align: center;
+    opacity: 0.5;
+    cursor: pointer;
+
+    .fa {
+      color: mediumpurple;
+      font-size: 25px;
     }
-    li + li:before{
-      content: ' | ';
+
+    .link-label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 10px;
+      line-height: 0.7;
     }
-  }  
+  }
+
+  
 }
 
 #header-signin {
