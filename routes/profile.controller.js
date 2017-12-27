@@ -39,6 +39,10 @@ router.get('/getuser/:id', function(req, res) {
         include: [db.Event]
       })
       .then(function(events) {
+        for (var i =0; i < events.length; i++) {
+            var mmdd = events[i].Event.date.split('/')
+            events[i].Event.date = mmdd[0] + '/' + mmdd[1];
+        }        
         var categorizedEvents = profileEvents.categorize(events, dbGet.id),
             canEdit = false;
 
@@ -228,6 +232,10 @@ router.get('/:id/events', function(req, res, next) {
     include: [db.Event]
   })
     .then(function(events) {
+      for (var i =0; i < events.length; i++) {
+          var mmdd = events[i].Event.date.split('/')
+          events[i].Event.date = mmdd[0] + '/' + mmdd[1];
+      }        
       res.status(200).json(events).end();
   })
   .catch(function(err) {

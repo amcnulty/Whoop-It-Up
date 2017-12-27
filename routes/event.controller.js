@@ -101,6 +101,10 @@ router.get('/:id', function (req, res, next) {
 /** Get all of the events in the database */
 router.get('/', function (req, res, next) {
     db.Event.findAll({}).then(function (events) {
+        for (var i =0; i < events.length; i++) {
+            var mmdd = events[i].date.split('/')
+            events[i].date = mmdd[0] + '/' + mmdd[1];
+            }
         res.status(200).json(events);
     });
 });
@@ -113,6 +117,10 @@ router.get('/bycategory/:categoryId', function (req, res, next) {
             CategoryId: req.params.categoryId
         }
     }).then(function (events) {
+        for (var i =0; i < events.length; i++) {
+            var mmdd = events[i].Event.date.split('/')
+            events[i].Event.date = mmdd[0] + '/' + mmdd[1];
+        }        
         eventHandler.prepareForView(events, function(preparedEvents) {
             res.render('events', {
                 user: req.session.user,
