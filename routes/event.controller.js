@@ -94,6 +94,7 @@ router.get('/:id', function (req, res, next) {
                     if (typeof eventCategories !== 'undefined' && eventCategories != null) {
                         eventObj.categories = categoryHandler.findMatchedCategories(allCategories, eventCategories);    
                     }
+                    console.log('heyhey', eventObj);
                     res.render('event', eventObj);
                 });
             });

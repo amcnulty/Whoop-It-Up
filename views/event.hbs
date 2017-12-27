@@ -8,15 +8,32 @@
         {{#if isHost}}
             {{> edit_event}}
         {{else}}
-            <h2 class="event-name fun-font">{{name}}</h2>
-            <div class="event-date">{{date}}</div>
+            <h1 class="event-name fun-font">{{name}}</h1>
+            <div class="section event-date">
+            <h4 class="section-title fun-font">When</h4>
+                <div class="datetime">{{date}} {{time}}</div>
+            </div>
+            <div class="section location">
+                <h4 class="section-title fun-font">Where</h4>
+                <p class="address">{{location}}</p>
+
+                <div class="map">
+                    {{#if placeID}}
+                        <iframe class="g-map" frameborder="0" src=""></iframe>
+                    {{else}}
+                        <div class="no-map"></div>
+                    {{/if}}
+                </div>
+            </div>
+            
+            <div class="section event-desc">
+                <h4 class="section-title fun-font">Desc.</h4>
+                <div class="desc">{{description}}</div>
+            </div>
+
             <div class="cta">
-                <button type="button" class="btn rsvp-btn btn-outline-primary">RSVP</button>
+                <button type="button" class="btn rsvp-btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> RSVP</button>
             </div>
-            <div class="map">
-                <iframe class="g-map" frameborder="0" src=""></iframe>
-            </div>
-            <div class="event-desc">{{description}}</div>
             <div class="share-facebook">
                 <a href="#" target="_blank" class="btn btn-outline-primary fb-btn"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</a>
             </div>

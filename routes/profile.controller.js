@@ -148,12 +148,36 @@ router.put('/updateuser', function(req, res, next) {
       Id: req.body.userId
     }
   })
-    .then(function(user) {
+  .then(function(user) {
+    var oldPw = req.body.oldPW;
+
+    // NOT updating password
+    if (typeof oldPw === 'undefined' || oldPw == null) {
+      db.User.update({
+        avatar: req.body.avatar,
+        username: req.body.username,
+      },
+      {
+        where: {
+          Id: req.body.userId
+        }
+      })
+      .then(function(results) {
+          res.status(200).end();
+        })
+      .catch(function(err) {
+        if (err) console.log(err);
+        res.status(500).end();
+      });
+    }
+    // updating password
+    else {
       passwordHandler.comparePassword(req.body.oldPW, user.password, function(isMatch) {
         if (isMatch) {
           passwordHandler.hashPassword(req.body.newPW, function(hashedPassword) {
             db.User.update({
               avatar: req.body.avatar,
+              username: req.body.username,
               password: hashedPassword
             },
             {
@@ -161,20 +185,22 @@ router.put('/updateuser', function(req, res, next) {
                 Id: req.body.userId
               }
             })
-              .then(function(results) {
-                res.status(200).end();
-              })
-              .catch(function(err) {
-                if (err) console.log(err);
-                res.status(500).end();
-              });
+            .then(function(results) {
+              res.status(200).end();
+            })
+            .catch(function(err) {
+              if (err) console.log(err);
+              res.status(500).end();
+            });
           });
         }
         else {
           return res.status(401).end();
         }
       });
-    });
+    }
+    
+  });
 });
 /** Get all categories in the database. */
 router.get('/allcategory', function(req, res, next) {

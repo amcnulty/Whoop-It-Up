@@ -781,6 +781,11 @@ WIU.profile = (function() {
       }
     });
   },
+  hasNewPassword = function(data) {
+    return !(typeof data.newPW === 'undefined' ||
+              data.newPW === null ||
+              data.newPW.trim() === '');
+  },
   confirmPassword = function(oldPW, newPW) {
     if (typeof oldPW === 'undefined' || 
         oldPW === null ||
@@ -799,14 +804,23 @@ WIU.profile = (function() {
   verifyData = function(data) {
     // hide all existing error messages
     $('.error').addClass('hidden');
-    if (!hasOldPassword(data)) {
-      $('.error-old-pw').removeClass('hidden'); 
-      return false;
+
+    // if user is trying to update his/her pw
+    if (hasOldPassword(data)) {
+      if (!hasNewPassword(data)) {
+        $('.error-new-pw').removeClass('hidden');
+        return false;
+      }
+      else if (!confirmPassword(data.newPW, data.confirmPW)) {
+        $('.error-confirm').removeClass('hidden');
+        return false;
+      }
     }
-    if (!confirmPassword(data.newPW, data.confirmPW)) {
-      $('.error-confirm').removeClass('hidden');
-      return false;
-    }
+
+    // if (!hasOldPassword(data)) {
+    //   $('.error-old-pw').removeClass('hidden'); 
+    //   return false;
+    // }
 
     return true;
   },
@@ -818,13 +832,27 @@ WIU.profile = (function() {
         confirmPW = $('.confirm-pw', editDiv).val();
 
     return {
-      userId: window.location.href.match(/\d*$/)[0],
+      userId: parseInt(window.location.href.match(/\d*$/)[0]),
       username  : username,
       avatar: $('.avatar').attr('data-id'),
       oldPW     : oldPW,
       newPW     : newPW,
       confirmPW : confirmPW
     };
+  },
+  modifyData = function(data) {
+    if (!hasOldPassword(data) || !hasNewPassword(data)) {
+      console.log('no need for pw data');
+      return {
+        userId : data.userId,
+        username : data.username,
+        avatar : data.avatar
+      }
+    }
+    else {
+      console.log('need pw data');
+      return data;
+    }
   },
   bindUpdateBtn = function() {
     var $updateBtn = $('.update-btn');
@@ -833,6 +861,8 @@ WIU.profile = (function() {
       var data = getUserData();
 
       if (verifyData(data)) {
+        data = modifyData(data);
+        console.log('hey!!!!', data);
         $.ajax({
           method: 'PUT',
           url: '/profile/updateuser',
