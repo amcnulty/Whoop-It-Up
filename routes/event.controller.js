@@ -22,27 +22,27 @@ router.post('/createevent', function (req, res, next) {
         time: req.body.time,
         location: req.body.location
     })
-        .then(function (savedEvent) {
-            db.UserEvent.create({
-                EventId: savedEvent.dataValues.id,
-                UserId: req.body.hostId
-            })
-                .then(function (result) {
-                    const eventId = savedEvent.dataValues.id;
-                    const categoryIds = JSON.parse(req.body.categories);
-                    const promises = categoryIds.map(function (categoryId) {
-                        return db.EventCategory.create({
-                            EventId: eventId,
-                            CategoryId: categoryId
-                        });
-                    });
-                    Promise
-                        .all(promises)
-                        .then(function () {
-                            res.status(200).json(savedEvent);
-                        });
-                })
+    .then(function (savedEvent) {
+        db.UserEvent.create({
+            EventId: savedEvent.dataValues.id,
+            UserId: req.body.hostId
+        })
+        .then(function (result) {
+            const eventId = savedEvent.dataValues.id;
+            const categoryIds = JSON.parse(req.body.categories);
+            const promises = categoryIds.map(function (categoryId) {
+                return db.EventCategory.create({
+                    EventId: eventId,
+                    CategoryId: categoryId
+                });
+            });
+            Promise
+                .all(promises)
+                .then(function () {
+                    res.status(200).json(savedEvent);
+                });
         });
+    });
 });
 /** Get a single event by it's ID */
 router.get('/:id', function (req, res, next) {

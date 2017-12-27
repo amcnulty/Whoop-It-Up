@@ -267,10 +267,7 @@
   /*margin-top: -320px;*/ }
   .create-events-page .wrapper .controls {
     width: 320px;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; }
+    max-width: 100%; }
     .create-events-page .wrapper .controls input {
       display: block;
       margin: 0 0 10px 0;
