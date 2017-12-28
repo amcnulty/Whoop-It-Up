@@ -12,6 +12,17 @@ var eventHandler = require('../logic/eventHandler');
 var categoryHandler = require('../logic/categoryHandler');
 /** Create a new event */
 router.post('/createevent', function (req, res, next) {
+    var placeId = '';
+    var latLng = '';
+    var formattedAddr = '';
+
+    if (typeof (req.body.placeId) !== 'undefined' && req.body.placeId != null && 
+        typeof (req.body.latLng) !== 'undefined' && req.body.latLng != null && 
+        typeof (req.body.formattedAddr) !== 'undefined' && req.body.formattedAddr != null) {
+        placeId = req.body.placeId;
+        latLng = req.body.latLng;
+        formattedAddr = req.body.formattedAddr;
+    }
     db.Event.create({
         name: req.body.name,
         description: req.body.description,
@@ -20,7 +31,10 @@ router.post('/createevent', function (req, res, next) {
         isPrivate: req.body.isPrivate,
         date: req.body.date,
         time: req.body.time,
-        location: req.body.location
+        location: req.body.location,
+        placeId: placeId,
+        latLng: latLng,
+        formattedAddr: formattedAddr
     })
     .then(function (savedEvent) {
         db.UserEvent.create({
@@ -59,21 +73,24 @@ router.get('/:id', function (req, res, next) {
             res.render('error', { message: 'Invalid Event ID' });
         }
         else {
-            var mmdd = myEvent.date.split('/')
+            var mmdd = myEvent.date.split('/');
             myEvent.date = mmdd[0] + '/' + mmdd[1];
-            var isHost = false,
+            var isHost = false;
+            var isInvited = false; 
                 eventObj = {
                     isHost: isHost,
-                    isInvited : false,
+                    isInvited : isInvited,
                     user: req.session.user,
                     id: myEvent.id,
                     name: myEvent.name,
                     date: myEvent.date,
                     time: myEvent.time,
                     isPrivate: myEvent.isPrivate,
-                    placeID: '',
                     location: myEvent.location,
-                    description: myEvent.description
+                    description: myEvent.description,
+                    placeId: myEvent.placeId,
+                    latLng: myEvent.latLng,
+                    formattedAddr: myEvent.formattedAddr
                 };
 
             if (typeof (req.session) !== 'undefined' &&
@@ -81,9 +98,20 @@ router.get('/:id', function (req, res, next) {
                 typeof (req.session.user.id) !== 'undefined') {
                 isHost = req.session.user.id == myEvent.hostId ? true : false;
                 eventObj.isHost = isHost;
-
-                // check is the current user (req.session.user.id) is invited to this
-                // current event (myEvent.id), if so, set eventObj.isInvited = true
+//***************************
+            // check is the current user (req.session.user.id) is invited to this
+            // current event (myEvent.id), if so, set eventObj.isInvited = true
+                db.UserEvent.findOne({
+                    where: {
+                        EventId: myEvent.id,
+                        UserId: req.session.user.id
+                    }
+                })
+                .then(function (checkEvent) {
+                    isInvited = checkEvent.status !== ' ' ? true : false;
+                    eventObj.isInvited = isInvited;
+                })
+//***************************
             }
             db.Category.findAll({})
             .then(function(allCategories) {
