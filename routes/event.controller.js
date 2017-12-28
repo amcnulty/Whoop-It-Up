@@ -64,6 +64,7 @@ router.get('/:id', function (req, res, next) {
             var isHost = false,
                 eventObj = {
                     isHost: isHost,
+                    isInvited : false,
                     user: req.session.user,
                     id: myEvent.id,
                     name: myEvent.name,
@@ -80,6 +81,9 @@ router.get('/:id', function (req, res, next) {
                 typeof (req.session.user.id) !== 'undefined') {
                 isHost = req.session.user.id == myEvent.hostId ? true : false;
                 eventObj.isHost = isHost;
+
+                // check is the current user (req.session.user.id) is invited to this
+                // current event (myEvent.id), if so, set eventObj.isInvited = true
             }
             db.Category.findAll({})
             .then(function(allCategories) {
@@ -209,9 +213,9 @@ router.get('/invites/:eventId', function (req, res, next) {
             EventId: req.params.eventId
         }
     })
-        .then(function (invitedUsers) {
-            res.status(200).json(invitedUsers).end();
-        });
+    .then(function (invitedUsers) {
+        res.status(200).json(invitedUsers).end();
+    });
 });
 /** Delete an event from the database */
 router.delete('/delete/:eventId', function (req, res, next) {
