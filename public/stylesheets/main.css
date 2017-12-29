@@ -184,7 +184,7 @@
     display: block;
     margin: 10px 0; }
   .find-events-page .wrapper .controls .advance-filters {
-    margin: 20px 0; }
+    margin: 20px 0 20px 80px; }
     .find-events-page .wrapper .controls .advance-filters.hide {
       display: none; }
     .find-events-page .wrapper .controls .advance-filters .category-section {
