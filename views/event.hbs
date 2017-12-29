@@ -7,8 +7,42 @@
         <input type="hidden" class="formatted-addy" value="{{formattedAddy}}">
 
         {{#if isPrivate}}
-            {{#if isHost}}
-                {{> edit_event}}
+            {{#if isInvited}}
+                {{#if isHost}}
+                    {{> edit_event}}
+                {{else}}
+                    <h1 class="event-name fun-font">{{name}}</h1>
+                    <div class="section event-date">
+                    <h4 class="section-title fun-font">When</h4>
+                        <div class="datetime">{{date}} {{time}}</div>
+                    </div>
+                    <div class="section location">
+                        <h4 class="section-title fun-font">Where</h4>
+                        <p class="address">{{location}}</p>
+
+                        <div class="map">
+                            {{#if placeId}}
+                                <!-- <iframe class="g-map" frameborder="0" src=""></iframe> -->
+                                <img class="map-image" src="" alt="map for {{location}}">
+                            {{else}}
+                                <div class="no-map"></div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    
+                    <div class="section event-desc">
+                        <h4 class="section-title fun-font">Desc.</h4>
+                        <div class="desc">{{description}}</div>
+                    </div>
+                    {{#if user}}
+                        <div class="cta">
+                            <button type="button" class="btn rsvp-btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> RSVP</button>
+                        </div>
+                    {{/if}}
+                    <div class="share-facebook">
+                        <a href="#" target="_blank" class="btn btn-outline-primary fb-btn"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</a>
+                    </div>
+                {{/if}}
             {{else}}
                 <h1 class="event-name fun-font">Private Event</h1>
                 <div class="map">
@@ -33,8 +67,9 @@
                     <p class="address">{{location}}</p>
 
                     <div class="map">
-                        {{#if placeID}}
-                            <iframe class="g-map" frameborder="0" src=""></iframe>
+                        {{#if placeId}}
+                            <!-- <iframe class="g-map" frameborder="0" src=""></iframe> -->
+                            <img class="map-image" src="" alt="map for {{location}}">
                         {{else}}
                             <div class="no-map"></div>
                         {{/if}}

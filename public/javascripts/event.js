@@ -41,6 +41,19 @@ WIU.event = (function () {
       return $('.place-id').val();
     }, 
     
+    readyStaticMap = function() {
+      var key = 'AIzaSyAxQrQpPeVTP0SFDubCMCNtDaRqOjM-fxk',
+          latlong = getLatLong(),
+          url = '',
+          $map = $('.map-image', '.map');
+
+      latlong = latlong || '-33.8569,151.2152';
+      url = "https://maps.googleapis.com/maps/api/staticmap?markers=" + latlong + "&center=" + latlong + "&zoom=12&size=350x200&key=" + key;
+
+      if ($map.length) {
+        $map.attr('src', url);
+      }
+    },
     // TODO: q=place_id:......
     readyGoogleMap = function() {
       var key = 'AIzaSyCmiSi2gWmkkVWPwz-lk8N1Htd4Q50-Qz4',
@@ -92,6 +105,7 @@ WIU.event = (function () {
         bindUpdateButton();
         bindDeleteButton();
         populateAutocomplete();
+        readyStaticMap();
         //readyGoogleMap();
       }
     };

@@ -176,6 +176,8 @@ WIU.createEvent = (function() {
       var eventObj = getData();
 
       if (verifyData(eventObj)) {
+        console.log('new event', eventObj);
+        
         $.ajax({
           method: 'POST',
           url: './event/createevent',

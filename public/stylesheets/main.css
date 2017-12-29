@@ -420,7 +420,8 @@
   margin: 20px 0;
   height: 200px;
   width: 350px;
-  max-width: 100%; }
+  max-width: 100%;
+  overflow: hidden; }
   .event-page .wrapper .map .no-map {
     background-image: url("../images/map.png");
     background-repeat: no-repeat;
