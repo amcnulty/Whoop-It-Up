@@ -31,7 +31,8 @@
   overflow: hidden;
   width: 350px;
   border: 1px solid darkcyan;
-  margin-top: -230px;
+  /*margin-top: -230px;*/
+  top: 17vh;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 25px;
@@ -103,7 +104,7 @@
 
 .site-header.nav {
   position: relative;
-  top: 70px;
+  top: 10vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
