@@ -144,6 +144,8 @@ router.get('/', function (req, res, next) {
     });
 });
 /** Get all of the events with a single category */
+// req.query.cid is a string in the format of '1+2+3...'
+// req.query.cid can also be ''
 router.get('/bycategory/:categoryId', function (req, res, next) {
     db.EventCategory.findAll({
         attributes: [],

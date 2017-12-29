@@ -553,7 +553,9 @@ WIU.findEvents = (function() {
 
     $findBtn.on('click', function () {
       var checkedCategories = getEventCategory();
-      window.location = './event/bycategory/' + checkedCategories[0];
+
+      // console.log('hey', checkedCategories.join('+'));
+      window.location = './event/bycategory/?cid=' + checkedCategories.join('+');
     });
   },
 
