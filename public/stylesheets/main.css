@@ -123,7 +123,7 @@
     opacity: 0.7;
     cursor: pointer; }
     .site-header.nav .header-btn .fa {
-      color: lightcoral;
+      color: slategrey;
       font-size: 30px; }
       .site-header.nav .header-btn .fa:hover {
         color: coral; }
@@ -407,6 +407,10 @@
     .profile-page .event-section .invite-row .fa-times.active,
     .profile-page .event-section .host-row .fa-times.active {
       color: red; }
+  .profile-page .yours-section .create-btn, .profile-page .yours-section .find-btn,
+  .profile-page .event-section .create-btn,
+  .profile-page .event-section .find-btn {
+    margin-top: 10px; }
 
 .event-page .wrapper .section {
   width: 100%;
