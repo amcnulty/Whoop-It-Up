@@ -583,6 +583,7 @@ WIU.header = (function () {
       if ($('.site-header.nav').length) {
         bindLogOut();
         bindSignin();
+        bindHoverAnimation();
       }
     },
     processLogin = function() {
@@ -688,7 +689,17 @@ WIU.header = (function () {
           console.log('An error occured', res);
         });
       });
-    }
+    },
+    bindHoverAnimation = function() {
+      var $headerBtns = $('.header-btn');
+
+      $headerBtns.hover(function() {
+        WIU.animate.apply($(this), 'tada');
+      }, 
+      function() {
+
+      });
+    },
     // putting the existing user into an object
     existingUser = function () {
       var user = {
