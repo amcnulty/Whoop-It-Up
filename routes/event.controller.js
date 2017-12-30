@@ -12,17 +12,20 @@ var eventHandler = require('../logic/eventHandler');
 var categoryHandler = require('../logic/categoryHandler');
 /** Create a new event */
 router.post('/createevent', function (req, res, next) {
-    var placeId = '';
-    var latLng = '';
-    var formattedAddr = '';
+    console.log(req.body);
 
-    if (typeof (req.body.placeId) !== 'undefined' && req.body.placeId != null && 
-        typeof (req.body.latLng) !== 'undefined' && req.body.latLng != null && 
-        typeof (req.body.formattedAddr) !== 'undefined' && req.body.formattedAddr != null) {
-        placeId = req.body.placeId;
-        latLng = req.body.latLng;
-        formattedAddr = req.body.formattedAddr;
+    var placeId = req.body['geoData[placeID]'];
+    var latLng = req.body['geoData[latlng]'];
+    var formattedAddr = req.body['geoData[formatted]'];
+
+    if (typeof (placeId) === 'undefined' || placeId == null || 
+        typeof (latLng) === 'undefined' || latLng == null || 
+        typeof (formattedAddr) === 'undefined' || formattedAddr == null) {
+        placeId = '';
+        latLng = '';
+        formattedAddr = '';
     }
+    
     db.Event.create({
         name: req.body.name,
         description: req.body.description,
@@ -98,7 +101,6 @@ router.get('/:id', function (req, res, next) {
                 typeof (req.session.user.id) !== 'undefined') {
                 isHost = req.session.user.id == myEvent.hostId ? true : false;
                 eventObj.isHost = isHost;
-//***************************
             // check is the current user (req.session.user.id) is invited to this
             // current event (myEvent.id), if so, set eventObj.isInvited = true
                 db.UserEvent.findOne({
@@ -111,7 +113,6 @@ router.get('/:id', function (req, res, next) {
                     isInvited = checkEvent.status !== ' ' ? true : false;
                     eventObj.isInvited = isInvited;
                 })
-//***************************
             }
             db.Category.findAll({})
             .then(function(allCategories) {
