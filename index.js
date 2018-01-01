@@ -30,6 +30,27 @@ app.use(favicon(path.join(__dirname, 'public/images', 'favicon.png')))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 var hbs = require('hbs');
+hbs.registerHelper('isGoing', function(block) {
+  if(this.status == "G") {
+    return block.fn(this);
+  } else {
+    return block.inverse(this);
+  }
+});
+hbs.registerHelper('isDecline', function(block) {
+  if(this.status == "D") {
+    return block.fn(this);
+  } else {
+    return block.inverse(this);
+  }
+});
+hbs.registerHelper('isNewInvite', function(block) {
+  if(this.status == "I") {
+    return block.fn(this);
+  } else {
+    return block.inverse(this);
+  }
+});
 hbs.registerPartials(__dirname + '/views/partials');
 // Middleware registrations
 app.use(bodyParser.json());

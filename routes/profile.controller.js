@@ -49,6 +49,7 @@ router.get('/getuser/:id', function(req, res) {
         if (req.session.user && dbGet.id === req.session.user.id) {
           canEdit = true;
         }
+        console.log('render', categorizedEvents.invited);
         res.render('profile', {
           user      : req.session.user,
           canEdit   : canEdit,
