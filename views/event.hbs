@@ -2,9 +2,13 @@
     {{> header }}
     <div class="region top-region"></div>
     <div class="wrapper">
-        <input type="hidden" class="latlong" value={{latlng}}>
-        <input type="hidden" class="place-id" value={{placeID}}>
-        <input type="hidden" class="formatted-addy" value="{{formattedAddy}}">
+        <input type="hidden" class="latlong" value={{latLng}}>
+        <input type="hidden" class="place-id" value={{placeId}}>
+        <input type="hidden" class="formatted-addy" value="{{formattedAddr}}">
+
+        <input type="hidden" class="latlong-new" value={{latLng}}>
+        <input type="hidden" class="place-id-new" value={{placeId}}>
+        <input type="hidden" class="formatted-addy-new" value="{{formattedAddr}}">
 
         {{#if isPrivate}}
             {{#if isInvited}}
