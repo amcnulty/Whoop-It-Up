@@ -42,7 +42,8 @@ router.post('/createevent', function (req, res, next) {
     .then(function (savedEvent) {
         db.UserEvent.create({
             EventId: savedEvent.dataValues.id,
-            UserId: req.body.hostId
+            UserId: req.body.hostId,
+            status: 'G'
         })
         .then(function (result) {
             const eventId = savedEvent.dataValues.id;
