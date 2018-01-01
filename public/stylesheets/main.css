@@ -407,6 +407,11 @@
     .profile-page .event-section .invite-row .fa-times.active,
     .profile-page .event-section .host-row .fa-times.active {
       color: red; }
+    .profile-page .yours-section .event-row .fa-exclamation.active, .profile-page .yours-section .invite-row .fa-exclamation.active, .profile-page .yours-section .host-row .fa-exclamation.active,
+    .profile-page .event-section .event-row .fa-exclamation.active,
+    .profile-page .event-section .invite-row .fa-exclamation.active,
+    .profile-page .event-section .host-row .fa-exclamation.active {
+      color: orange; }
   .profile-page .yours-section .create-btn, .profile-page .yours-section .find-btn,
   .profile-page .event-section .create-btn,
   .profile-page .event-section .find-btn {

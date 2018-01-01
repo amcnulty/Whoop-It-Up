@@ -120,6 +120,11 @@
           color: red;
         }
       }
+      .fa-exclamation {
+        &.active {
+          color: orange;
+        }
+      }
     }
     .create-btn, .find-btn {
       margin-top: 10px;

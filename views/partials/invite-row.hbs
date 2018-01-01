@@ -5,8 +5,9 @@
     </div>
     <div class="col-2 event-date">{{this.Event.date}}</div>
     <div class="col-3 event-control">
-      <i class="fa fa-check {{#if this.status}}active{{/if}}" aria-hidden="true"></i>
-      <i class="fa fa-times {{#unless this.status}}active{{/unless}}" aria-hidden="true"></i>
+      <a href="#" class="goBtn" data-id="{{this.Event.id}}"><i class="fa fa-check {{#isGoing}}active{{/isGoing}}" aria-hidden="true"></i></a>
+      <a href="#" class="declineBtn" data-id="{{this.Event.id}}"><i class="fa fa-times {{#isDecline}}active{{/isDecline}}" aria-hidden="true"></i></a>
+      <i class="fa fa-exclamation new-invite {{#isNewInvite}}active{{/isNewInvite}}" aria-hidden="true"></i>
     </div>
   </div>
 {{else}}

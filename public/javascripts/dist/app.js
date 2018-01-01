@@ -944,6 +944,63 @@ WIU.profile = (function() {
       // on success, redirect them back to the landing page
     });
   },
+  setInviteStatus = function ($inviteDiv, status) {
+    if (status == 'G') {
+      $inviteDiv.find('.fa-exclamation').removeClass('active');
+      $inviteDiv.find('.fa-times').removeClass('active');
+      $inviteDiv.find('.fa-check').addClass('active');
+    }
+    else if (status == 'D') {
+      $inviteDiv.find('.fa-exclamation').removeClass('active');
+      $inviteDiv.find('.fa-times').addClass('active');
+      $inviteDiv.find('.fa-check').removeClass('active');
+    }
+  },
+  updateInvite = function(obj) {
+    $.ajax({
+      method: 'PUT',
+      url: '/event/updatestatus',
+      data: {
+        status: obj.status,
+        eventId: obj.eventId,
+        userId: obj.userId,
+      }
+    }).done(function(res) {
+      console.log('update successful');
+      
+      setInviteStatus($('.invite-row.event-' + obj.eventId, '#events'), obj.status);
+    });
+  },
+  bindGoBtn = function() {
+    var $goBtn = $('.goBtn');
+
+    $goBtn.on('click', function(e) {
+      e.preventDefault();
+      var eventId = $(this).attr('data-id'),
+          dataObj = {
+            status  : 'G',
+            eventId : parseInt(eventId),
+            userId  : parseInt(window.location.href.match(/\d*$/)[0])
+          };
+
+      updateInvite(dataObj);
+    });
+  },
+  bindDeclineBtn = function() {
+    var $declineBtn = $('.declineBtn');
+
+    $declineBtn.on('click', function(e) {
+      e.preventDefault();
+      var eventId = $(this).attr('data-id'),
+          dataObj = {
+            status  : 'D',
+            eventId : parseInt(eventId),
+            userId  : parseInt(window.location.href.match(/\d*$/)[0])
+          };
+
+      updateInvite(dataObj);
+    });
+  },
   bindAddEvent = function() {
     var $addEventBtn = $('.create-btn', '.yours-section');
 
@@ -967,6 +1024,8 @@ WIU.profile = (function() {
       bindAvatarSelect();
       bindUpdateBtn();
       bindDeleteBtn();
+      bindGoBtn();
+      bindDeclineBtn();
     }
   };
 
