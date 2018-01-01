@@ -464,6 +464,8 @@
     .event-page .wrapper .controls .category-section .category-label {
       font-size: 12px;
       margin-left: 3px; }
+.event-page .wrapper .cta {
+  text-align: center; }
 .event-page .wrapper input {
   display: block;
   margin: 0 0 10px 0;

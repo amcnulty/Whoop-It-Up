@@ -267,10 +267,10 @@ router.post('/userisinvited', function (req, res, next) {
             EventId: req.body.eventId
         }
     })
-        .then(function (userEvent) {
-            if (!userEvent) res.send(false).end;
-            else res.send(true).end();
-        });
+    .then(function (userEvent) {
+        if (!userEvent) res.send(false).end();
+        else res.send(true).end();
+    });
 });
 
 module.exports = router;

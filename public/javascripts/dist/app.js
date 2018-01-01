@@ -334,6 +334,7 @@ WIU.event = (function () {
     verifyData = function(obj) {
       return !(typeof(obj.name) === 'undefined' || obj.name === null || obj.name.trim() === '');
     },
+    isInvited = false,
     bindUpdateButton = function() {
       $('.update-btn', '.button-row').on('click', function(e) {
         var eventObj = getData();
@@ -374,11 +375,8 @@ WIU.event = (function () {
       });
     },
     getLatLong = function() {
-      return $('.lat-long').val();
+      return $('.latlong').val();
     },
-    getPlaceID = function() {
-      return $('.place-id').val();
-    }, 
     readyStaticMap = function() {
       var key = 'AIzaSyAxQrQpPeVTP0SFDubCMCNtDaRqOjM-fxk',
           latlong = getLatLong(),
@@ -562,15 +560,139 @@ WIU.event = (function () {
         }
       });
     },
+    updateCTA = function(status) {
+      if (status === 'G') { // show cancel RSVP btn
+        $('.rsvp-btn', '.cta').addClass('hidden');
+        $('.cancel-rsvp-btn', '.cta').removeClass('hidden');
+      }
+      else { // show RSVP btn
+        $('.rsvp-btn', '.cta').removeClass('hidden');
+        $('.cancel-rsvp-btn', '.cta').addClass('hidden');
+      }
+    },
+    initCTA = function() {
+      if (isInvited) {
+        updateCTA('G');
+      }
+      else {
+        updateCTA();
+      }
+    },
+    updateInvite = function(obj) {
+      $.ajax({
+        method: 'PUT',
+        url: '/event/updatestatus',
+        data: {
+          status: obj.status,
+          eventId: obj.eventId,
+          userId: obj.userId,
+        }
+      }).done(function(res) {
+        console.log('update successful');
+        updateCTA(obj.status);
+      });
+    },
+    cancelInvite = function(obj) {
+      $.ajax({
+        method: 'PUT',
+        url: '/event/uninvite',
+        data: {
+          eventId: obj.eventId,
+          userId: obj.userId,
+        }
+      }).done(function(res) {
+        console.log('update successful');
+        updateCTA(obj.status);
+      });
+    },
+    userIsInvited = function(callback) {
+
+      var userID = parseInt($('.user-id', '.event-page').val());
+
+      console.log('invited check data', {UserId: userID,
+          EventId: window.location.href.match(/\d*$/)[0]});
+
+      $.ajax({
+        method: 'POST',
+        url: '/event/userisinvited',
+        data: {
+          userId: userID,
+          eventId: window.location.href.match(/\d*$/)[0]
+        }
+      })
+      .done(function(res) {
+        if (res == true) {
+          console.log('user is invited!!');
+          isInvited = true;
+        }
+        else {
+          console.log('user is NOT invited!!');
+          isInvited = false;
+        }
+
+        if (typeof callback === 'function') {
+          callback();
+        }
+      });
+    },
+    bindRSVPBtn = function () {
+      var $rsvpBtn = $('.rsvp-btn', '.event-page');
+
+      $rsvpBtn.on('click', function() {
+        var userID = parseInt($(this).attr('data-uid'));
+
+        if (isInvited) {
+          updateInvite({
+            status  : 'G',
+            eventId : window.location.href.match(/\d*$/)[0],
+            userId  : userID,
+          });
+        }
+        else {
+          $.ajax({
+            method: 'POST',
+            url: '/event/addinvite',
+            data: {
+              username: $('.username').val(),
+              eventId: window.location.href.match(/\d*$/)[0]
+            }
+          })
+          .done(function(res) {
+            updateInvite({
+              status  : 'G',
+              eventId : window.location.href.match(/\d*$/)[0],
+              userId  : userID,
+            });
+          });
+        }
+      });
+    },
+    bindCancelRSVPBtn = function() {
+      var $cancelBtn = $('.cancel-rsvp-btn', '.event-page');
+
+      $cancelBtn.on('click', function() {
+        var userID = parseInt($(this).attr('data-uid'));
+
+        cancelInvite({
+          status  : 'U',
+          eventId : window.location.href.match(/\d*$/)[0],
+          userId  : userID,
+        });
+      });
+    },
     init = function () {
       if ($('.event-page').length) {
-        bindFacebookShare();
-        bindUpdateButton();
-        bindDeleteButton();
-        populateAutocomplete();
-        readyStaticMap();
-        initAddressComplete();
-        //readyGoogleMap();
+        userIsInvited(function() {
+          initCTA();
+          bindFacebookShare();
+          bindUpdateButton();
+          bindDeleteButton();
+          populateAutocomplete();
+          readyStaticMap();
+          initAddressComplete();
+          bindRSVPBtn();
+          bindCancelRSVPBtn();
+        });
       }
     };
 

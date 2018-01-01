@@ -2,13 +2,16 @@
     {{> header }}
     <div class="region top-region"></div>
     <div class="wrapper">
-        <input type="hidden" class="latlong" value={{latLng}}>
-        <input type="hidden" class="place-id" value={{placeId}}>
+        <input type="hidden" class="latlong" value="{{latLng}}">
+        <input type="hidden" class="place-id" value="{{placeId}}">
         <input type="hidden" class="formatted-addy" value="{{formattedAddr}}">
 
-        <input type="hidden" class="latlong-new" value={{latLng}}>
-        <input type="hidden" class="place-id-new" value={{placeId}}>
-        <input type="hidden" class="formatted-addy-new" value="{{formattedAddr}}">
+        <input type="hidden" class="latlong-new" value="">
+        <input type="hidden" class="place-id-new" value="">
+        <input type="hidden" class="formatted-addy-new" value="">
+
+        <input type="hidden" class="username" value="{{user.username}}">
+        <input type="hidden" class="user-id" value="{{user.id}}">
 
         {{#if isPrivate}}
             {{#if isInvited}}
@@ -40,7 +43,9 @@
                     </div>
                     {{#if user}}
                         <div class="cta">
-                            <button type="button" class="btn rsvp-btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> RSVP</button>
+                            <button type="button" class="btn rsvp-btn btn-outline-primary" data-uid="{{user.id}}"><i class="fa fa-plus" aria-hidden="true"></i> RSVP</button>
+
+                            <button type="button" class="btn cancel-rsvp-btn btn-outline-danger hidden" data-uid="{{user.id}}"><i class="fa fa-times" aria-hidden="true"></i> Cancel RSVP</button>
                         </div>
                     {{/if}}
                     <div class="share-facebook">
@@ -86,7 +91,9 @@
                 </div>
                 {{#if user}}
                     <div class="cta">
-                        <button type="button" class="btn rsvp-btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> RSVP</button>
+                        <button type="button" class="btn rsvp-btn btn-outline-primary" data-uid="{{user.id}}"><i class="fa fa-plus" aria-hidden="true"></i> RSVP</button>
+
+                        <button type="button" class="btn cancel-rsvp-btn btn-outline-danger hidden" data-uid="{{user.id}}"><i class="fa fa-times" aria-hidden="true"></i> Cancel RSVP</button>
                     </div>
                 {{/if}}
                 <div class="share-facebook">
