@@ -10,9 +10,11 @@ var router = express.Router();
 var db = require('../models');
 var eventHandler = require('../logic/eventHandler');
 var categoryHandler = require('../logic/categoryHandler');
+const Op = db.Sequelize.Op;
+
 /** Create a new event */
 router.post('/createevent', function (req, res, next) {
-    console.log(req.body);
+    // console.log(req.body);
 
     var placeId = req.body['geoData[placeID]'];
     var latLng = req.body['geoData[latlng]'];
@@ -62,8 +64,40 @@ router.post('/createevent', function (req, res, next) {
         });
     });
 });
+
+/** Get all of the events for all of the categories specified. */
+router.get('/bycategory', function (req, res, next) {
+    // console.log('req.query.cid : ',req.query.cid[0]);
+    var eventCatArray = req.query.cid.split(" ");
+    for (var j=0; j < eventCatArray.length; j++) {
+        eventCatArray[j] = +eventCatArray[j];
+    }
+    db.EventCategory.findAll({
+        attributes: [],
+        include: [db.Event],
+        where: {
+            CategoryId: {
+                [Op.or]: eventCatArray 
+            }
+        }
+    }).then(function (events) {
+        for (var i =0; i < events.length; i++) {
+            var mmdd = events[i].Event.date.split('/')
+            events[i].Event.date = mmdd[0] + '/' + mmdd[1];
+        }        
+        eventHandler.prepareForView(events, function(preparedEvents) {
+            res.render('events', {
+                user: req.session.user,
+                title: 'Events',
+                events: preparedEvents
+            });
+        });
+    });
+});
+
 /** Get a single event by it's ID */
 router.get('/:id', function (req, res, next) {
+    // console.log('Inside get/:id : ',req.params);
     db.Event.findOne({
         where: {
             id: req.params.id
@@ -135,6 +169,7 @@ router.get('/:id', function (req, res, next) {
         }
     });
 });
+
 /** Get all of the events in the database */
 router.get('/', function (req, res, next) {
     db.Event.findAll({}).then(function (events) {
@@ -145,30 +180,7 @@ router.get('/', function (req, res, next) {
         res.status(200).json(events);
     });
 });
-/** Get all of the events with a single category */
-// req.query.cid is a string in the format of '1+2+3...'
-// req.query.cid can also be ''
-router.get('/bycategory/:categoryId', function (req, res, next) {
-    db.EventCategory.findAll({
-        attributes: [],
-        include: [db.Event],
-        where: {
-            CategoryId: req.params.categoryId
-        }
-    }).then(function (events) {
-        for (var i =0; i < events.length; i++) {
-            var mmdd = events[i].Event.date.split('/')
-            events[i].Event.date = mmdd[0] + '/' + mmdd[1];
-        }        
-        eventHandler.prepareForView(events, function(preparedEvents) {
-            res.render('events', {
-                user: req.session.user,
-                title: 'Events',
-                events: preparedEvents
-            });
-        });
-    });
-});
+
 /** Get the categories associated with an event */
 router.get('/allcategories/:eventId', function(req, res, next) {
     db.EventCategory.findAll({
