@@ -20,19 +20,25 @@ WIU.event = (function () {
 
         if (verifyData(eventObj)) {
 
-          console.log('edit Event', eventObj);
+          console.log('edit Event', eventObj); 
           // return false;
-
           $.ajax({
             method: 'POST',
-            url: '../event/addinvite',
-            data: {
-              eventId: window.location.href.match(/\d*$/)[0],
-              username: $('#inviteUser').val()
-            }
+            url: '/event/updateevent',
+            data: eventObj
           }).done(function(res) {
-            WIU.animate.leavePage('/profile/getuser/' + $('#hostLabel').attr('data-id'));
+            console.log('updated successful');
           });
+          // $.ajax({
+          //   method: 'POST',
+          //   url: '../event/addinvite',
+          //   data: {
+          //     eventId: window.location.href.match(/\d*$/)[0],
+          //     username: $('#inviteUser').val()
+          //   }
+          // }).done(function(res) {
+          //   WIU.animate.leavePage('/profile/getuser/' + $('#hostLabel').attr('data-id'));
+          // });
         }
         else {
           // throw warning!
