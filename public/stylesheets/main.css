@@ -168,13 +168,15 @@
     .landing-page .wrapper h1 div.wiu-animate {
       display: inline-block;
       margin-left: 10px; }
-  .landing-page .wrapper .wiu-animate:nth-of-type(1) {
-    margin-left: 0;
-    color: deepskyblue; }
-  .landing-page .wrapper .wiu-animate:nth-of-type(2) {
-    color: deeppink; }
-  .landing-page .wrapper .wiu-animate:nth-of-type(3) {
-    color: teal; }
+  .landing-page .wrapper .wiu-animate {
+    font-weight: bold; }
+    .landing-page .wrapper .wiu-animate:nth-of-type(1) {
+      margin-left: 0;
+      color: deepskyblue; }
+    .landing-page .wrapper .wiu-animate:nth-of-type(2) {
+      color: deeppink; }
+    .landing-page .wrapper .wiu-animate:nth-of-type(3) {
+      color: teal; }
   .landing-page .wrapper .slogan {
     font-size: 24px;
     font-weight: bold; }
