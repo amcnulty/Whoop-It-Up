@@ -8,7 +8,7 @@ WIU.site = (function () {
       return Math.floor(Math.random()*(max-min+1)+min);
     }, 
     putBackground = function($div) {
-      var bkgClass = 'country-' + getRand(0, 9);
+      var bkgClass = 'country-' + getRand(0, 12);
       $div.addClass(bkgClass);
     },
     startTitleAnimate = function() {

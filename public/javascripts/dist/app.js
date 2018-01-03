@@ -1038,7 +1038,9 @@ WIU.landing = (function() {
   startAnimate = function() {
     // animate title
     WIU.animate.bounceWords($('.main-title'), 400, function() {
-      WIU.animate.apply($('.site-logo'), 'rubberBand');
+      WIU.animate.apply($('.site-logo'), 'rubberBand', function() {
+        WIU.animate.apply($('.slogan.fun-font'), 'tada'); 
+      });
     });
     WIU.animate.slideIn($('.btn'));
   },
@@ -1447,7 +1449,7 @@ WIU.site = (function () {
       return Math.floor(Math.random()*(max-min+1)+min);
     }, 
     putBackground = function($div) {
-      var bkgClass = 'country-' + getRand(0, 9);
+      var bkgClass = 'country-' + getRand(0, 12);
       $div.addClass(bkgClass);
     },
     startTitleAnimate = function() {
