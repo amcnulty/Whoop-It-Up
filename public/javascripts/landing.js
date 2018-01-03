@@ -26,7 +26,9 @@ WIU.landing = (function() {
   startAnimate = function() {
     // animate title
     WIU.animate.bounceWords($('.main-title'), 400, function() {
-      WIU.animate.apply($('.site-logo'), 'rubberBand');
+      WIU.animate.apply($('.site-logo'), 'rubberBand', function() {
+        WIU.animate.apply($('.slogan.fun-font'), 'tada'); 
+      });
     });
     WIU.animate.slideIn($('.btn'));
   },

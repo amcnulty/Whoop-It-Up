@@ -3,7 +3,7 @@ var WIU = WIU || {};
 WIU.profile = (function() {
 
   var 
-  bindAvatarSelect = function() {
+  bindAvatarSelect = function() { 
     var $avatarBtn = $('.avatar', '.avatar-section');
         
     $avatarBtn.on('click', function() {
@@ -81,7 +81,7 @@ WIU.profile = (function() {
   },
   modifyData = function(data) {
     if (!hasOldPassword(data) || !hasNewPassword(data)) {
-      console.log('no need for pw data');
+      //console.log('no need for pw data');
       return {
         userId : data.userId,
         username : data.username,
@@ -89,7 +89,7 @@ WIU.profile = (function() {
       }
     }
     else {
-      console.log('need pw data');
+      //console.log('need pw data');
       return data;
     }
   },
@@ -101,7 +101,7 @@ WIU.profile = (function() {
 
       if (verifyData(data)) {
         data = modifyData(data);
-        console.log('hey!!!!', data);
+        
         $.ajax({
           method: 'PUT',
           url: '/profile/updateuser',

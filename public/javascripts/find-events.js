@@ -66,13 +66,6 @@ WIU.findEvents = (function() {
       return true;
     }
   },
-  // eventConfirm = function () {
-  //   var eventDetail = {
-  //     eventName: $('.event-search-box').val(),
-  //     eventDate: $('#start-date').val()
-  //   };
-  //   return true;
-  // },
   bindFindBtn = function () {
     var $findBtn = $('.find-btn');
 

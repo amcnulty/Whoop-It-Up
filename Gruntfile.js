@@ -18,6 +18,13 @@ module.exports = function(grunt) {
         dest: './public/javascripts/dist/app.js'
       }
     },
+    uglify: {
+      app: {
+        files: {
+          './public/javascripts/dist/app.min.js': ['./public/javascripts/dist/app.js']
+        }
+      }
+    },
     watch: {
       sass: {
         files: ['public/scss/*.scss'],
@@ -26,6 +33,10 @@ module.exports = function(grunt) {
       concat: {
         files: ['./public/javascripts/*.js'],
         tasks: ['concat']
+      },
+      uglify: {
+        files: ['./public/javascripts/dist/app.js'],
+        tasks: ['uglify']
       }
     }
   });
