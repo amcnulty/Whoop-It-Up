@@ -65,25 +65,44 @@ router.post('/createevent', function (req, res, next) {
     });
 });
 
+/** Update Event */
+router.put('/updateevent', function (req, res, next) {
+    db.Event.update({
+        status: req.body.status
+    },
+        {
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(function (results) {
+            res.status(200).end();
+        });
+});
+
 /** Get all of the events for all of the categories specified. */
 router.get('/bycategory', function (req, res, next) {
-    // console.log('req.query.cid : ',req.query.cid[0]);
     var eventCatArray = req.query.cid.split(" ");
     for (var j=0; j < eventCatArray.length; j++) {
         eventCatArray[j] = +eventCatArray[j];
     }
     db.EventCategory.findAll({
         attributes: [],
-        include: [db.Event],
+        include: [{model:db.Event,
+                where: {
+                    isPrivate: false
+                },
+            }],
         where: {
             CategoryId: {
-                [Op.or]: eventCatArray 
+                [Op.or]: eventCatArray
             }
         }
     }).then(function (events) {
         for (var i =0; i < events.length; i++) {
             var mmdd = events[i].Event.date.split('/')
             events[i].Event.date = mmdd[0] + '/' + mmdd[1];
+            // console.log(events[i].Event.isPrivate);
         }        
         eventHandler.prepareForView(events, function(preparedEvents) {
             res.render('events', {
