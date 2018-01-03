@@ -3,7 +3,7 @@ var WIU = WIU || {};
 WIU.profile = (function() {
 
   var 
-  bindAvatarSelect = function() {
+  bindAvatarSelect = function() { 
     var $avatarBtn = $('.avatar', '.avatar-section');
         
     $avatarBtn.on('click', function() {
@@ -19,6 +19,11 @@ WIU.profile = (function() {
         WIU.animate.apply($currAvatar, 'rubberBand'); 
       }
     });
+  },
+  hasNewPassword = function(data) {
+    return !(typeof data.newPW === 'undefined' ||
+              data.newPW === null ||
+              data.newPW.trim() === '');
   },
   confirmPassword = function(oldPW, newPW) {
     if (typeof oldPW === 'undefined' || 
@@ -38,14 +43,23 @@ WIU.profile = (function() {
   verifyData = function(data) {
     // hide all existing error messages
     $('.error').addClass('hidden');
-    if (!hasOldPassword(data)) {
-      $('.error-old-pw').removeClass('hidden'); 
-      return false;
+
+    // if user is trying to update his/her pw
+    if (hasOldPassword(data)) {
+      if (!hasNewPassword(data)) {
+        $('.error-new-pw').removeClass('hidden');
+        return false;
+      }
+      else if (!confirmPassword(data.newPW, data.confirmPW)) {
+        $('.error-confirm').removeClass('hidden');
+        return false;
+      }
     }
-    if (!confirmPassword(data.newPW, data.confirmPW)) {
-      $('.error-confirm').removeClass('hidden');
-      return false;
-    }
+
+    // if (!hasOldPassword(data)) {
+    //   $('.error-old-pw').removeClass('hidden'); 
+    //   return false;
+    // }
 
     return true;
   },
@@ -57,13 +71,27 @@ WIU.profile = (function() {
         confirmPW = $('.confirm-pw', editDiv).val();
 
     return {
-      userId: window.location.href.match(/\d*$/)[0],
+      userId: parseInt(window.location.href.match(/\d*$/)[0]),
       username  : username,
       avatar: $('.avatar').attr('data-id'),
       oldPW     : oldPW,
       newPW     : newPW,
       confirmPW : confirmPW
     };
+  },
+  modifyData = function(data) {
+    if (!hasOldPassword(data) || !hasNewPassword(data)) {
+      //console.log('no need for pw data');
+      return {
+        userId : data.userId,
+        username : data.username,
+        avatar : data.avatar
+      }
+    }
+    else {
+      //console.log('need pw data');
+      return data;
+    }
   },
   bindUpdateBtn = function() {
     var $updateBtn = $('.update-btn');
@@ -72,6 +100,8 @@ WIU.profile = (function() {
       var data = getUserData();
 
       if (verifyData(data)) {
+        data = modifyData(data);
+        
         $.ajax({
           method: 'PUT',
           url: '/profile/updateuser',
@@ -123,6 +153,63 @@ WIU.profile = (function() {
       // on success, redirect them back to the landing page
     });
   },
+  setInviteStatus = function ($inviteDiv, status) {
+    if (status == 'G') {
+      $inviteDiv.find('.fa-exclamation').removeClass('active');
+      $inviteDiv.find('.fa-times').removeClass('active');
+      $inviteDiv.find('.fa-check').addClass('active');
+    }
+    else if (status == 'D') {
+      $inviteDiv.find('.fa-exclamation').removeClass('active');
+      $inviteDiv.find('.fa-times').addClass('active');
+      $inviteDiv.find('.fa-check').removeClass('active');
+    }
+  },
+  updateInvite = function(obj) {
+    $.ajax({
+      method: 'PUT',
+      url: '/event/updatestatus',
+      data: {
+        status: obj.status,
+        eventId: obj.eventId,
+        userId: obj.userId,
+      }
+    }).done(function(res) {
+      console.log('update successful');
+      
+      setInviteStatus($('.invite-row.event-' + obj.eventId, '#events'), obj.status);
+    });
+  },
+  bindGoBtn = function() {
+    var $goBtn = $('.goBtn');
+
+    $goBtn.on('click', function(e) {
+      e.preventDefault();
+      var eventId = $(this).attr('data-id'),
+          dataObj = {
+            status  : 'G',
+            eventId : parseInt(eventId),
+            userId  : parseInt(window.location.href.match(/\d*$/)[0])
+          };
+
+      updateInvite(dataObj);
+    });
+  },
+  bindDeclineBtn = function() {
+    var $declineBtn = $('.declineBtn');
+
+    $declineBtn.on('click', function(e) {
+      e.preventDefault();
+      var eventId = $(this).attr('data-id'),
+          dataObj = {
+            status  : 'D',
+            eventId : parseInt(eventId),
+            userId  : parseInt(window.location.href.match(/\d*$/)[0])
+          };
+
+      updateInvite(dataObj);
+    });
+  },
   bindAddEvent = function() {
     var $addEventBtn = $('.create-btn', '.yours-section');
 
@@ -146,6 +233,8 @@ WIU.profile = (function() {
       bindAvatarSelect();
       bindUpdateBtn();
       bindDeleteBtn();
+      bindGoBtn();
+      bindDeclineBtn();
     }
   };
 

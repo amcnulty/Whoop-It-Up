@@ -30,8 +30,9 @@
   position: absolute;
   overflow: hidden;
   width: 350px;
-  border: 1px solid green;
-  margin-top: -250px;
+  border: 1px solid darkcyan;
+  /*margin-top: -230px;*/
+  top: 17vh;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 25px;
@@ -100,21 +101,45 @@
     background-image: url("../images/country-8.png"); }
   .region.country-9 {
     background-image: url("../images/country-9.png"); }
+  .region.country-10 {
+    background-image: url("../images/country-10.png"); }
+  .region.country-11 {
+    background-image: url("../images/country-11.png"); }
+  .region.country-12 {
+    background-image: url("../images/country-12.png"); }
 
 .site-header.nav {
+  position: relative;
+  top: 9vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 5px;
   margin-bottom: 5vh;
-  width: 650px;
+  justify-content: center;
+  width: 280px;
   max-width: 90%;
   margin: 0 auto; }
-  .site-header.nav .login-signup li {
-    display: inline;
-    list-style-type: none; }
-  .site-header.nav .login-signup li + li:before {
-    content: ' | '; }
+  .site-header.nav .header-btn {
+    display: inline-block;
+    padding: 0 10px;
+    margin: 0;
+    width: 30%;
+    text-align: center;
+    opacity: 0.7;
+    cursor: pointer; }
+    .site-header.nav .header-btn .fa {
+      color: darkcyan;
+      font-size: 30px; }
+      .site-header.nav .header-btn .fa:hover {
+        color: coral; }
+    .site-header.nav .header-btn .link-label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 10px;
+      line-height: 0.7;
+      font-weight: bold;
+      color: black; }
 
 #header-signin .modal-title {
   margin-left: 10%; }
@@ -143,6 +168,18 @@
     .landing-page .wrapper h1 div.wiu-animate {
       display: inline-block;
       margin-left: 10px; }
+  .landing-page .wrapper .wiu-animate {
+    font-weight: bold; }
+    .landing-page .wrapper .wiu-animate:nth-of-type(1) {
+      margin-left: 0;
+      color: deepskyblue; }
+    .landing-page .wrapper .wiu-animate:nth-of-type(2) {
+      color: deeppink; }
+    .landing-page .wrapper .wiu-animate:nth-of-type(3) {
+      color: teal; }
+  .landing-page .wrapper .slogan {
+    font-size: 24px;
+    font-weight: bold; }
   .landing-page .wrapper .controls {
     margin-top: 40px; }
     .landing-page .wrapper .controls .btn {
@@ -165,9 +202,21 @@
     display: block;
     margin: 10px 0; }
   .find-events-page .wrapper .controls .advance-filters {
-    margin: 20px 0; }
+    margin: 20px 0 20px 80px; }
     .find-events-page .wrapper .controls .advance-filters.hide {
       display: none; }
+    .find-events-page .wrapper .controls .advance-filters .category-section {
+      text-align: left;
+      width: 300px;
+      margin: 0 auto; }
+      .find-events-page .wrapper .controls .advance-filters .category-section input {
+        display: inline; }
+      .find-events-page .wrapper .controls .advance-filters .category-section .category-item {
+        display: inline-block;
+        width: 25%; }
+      .find-events-page .wrapper .controls .advance-filters .category-section .category-label {
+        font-size: 12px;
+        margin-left: 3px; }
     .find-events-page .wrapper .controls .advance-filters .advance-opt {
       margin: 10px auto; }
     .find-events-page .wrapper .controls .advance-filters .event-type-dd {
@@ -179,7 +228,7 @@
       padding: 10px; }
 
 .signup-page .wrapper {
-  margin-top: -300px; }
+  /*margin-top: -300px;*/ }
   .signup-page .wrapper .controls {
     width: 320px;
     max-width: 100%; }
@@ -238,7 +287,7 @@
         font-weight: bold; }
 
 .create-events-page .wrapper {
-  margin-top: -350px; }
+  /*margin-top: -320px;*/ }
   .create-events-page .wrapper .controls {
     width: 320px;
     max-width: 100%; }
@@ -271,7 +320,7 @@
     .create-events-page .wrapper .controls textarea.event-desc {
       margin: 10px 0;
       width: 100%;
-      height: 200px; }
+      height: 100px; }
     .create-events-page .wrapper .controls .create-btn {
       margin: 10px 0 20px 0;
       width: 100%; }
@@ -303,7 +352,7 @@
   .profile-page .edit-profile h3.label {
     margin-top: 20px; }
 .profile-page .wrapper {
-  margin-top: -350px; }
+  /*margin-top: -320px;*/ }
   .profile-page .wrapper .current-avatar {
     margin-top: 15px; }
 .profile-page .avatar {
@@ -376,13 +425,65 @@
     .profile-page .event-section .invite-row .fa-times.active,
     .profile-page .event-section .host-row .fa-times.active {
       color: red; }
+    .profile-page .yours-section .event-row .fa-exclamation.active, .profile-page .yours-section .invite-row .fa-exclamation.active, .profile-page .yours-section .host-row .fa-exclamation.active,
+    .profile-page .event-section .event-row .fa-exclamation.active,
+    .profile-page .event-section .invite-row .fa-exclamation.active,
+    .profile-page .event-section .host-row .fa-exclamation.active {
+      color: orange; }
+  .profile-page .yours-section .create-btn, .profile-page .yours-section .find-btn,
+  .profile-page .event-section .create-btn,
+  .profile-page .event-section .find-btn {
+    margin-top: 10px; }
 
-.event-page .wrapper .g-map {
+.event-page .wrapper .section {
+  width: 100%;
+  padding: 10px 15px; }
+  .event-page .wrapper .section.event-desc {
+    margin-bottom: 10px; }
+.event-page .wrapper .desc {
+  max-height: 150px;
+  overflow-y: scroll; }
+.event-page .wrapper .btn {
+  width: 280px;
+  margin-bottom: 5px; }
+.event-page .wrapper .event-name {
+  margin-top: 10px; }
+.event-page .wrapper .address-suggest-div .label {
+  margin-left: 5px;
+  font-size: 12px; }
+.event-page .wrapper .address-suggest-div .address-suggest {
+  display: block;
+  font-size: 12px; }
+.event-page .wrapper .map {
+  margin: 20px 0;
   height: 200px;
-  width: 350px; }
+  width: 350px;
+  max-width: 100%;
+  overflow: hidden; }
+  .event-page .wrapper .map .no-map {
+    background-image: url("../images/map.png");
+    background-repeat: no-repeat;
+    background-position: 53% 0;
+    background-size: contain;
+    width: 100%;
+    height: 100%; }
 .event-page .wrapper .controls {
   width: 320px;
   max-width: 100%; }
+  .event-page .wrapper .controls .category-section {
+    text-align: left;
+    width: 300px;
+    margin: 10px 0; }
+    .event-page .wrapper .controls .category-section input {
+      display: inline; }
+    .event-page .wrapper .controls .category-section .category-item {
+      display: inline-block;
+      width: 25%; }
+    .event-page .wrapper .controls .category-section .category-label {
+      font-size: 12px;
+      margin-left: 3px; }
+.event-page .wrapper .cta {
+  text-align: center; }
 .event-page .wrapper input {
   display: block;
   margin: 0 0 10px 0;

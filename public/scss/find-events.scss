@@ -20,11 +20,31 @@
       }
 
       .advance-filters {
-        margin: 20px 0;
+        margin: 20px 0 20px 80px;
         
         &.hide {
           display: none;
         }
+
+        .category-section {
+          text-align: left;
+          width: 300px;
+          margin: 0 auto;
+          
+          input {
+            display: inline;
+          }
+
+          .category-item {
+            display: inline-block;
+            width: 25%;
+          }
+          .category-label {
+            font-size: 12px;
+            margin-left: 3px;
+          }
+        }
+
 
         .advance-opt {
           margin: 10px auto;

@@ -37,6 +37,15 @@ module.exports = function(sequelize, DataTypes) {
         },
         location: {
             type: DataTypes.STRING,
+        },
+        placeId: {
+            type: DataTypes.STRING,
+        },
+        latLng: {
+            type: DataTypes.STRING,
+        },
+        formattedAddr: {
+            type: DataTypes.STRING,
         }
     });
     /**

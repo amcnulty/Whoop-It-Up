@@ -12,9 +12,11 @@
         <li class="nav-item">
           <a class="nav-link tab-yours" data-toggle="tab" href="#yours" role="tab">Hosting</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link tab-events" data-toggle="tab" href="#events" role="tab">Invites</a>
-        </li>
+        {{#if canEdit}}
+          <li class="nav-item">
+            <a class="nav-link tab-events" data-toggle="tab" href="#events" role="tab">Invites</a>
+          </li>
+        {{/if}}
       </ul>
 
       <!-- Tab panes -->
@@ -31,28 +33,34 @@
         </div>
         <div class="tab-pane" id="yours" role="tabpanel">
           <div class="yours-section">
-            <h3 class="fun-font">Events By You</h3>
+            <h3 class="fun-font">Events By {{#if canEdit}}You{{/if}} {{#unless canEdit}}{{username}}{{/unless}}</h3>
             {{#unless hosting}}
               <div><p>No Events Found</p></div>
             {{/unless}}
             {{#each hosting}}
               {{> hosting_row }}
             {{/each}}
+            
+            {{#if canEdit}}
               <button type="button" class="btn btn-outline-success create-btn">Create Event</button>
+            {{/if}}  
           </div>
         </div>
-        <div class="tab-pane" id="events" role="tabpanel">
-          <div class="event-section">
-            <h3 class="fun-font">Upcoming Events</h3>
-            {{#unless invites}}
-              <div><p>No Events Found</p></div>
-            {{/unless}}
-            {{#each invites}}
-              {{> invite_row }}
-            {{/each}}
-              <button type="button" class="btn btn-outline-success find-btn">Find Events</button>
+
+        {{#if canEdit}}
+          <div class="tab-pane" id="events" role="tabpanel">
+            <div class="event-section">
+              <h3 class="fun-font">Upcoming Events</h3>
+              {{#unless invites}}
+                <div><p>No Events Found</p></div>
+              {{/unless}}
+              {{#each invites}}
+                {{> invite_row }}
+              {{/each}}
+                <button type="button" class="btn btn-outline-success find-btn">Find Events</button>
+            </div>
           </div>
-        </div>
+        {{/if}}
       </div>
   </div>
   <div class="region bottom-region flip-bkg"></div>

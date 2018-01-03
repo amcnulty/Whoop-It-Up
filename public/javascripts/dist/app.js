@@ -270,6 +270,7 @@ WIU.createEvent = (function() {
       isPrivate   : isPrivate,
       host      : hostObj.name,
       hostId    : hostObj.id,
+      geoData   : locationObj,
       categories: JSON.stringify(checkedCategories)
     };
   },
@@ -330,18 +331,32 @@ WIU.event = (function () {
       
       $fbBtn.attr('href', shareURL + currentURL);
     },
+    verifyData = function(obj) {
+      return !(typeof(obj.name) === 'undefined' || obj.name === null || obj.name.trim() === '');
+    },
+    isInvited = false,
     bindUpdateButton = function() {
       $('.update-btn', '.button-row').on('click', function(e) {
-        $.ajax({
-          method: 'POST',
-          url: '../event/addinvite',
-          data: {
-            eventId: window.location.href.match(/\d*$/)[0],
-            username: $('#inviteUser').val()
-          }
-        }).done(function(res) {
-          WIU.animate.leavePage('/profile/getuser/' + $('#hostLabel').attr('data-id'));
-        });
+        var eventObj = getData();
+
+        if (verifyData(eventObj)) {
+
+          // return false;
+          $.ajax({
+            method: 'POST',
+            url: '/event/updateevent',
+            data: eventObj
+          }).done(function(res) {
+            WIU.animate.leavePage(window.location.href);
+            // console.log('updated successful');
+          });
+        }
+        else {
+          $('.error-name').removeClass('hidden');
+
+          return false;
+        }
+        
       });
     },
     bindDeleteButton = function() {
@@ -355,12 +370,21 @@ WIU.event = (function () {
       });
     },
     getLatLong = function() {
-      return $('.lat-long').val();
+      return $('.latlong').val();
     },
-    getPlaceID = function() {
-      return $('.place-id').val();
-    }, 
-    
+    readyStaticMap = function() {
+      var key = 'AIzaSyAxQrQpPeVTP0SFDubCMCNtDaRqOjM-fxk',
+          latlong = getLatLong(),
+          url = '',
+          $map = $('.map-image', '.map');
+
+      latlong = latlong || '-33.8569,151.2152';
+      url = "https://maps.googleapis.com/maps/api/staticmap?markers=" + latlong + "&center=" + latlong + "&zoom=12&size=350x200&key=" + key;
+
+      if ($map.length) {
+        $map.attr('src', url);
+      }
+    },
     // TODO: q=place_id:......
     readyGoogleMap = function() {
       var key = 'AIzaSyCmiSi2gWmkkVWPwz-lk8N1Htd4Q50-Qz4',
@@ -378,16 +402,63 @@ WIU.event = (function () {
       else {
         // no map
       }
-
     },
-    eventCategoryData = function() {
-      $.ajax({
-        method: 'POST',
-        url: '',
-        data: page
-      }).done(function() {
-        window.location = window.location.href;
-      })
+    getEventCategory = function() {
+      var categories = $('.event-category'),
+          checkedCategories = [];
+
+      for (var i = 0; i < categories.length; i++) {
+        if ($(categories[i]).is(':checked')) checkedCategories.push(
+          parseInt(categories[i].value)
+        );
+      }
+
+      if (checkedCategories.length == 0) {
+        checkedCategories.push(7);
+      }
+
+      return checkedCategories;
+    },
+    getData = function() {
+      var page = '.event-page',
+          eventName = $('.event-name', page).val(),
+          eventDate = $('.event-date', page).val(),
+          eventTime = $('.start-time', page).val(),
+          location  = $('.location', page).val(),
+          eventDesc = $('.event-desc', page).val(),
+          isPrivate = $('.is-private-cb', page).is(':checked'),
+          checkedCategories = getEventCategory();
+
+          suggestCB = $('.suggest-cb', page).is(':checked'),
+          locationObj = {
+            name : location
+          };
+
+      if (suggestCB) {
+        locationObj.placeID = $('.place-id-new', page).val();
+        locationObj.latlng  = $('.latlong-new', page).val();
+        locationObj.formatted = $('.formatted-addy-new', page).val();
+      }
+      else {
+        locationObj.placeID = $('.place-id', page).val();
+        locationObj.latlng  = $('.latlong', page).val();
+        locationObj.formatted = $('.formatted-addy', page).val();
+      }
+
+      return {
+        name      : eventName,
+        date      : eventDate,
+        time      : eventTime,
+        location  : location,
+        description : eventDesc,
+        isPrivate   : isPrivate,
+        geoData   : locationObj,
+        categories: JSON.stringify(checkedCategories),
+        invite    : {
+          username  : $('#inviteUser').val(),
+          eventId   : window.location.href.match(/\d*$/)[0],  
+        }
+      };
     },
     populateAutocomplete = function() {
       var userNames = [];
@@ -406,13 +477,210 @@ WIU.event = (function () {
         });
       });
     },
+    geocodeAddress = function(location, callback) {
+      var apiKey = 'AIzaSyCdPObqQECeLB2K0xW96U8Rhzd3sFS9d4k',
+          address = location.split(' ').join('+'),
+          apiURL = 'https://maps.googleapis.com/maps/api/geocode/json?components=country:US&',
+          requestURL = apiURL + 'address=' + address + '&key=' + apiKey,
+          addressObj = {};
+
+      $.ajax({
+        method: "GET",
+        url: requestURL
+      })
+      .done(function(data) {
+        if (data.status === 'OK' && data.results.length == 1) {
+          var lat = data.results[0].geometry.location.lat,
+              lng = data.results[0].geometry.location.lng,
+              placeID = data.results[0].place_id,
+              formattedAddy = data.results[0].formatted_address;
+
+          addressObj.latlng     = lat +', ' + lng;
+          addressObj.placeID    = placeID;
+          addressObj.formatted  = formattedAddy;
+        }
+        else {
+          console.log('problem geocoding', data);
+        }
+
+        if (typeof callback == 'function') {
+          callback(addressObj);
+        }
+      });
+    },
+    showSuggestion = function(addressObj) {
+      var $suggestDiv = $('.address-suggest-div'),
+          $addyDiv = $('.address-suggest', '.address-suggest-div'),
+          $suggestCB = $('.suggest-cb', '.address-suggest-div');
+
+      // clear check box and hide suggestion
+      $suggestCB.prop('checked', false);
+      $suggestDiv.addClass('hidden');
+
+      if (typeof addressObj.formatted !== 'undefined' && addressObj.formatted != '') {
+        $addyDiv.html(addressObj.formatted);
+        $suggestDiv.removeClass('hidden');
+      }
+    },
+    fillHiddenFields = function(obj){ 
+      var page = '.event-page',
+          $placeID = $('.place-id-new', page),
+          $latlong = $('.latlong-new', page),
+          $formatted = $('.formatted-addy-new', page);
+
+      if (typeof obj.placeID !== 'undefined' && typeof obj.latlng !== 'undefined' &&
+          typeof obj.formatted !== 'undefined') {
+        $placeID.val(obj.placeID);
+        $latlong.val(obj.latlng);
+        $formatted.val(obj.formatted);  
+      }
+      else {
+        $placeID.val('');
+        $latlong.val('');
+        $formatted.val('');
+      }
+    },
+    initAddressComplete = function() {
+      var $location = $('.location', '.edit-event');
+
+      $location.on('blur', function() {
+
+        var address = $location.val();
+
+        if (typeof address !== 'undefined' && address.trim() != '' && address.trim().length > 1) {
+          geocodeAddress(address.trim(), function(obj) {
+            fillHiddenFields(obj);
+            showSuggestion(obj);
+          });
+        }
+      });
+    },
+    updateCTA = function(status) {
+      if (status === 'G') { // show cancel RSVP btn
+        $('.rsvp-btn', '.cta').addClass('hidden');
+        $('.cancel-rsvp-btn', '.cta').removeClass('hidden');
+      }
+      else { // show RSVP btn
+        $('.rsvp-btn', '.cta').removeClass('hidden');
+        $('.cancel-rsvp-btn', '.cta').addClass('hidden');
+      }
+    },
+    initCTA = function() {
+      if (isInvited) {
+        updateCTA('G');
+      }
+      else {
+        updateCTA();
+      }
+    },
+    updateInvite = function(obj) {
+      $.ajax({
+        method: 'PUT',
+        url: '/event/updatestatus',
+        data: {
+          status: obj.status,
+          eventId: obj.eventId,
+          userId: obj.userId,
+        }
+      }).done(function(res) {
+        updateCTA(obj.status);
+      });
+    },
+    cancelInvite = function(obj) {
+      $.ajax({
+        method: 'PUT',
+        url: '/event/uninvite',
+        data: {
+          eventId: obj.eventId,
+          userId: obj.userId,
+        }
+      }).done(function(res) {
+        updateCTA(obj.status);
+      });
+    },
+    userIsInvited = function(callback) {
+
+      var userID = parseInt($('.user-id', '.event-page').val());
+
+      $.ajax({
+        method: 'POST',
+        url: '/event/userisinvited',
+        data: {
+          userId: userID,
+          eventId: window.location.href.match(/\d*$/)[0]
+        }
+      })
+      .done(function(res) {
+        if (res == true) {
+          isInvited = true;
+        }
+        else {
+          isInvited = false;
+        }
+
+        if (typeof callback === 'function') {
+          callback();
+        }
+      });
+    },
+    bindRSVPBtn = function () {
+      var $rsvpBtn = $('.rsvp-btn', '.event-page');
+
+      $rsvpBtn.on('click', function() {
+        var userID = parseInt($(this).attr('data-uid'));
+
+        if (isInvited) {
+          updateInvite({
+            status  : 'G',
+            eventId : window.location.href.match(/\d*$/)[0],
+            userId  : userID,
+          });
+        }
+        else {
+          $.ajax({
+            method: 'POST',
+            url: '/event/addinvite',
+            data: {
+              username: $('.username').val(),
+              eventId: window.location.href.match(/\d*$/)[0]
+            }
+          })
+          .done(function(res) {
+            updateInvite({
+              status  : 'G',
+              eventId : window.location.href.match(/\d*$/)[0],
+              userId  : userID,
+            });
+          });
+        }
+      });
+    },
+    bindCancelRSVPBtn = function() {
+      var $cancelBtn = $('.cancel-rsvp-btn', '.event-page');
+
+      $cancelBtn.on('click', function() {
+        var userID = parseInt($(this).attr('data-uid'));
+
+        cancelInvite({
+          status  : 'U',
+          eventId : window.location.href.match(/\d*$/)[0],
+          userId  : userID,
+        });
+      });
+    },
     init = function () {
       if ($('.event-page').length) {
-        bindFacebookShare();
-        bindUpdateButton();
-        bindDeleteButton();
-        populateAutocomplete();
-        //readyGoogleMap();
+        userIsInvited(function() {
+          initCTA();
+          bindFacebookShare();
+          bindUpdateButton();
+          bindDeleteButton();
+          populateAutocomplete();
+          readyStaticMap();
+          initAddressComplete();
+          bindRSVPBtn();
+          bindCancelRSVPBtn();
+        });
       }
     };
 
@@ -524,19 +792,14 @@ WIU.findEvents = (function() {
       return true;
     }
   },
-  // eventConfirm = function () {
-  //   var eventDetail = {
-  //     eventName: $('.event-search-box').val(),
-  //     eventDate: $('#start-date').val()
-  //   };
-  //   return true;
-  // },
   bindFindBtn = function () {
     var $findBtn = $('.find-btn');
 
     $findBtn.on('click', function () {
       var checkedCategories = getEventCategory();
-      window.location = './event/bycategory/' + checkedCategories[0];
+
+      // console.log('hey', checkedCategories.join('+'));
+      window.location = './event/bycategory/?cid=' + checkedCategories.join('+');
     });
   },
 
@@ -566,6 +829,7 @@ WIU.header = (function () {
       if ($('.site-header.nav').length) {
         bindLogOut();
         bindSignin();
+        bindHoverAnimation();
       }
     },
     processLogin = function() {
@@ -671,7 +935,17 @@ WIU.header = (function () {
           console.log('An error occured', res);
         });
       });
-    }
+    },
+    bindHoverAnimation = function() {
+      var $headerBtns = $('.header-btn');
+
+      $headerBtns.hover(function() {
+        WIU.animate.apply($(this), 'tada');
+      }, 
+      function() {
+
+      });
+    },
     // putting the existing user into an object
     existingUser = function () {
       var user = {
@@ -739,7 +1013,9 @@ WIU.landing = (function() {
   startAnimate = function() {
     // animate title
     WIU.animate.bounceWords($('.main-title'), 400, function() {
-      WIU.animate.apply($('.site-logo'), 'rubberBand');
+      WIU.animate.apply($('.site-logo'), 'rubberBand', function() {
+        WIU.animate.apply($('.slogan.fun-font'), 'tada'); 
+      });
     });
     WIU.animate.slideIn($('.btn'));
   },
@@ -764,7 +1040,7 @@ var WIU = WIU || {};
 WIU.profile = (function() {
 
   var 
-  bindAvatarSelect = function() {
+  bindAvatarSelect = function() { 
     var $avatarBtn = $('.avatar', '.avatar-section');
         
     $avatarBtn.on('click', function() {
@@ -780,6 +1056,11 @@ WIU.profile = (function() {
         WIU.animate.apply($currAvatar, 'rubberBand'); 
       }
     });
+  },
+  hasNewPassword = function(data) {
+    return !(typeof data.newPW === 'undefined' ||
+              data.newPW === null ||
+              data.newPW.trim() === '');
   },
   confirmPassword = function(oldPW, newPW) {
     if (typeof oldPW === 'undefined' || 
@@ -799,14 +1080,23 @@ WIU.profile = (function() {
   verifyData = function(data) {
     // hide all existing error messages
     $('.error').addClass('hidden');
-    if (!hasOldPassword(data)) {
-      $('.error-old-pw').removeClass('hidden'); 
-      return false;
+
+    // if user is trying to update his/her pw
+    if (hasOldPassword(data)) {
+      if (!hasNewPassword(data)) {
+        $('.error-new-pw').removeClass('hidden');
+        return false;
+      }
+      else if (!confirmPassword(data.newPW, data.confirmPW)) {
+        $('.error-confirm').removeClass('hidden');
+        return false;
+      }
     }
-    if (!confirmPassword(data.newPW, data.confirmPW)) {
-      $('.error-confirm').removeClass('hidden');
-      return false;
-    }
+
+    // if (!hasOldPassword(data)) {
+    //   $('.error-old-pw').removeClass('hidden'); 
+    //   return false;
+    // }
 
     return true;
   },
@@ -818,13 +1108,27 @@ WIU.profile = (function() {
         confirmPW = $('.confirm-pw', editDiv).val();
 
     return {
-      userId: window.location.href.match(/\d*$/)[0],
+      userId: parseInt(window.location.href.match(/\d*$/)[0]),
       username  : username,
       avatar: $('.avatar').attr('data-id'),
       oldPW     : oldPW,
       newPW     : newPW,
       confirmPW : confirmPW
     };
+  },
+  modifyData = function(data) {
+    if (!hasOldPassword(data) || !hasNewPassword(data)) {
+      //console.log('no need for pw data');
+      return {
+        userId : data.userId,
+        username : data.username,
+        avatar : data.avatar
+      }
+    }
+    else {
+      //console.log('need pw data');
+      return data;
+    }
   },
   bindUpdateBtn = function() {
     var $updateBtn = $('.update-btn');
@@ -833,6 +1137,8 @@ WIU.profile = (function() {
       var data = getUserData();
 
       if (verifyData(data)) {
+        data = modifyData(data);
+        
         $.ajax({
           method: 'PUT',
           url: '/profile/updateuser',
@@ -884,6 +1190,63 @@ WIU.profile = (function() {
       // on success, redirect them back to the landing page
     });
   },
+  setInviteStatus = function ($inviteDiv, status) {
+    if (status == 'G') {
+      $inviteDiv.find('.fa-exclamation').removeClass('active');
+      $inviteDiv.find('.fa-times').removeClass('active');
+      $inviteDiv.find('.fa-check').addClass('active');
+    }
+    else if (status == 'D') {
+      $inviteDiv.find('.fa-exclamation').removeClass('active');
+      $inviteDiv.find('.fa-times').addClass('active');
+      $inviteDiv.find('.fa-check').removeClass('active');
+    }
+  },
+  updateInvite = function(obj) {
+    $.ajax({
+      method: 'PUT',
+      url: '/event/updatestatus',
+      data: {
+        status: obj.status,
+        eventId: obj.eventId,
+        userId: obj.userId,
+      }
+    }).done(function(res) {
+      console.log('update successful');
+      
+      setInviteStatus($('.invite-row.event-' + obj.eventId, '#events'), obj.status);
+    });
+  },
+  bindGoBtn = function() {
+    var $goBtn = $('.goBtn');
+
+    $goBtn.on('click', function(e) {
+      e.preventDefault();
+      var eventId = $(this).attr('data-id'),
+          dataObj = {
+            status  : 'G',
+            eventId : parseInt(eventId),
+            userId  : parseInt(window.location.href.match(/\d*$/)[0])
+          };
+
+      updateInvite(dataObj);
+    });
+  },
+  bindDeclineBtn = function() {
+    var $declineBtn = $('.declineBtn');
+
+    $declineBtn.on('click', function(e) {
+      e.preventDefault();
+      var eventId = $(this).attr('data-id'),
+          dataObj = {
+            status  : 'D',
+            eventId : parseInt(eventId),
+            userId  : parseInt(window.location.href.match(/\d*$/)[0])
+          };
+
+      updateInvite(dataObj);
+    });
+  },
   bindAddEvent = function() {
     var $addEventBtn = $('.create-btn', '.yours-section');
 
@@ -907,6 +1270,8 @@ WIU.profile = (function() {
       bindAvatarSelect();
       bindUpdateBtn();
       bindDeleteBtn();
+      bindGoBtn();
+      bindDeclineBtn();
     }
   };
 
@@ -1059,11 +1424,19 @@ WIU.site = (function () {
       return Math.floor(Math.random()*(max-min+1)+min);
     }, 
     putBackground = function($div) {
-      var bkgClass = 'country-' + getRand(0, 9);
+      var bkgClass = 'country-' + getRand(0, 12);
       $div.addClass(bkgClass);
     },
     startTitleAnimate = function() {
       WIU.animate.apply($('h2.fun-font'), 'tada'); 
+    },
+    playSiteLogoAnimate = function() {
+      var effects = ['swing', 'bounce', 'flash', 'jello', 'rubberBand', 'pulse'],
+          $siteLogo = $('.site-logo');
+
+      if ($siteLogo.length) {
+        WIU.animate.apply($siteLogo, effects[getRand(0, effects.length-1)]);
+      }
     },
     init = function () {
       putBackground($('.top-region'));
@@ -1072,6 +1445,8 @@ WIU.site = (function () {
       WIU.animate.bkgSlideIn($('.top-region'));
       WIU.animate.bkgSlideIn($('.bottom-region'));
 
+      var animteSiteLogo = setInterval(playSiteLogoAnimate, 4500);
+      
       startTitleAnimate();
     };
 

@@ -39,7 +39,7 @@
   }
 
   .wrapper {
-    margin-top: -350px;
+    /*margin-top: -320px;*/
     .current-avatar {
       margin-top: 15px;
     }
@@ -94,7 +94,7 @@
       border: 1px solid silver;
       border-radius: 3px;
       display: flex;
-      align-items: center;
+      align-items: center; 
       padding: 10px 0;
       opacity: 0;
 
@@ -120,6 +120,14 @@
           color: red;
         }
       }
+      .fa-exclamation {
+        &.active {
+          color: orange;
+        }
+      }
+    }
+    .create-btn, .find-btn {
+      margin-top: 10px;
     }
   }
 

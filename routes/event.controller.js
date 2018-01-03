@@ -10,8 +10,24 @@ var router = express.Router();
 var db = require('../models');
 var eventHandler = require('../logic/eventHandler');
 var categoryHandler = require('../logic/categoryHandler');
+const Op = db.Sequelize.Op;
+
 /** Create a new event */
 router.post('/createevent', function (req, res, next) {
+    // console.log(req.body);
+
+    var placeId = req.body['geoData[placeID]'];
+    var latLng = req.body['geoData[latlng]'];
+    var formattedAddr = req.body['geoData[formatted]'];
+
+    if (typeof (placeId) === 'undefined' || placeId == null || 
+        typeof (latLng) === 'undefined' || latLng == null || 
+        typeof (formattedAddr) === 'undefined' || formattedAddr == null) {
+        placeId = '';
+        latLng = '';
+        formattedAddr = '';
+    }
+    
     db.Event.create({
         name: req.body.name,
         description: req.body.description,
@@ -20,32 +36,68 @@ router.post('/createevent', function (req, res, next) {
         isPrivate: req.body.isPrivate,
         date: req.body.date,
         time: req.body.time,
-        location: req.body.location
+        location: req.body.location,
+        placeId: placeId,
+        latLng: latLng,
+        formattedAddr: formattedAddr
     })
-        .then(function (savedEvent) {
-            db.UserEvent.create({
-                EventId: savedEvent.dataValues.id,
-                UserId: req.body.hostId
-            })
-                .then(function (result) {
-                    const eventId = savedEvent.dataValues.id;
-                    const categoryIds = JSON.parse(req.body.categories);
-                    const promises = categoryIds.map(function (categoryId) {
-                        return db.EventCategory.create({
-                            EventId: eventId,
-                            CategoryId: categoryId
-                        });
-                    });
-                    Promise
-                        .all(promises)
-                        .then(function () {
-                            res.status(200).json(savedEvent);
-                        });
-                })
+    .then(function (savedEvent) {
+        db.UserEvent.create({
+            EventId: savedEvent.dataValues.id,
+            UserId: req.body.hostId,
+            status: 'G'
+        })
+        .then(function (result) {
+            const eventId = savedEvent.dataValues.id;
+            const categoryIds = JSON.parse(req.body.categories);
+            const promises = categoryIds.map(function (categoryId) {
+                return db.EventCategory.create({
+                    EventId: eventId,
+                    CategoryId: categoryId
+                });
+            });
+            Promise
+                .all(promises)
+                .then(function () {
+                    res.status(200).json(savedEvent);
+                });
         });
+    });
 });
+
+/** Get all of the events for all of the categories specified. */
+router.get('/bycategory', function (req, res, next) {
+    // console.log('req.query.cid : ',req.query.cid[0]);
+    var eventCatArray = req.query.cid.split(" ");
+    for (var j=0; j < eventCatArray.length; j++) {
+        eventCatArray[j] = +eventCatArray[j];
+    }
+    db.EventCategory.findAll({
+        attributes: [],
+        include: [db.Event],
+        where: {
+            CategoryId: {
+                [Op.or]: eventCatArray 
+            }
+        }
+    }).then(function (events) {
+        for (var i =0; i < events.length; i++) {
+            var mmdd = events[i].Event.date.split('/')
+            events[i].Event.date = mmdd[0] + '/' + mmdd[1];
+        }        
+        eventHandler.prepareForView(events, function(preparedEvents) {
+            res.render('events', {
+                user: req.session.user,
+                title: 'Events',
+                events: preparedEvents
+            });
+        });
+    });
+});
+
 /** Get a single event by it's ID */
 router.get('/:id', function (req, res, next) {
+    // console.log('Inside get/:id : ',req.params);
     db.Event.findOne({
         where: {
             id: req.params.id
@@ -59,20 +111,24 @@ router.get('/:id', function (req, res, next) {
             res.render('error', { message: 'Invalid Event ID' });
         }
         else {
-            var mmdd = myEvent.date.split('/')
+            var mmdd = myEvent.date.split('/');
             myEvent.date = mmdd[0] + '/' + mmdd[1];
-            var isHost = false,
+            var isHost = false;
+            var isInvited = false; 
                 eventObj = {
                     isHost: isHost,
+                    isInvited : isInvited,
                     user: req.session.user,
                     id: myEvent.id,
                     name: myEvent.name,
                     date: myEvent.date,
                     time: myEvent.time,
                     isPrivate: myEvent.isPrivate,
-                    placeID: '',
                     location: myEvent.location,
-                    description: myEvent.description
+                    description: myEvent.description,
+                    placeId: myEvent.placeId,
+                    latLng: myEvent.latLng,
+                    formattedAddr: myEvent.formattedAddr
                 };
 
             if (typeof (req.session) !== 'undefined' &&
@@ -80,6 +136,18 @@ router.get('/:id', function (req, res, next) {
                 typeof (req.session.user.id) !== 'undefined') {
                 isHost = req.session.user.id == myEvent.hostId ? true : false;
                 eventObj.isHost = isHost;
+            // check is the current user (req.session.user.id) is invited to this
+            // current event (myEvent.id), if so, set eventObj.isInvited = true
+                db.UserEvent.findOne({
+                    where: {
+                        EventId: myEvent.id,
+                        UserId: req.session.user.id
+                    }
+                })
+                .then(function (checkEvent) {
+                    isInvited = checkEvent.status !== ' ' ? true : false;
+                    eventObj.isInvited = isInvited;
+                })
             }
             db.Category.findAll({})
             .then(function(allCategories) {
@@ -91,37 +159,28 @@ router.get('/:id', function (req, res, next) {
                     }
                 })
                 .then(function(eventCategories) {
-                    eventObj.categories = categoryHandler.findMatchedCategories(allCategories, eventCategories);
+                    if (typeof eventCategories !== 'undefined' && eventCategories != null) {
+                        eventObj.categories = categoryHandler.findMatchedCategories(allCategories, eventCategories);    
+                    }
+                    console.log('heyhey', eventObj);
                     res.render('event', eventObj);
                 });
             });
         }
     });
 });
+
 /** Get all of the events in the database */
 router.get('/', function (req, res, next) {
     db.Event.findAll({}).then(function (events) {
+        for (var i =0; i < events.length; i++) {
+            var mmdd = events[i].date.split('/')
+            events[i].date = mmdd[0] + '/' + mmdd[1];
+            }
         res.status(200).json(events);
     });
 });
-/** Get all of the events with a single category */
-router.get('/bycategory/:categoryId', function (req, res, next) {
-    db.EventCategory.findAll({
-        attributes: [],
-        include: [db.Event],
-        where: {
-            CategoryId: req.params.categoryId
-        }
-    }).then(function (events) {
-        eventHandler.prepareForView(events, function(preparedEvents) {
-            res.render('events', {
-                user: req.session.user,
-                title: 'Events',
-                events: preparedEvents
-            });
-        });
-    });
-});
+
 /** Get the categories associated with an event */
 router.get('/allcategories/:eventId', function(req, res, next) {
     db.EventCategory.findAll({
@@ -198,9 +257,9 @@ router.get('/invites/:eventId', function (req, res, next) {
             EventId: req.params.eventId
         }
     })
-        .then(function (invitedUsers) {
-            res.status(200).json(invitedUsers).end();
-        });
+    .then(function (invitedUsers) {
+        res.status(200).json(invitedUsers).end();
+    });
 });
 /** Delete an event from the database */
 router.delete('/delete/:eventId', function (req, res, next) {
@@ -221,10 +280,10 @@ router.post('/userisinvited', function (req, res, next) {
             EventId: req.body.eventId
         }
     })
-        .then(function (userEvent) {
-            if (!userEvent) res.send(false).end;
-            else res.send(true).end();
-        });
+    .then(function (userEvent) {
+        if (!userEvent) res.send(false).end();
+        else res.send(true).end();
+    });
 });
 
 module.exports = router;

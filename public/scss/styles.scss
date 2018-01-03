@@ -37,8 +37,9 @@
   overflow: hidden;
 
   width: 350px;
-  border: 1px solid green;
-  margin-top: -250px;
+  border: 1px solid darkcyan;
+  /*margin-top: -230px;*/
+  top: 17vh;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 25px;
@@ -126,5 +127,14 @@
   }
   &.country-9 {
     background-image: url('../images/country-9.png');
+  }
+  &.country-10 {
+    background-image: url('../images/country-10.png');
+  }
+  &.country-11 {
+    background-image: url('../images/country-11.png');
+  }
+  &.country-12 {
+    background-image: url('../images/country-12.png');
   }
 }

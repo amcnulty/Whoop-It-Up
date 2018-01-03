@@ -66,19 +66,14 @@ WIU.findEvents = (function() {
       return true;
     }
   },
-  // eventConfirm = function () {
-  //   var eventDetail = {
-  //     eventName: $('.event-search-box').val(),
-  //     eventDate: $('#start-date').val()
-  //   };
-  //   return true;
-  // },
   bindFindBtn = function () {
     var $findBtn = $('.find-btn');
 
     $findBtn.on('click', function () {
       var checkedCategories = getEventCategory();
-      window.location = './event/bycategory/' + checkedCategories[0];
+
+      // console.log('hey', checkedCategories.join('+'));
+      window.location = './event/bycategory/?cid=' + checkedCategories.join('+');
     });
   },
 
