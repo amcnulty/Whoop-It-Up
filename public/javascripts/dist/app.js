@@ -341,28 +341,17 @@ WIU.event = (function () {
 
         if (verifyData(eventObj)) {
 
-          console.log('edit Event', eventObj); 
           // return false;
           $.ajax({
             method: 'POST',
             url: '/event/updateevent',
             data: eventObj
           }).done(function(res) {
-            console.log('updated successful');
+            WIU.animate.leavePage(window.location.href);
+            // console.log('updated successful');
           });
-          // $.ajax({
-          //   method: 'POST',
-          //   url: '../event/addinvite',
-          //   data: {
-          //     eventId: window.location.href.match(/\d*$/)[0],
-          //     username: $('#inviteUser').val()
-          //   }
-          // }).done(function(res) {
-          //   WIU.animate.leavePage('/profile/getuser/' + $('#hostLabel').attr('data-id'));
-          // });
         }
         else {
-          // throw warning!
           $('.error-name').removeClass('hidden');
 
           return false;
@@ -594,7 +583,6 @@ WIU.event = (function () {
           userId: obj.userId,
         }
       }).done(function(res) {
-        console.log('update successful');
         updateCTA(obj.status);
       });
     },
@@ -607,16 +595,12 @@ WIU.event = (function () {
           userId: obj.userId,
         }
       }).done(function(res) {
-        console.log('update successful');
         updateCTA(obj.status);
       });
     },
     userIsInvited = function(callback) {
 
       var userID = parseInt($('.user-id', '.event-page').val());
-
-      console.log('invited check data', {UserId: userID,
-          EventId: window.location.href.match(/\d*$/)[0]});
 
       $.ajax({
         method: 'POST',
@@ -628,11 +612,9 @@ WIU.event = (function () {
       })
       .done(function(res) {
         if (res == true) {
-          console.log('user is invited!!');
           isInvited = true;
         }
         else {
-          console.log('user is NOT invited!!');
           isInvited = false;
         }
 
@@ -810,13 +792,6 @@ WIU.findEvents = (function() {
       return true;
     }
   },
-  // eventConfirm = function () {
-  //   var eventDetail = {
-  //     eventName: $('.event-search-box').val(),
-  //     eventDate: $('#start-date').val()
-  //   };
-  //   return true;
-  // },
   bindFindBtn = function () {
     var $findBtn = $('.find-btn');
 
@@ -1065,7 +1040,7 @@ var WIU = WIU || {};
 WIU.profile = (function() {
 
   var 
-  bindAvatarSelect = function() {
+  bindAvatarSelect = function() { 
     var $avatarBtn = $('.avatar', '.avatar-section');
         
     $avatarBtn.on('click', function() {
@@ -1143,7 +1118,7 @@ WIU.profile = (function() {
   },
   modifyData = function(data) {
     if (!hasOldPassword(data) || !hasNewPassword(data)) {
-      console.log('no need for pw data');
+      //console.log('no need for pw data');
       return {
         userId : data.userId,
         username : data.username,
@@ -1151,7 +1126,7 @@ WIU.profile = (function() {
       }
     }
     else {
-      console.log('need pw data');
+      //console.log('need pw data');
       return data;
     }
   },
@@ -1163,7 +1138,7 @@ WIU.profile = (function() {
 
       if (verifyData(data)) {
         data = modifyData(data);
-        console.log('hey!!!!', data);
+        
         $.ajax({
           method: 'PUT',
           url: '/profile/updateuser',
