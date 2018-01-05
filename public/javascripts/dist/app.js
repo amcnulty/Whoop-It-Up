@@ -338,7 +338,6 @@ WIU.event = (function () {
     bindUpdateButton = function() {
       $('.update-btn', '.button-row').on('click', function(e) {
         var eventObj = getData();
-
         if (verifyData(eventObj)) {
 
           // return false;
