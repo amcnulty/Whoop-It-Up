@@ -94,7 +94,7 @@ router.post('/signin', function(req, res, next) {
       email: email
     }
   }).then(function(myUser) {
-    if (typeof oldPw === 'undefined' || oldPw == null) {
+    if (typeof myUser === 'undefined' || myUser == null) {
       res.status(404).end();
     }
     else {

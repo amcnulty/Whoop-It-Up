@@ -25,7 +25,10 @@
                     </div>
                     <div class="section location">
                         <h4 class="section-title fun-font">Where</h4>
-                        <p class="address">{{location}}</p>
+                        <p class="address">{{location}}
+                        {{#if placeId}}(<a href="https://google.com/maps/search/?api=1&query={{latLng}}&query_place_id={{placeId}}" target="_blank">map</a>){{/if}}
+                        </p>
+                        
 
                         <div class="map">
                             {{#if placeId}}
@@ -73,8 +76,10 @@
                 </div>
                 <div class="section location">
                     <h4 class="section-title fun-font">Where</h4>
-                    <p class="address">{{location}}</p>
-
+                    <p class="address">{{location}}
+                    {{#if placeId}}(<a href="https://google.com/maps/search/?api=1&query={{latLng}}&query_place_id={{placeId}}" target="_blank">map</a>){{/if}}
+                    </p>
+                    
                     <div class="map">
                         {{#if placeId}}
                             <!-- <iframe class="g-map" frameborder="0" src=""></iframe> -->
