@@ -65,25 +65,108 @@ router.post('/createevent', function (req, res, next) {
     });
 });
 
+/** Update Event */
+router.post('/updateevent', function (req, res, next) {
+
+    // console.log('Inside updateevent : ', req.body);
+    // console.log('req.session.user.id ', req.session.user.id);
+   
+    var placeId = req.body['geoData[placeID]'];
+    var latLng = req.body['geoData[latlng]'];
+    var formattedAddr = req.body['geoData[formatted]'];
+
+    if (typeof (placeId) === 'undefined' || placeId == null || 
+        typeof (latLng) === 'undefined' || latLng == null || 
+        typeof (formattedAddr) === 'undefined' || formattedAddr == null) {
+        placeId = '';
+        latLng = '';
+        formattedAddr = '';
+    }
+    
+    db.Event.update({
+        name: req.body.name,
+        description: req.body.description,
+        isPrivate: req.body.isPrivate,
+        date: req.body.date,
+        time: req.body.time,
+        location: req.body.location,
+        placeId: placeId,
+        latLng: latLng,
+        formattedAddr: formattedAddr
+    },
+        {
+            where: { id: req.body['invite[eventId]'] }
+        })
+    .then(function (savedEvent) {
+        // console.log('savedEvent : ',savedEvent);
+        db.User.findOne({
+            where: {
+                username: req.body['invite[username]']
+            }
+        }).then(function(user) {
+            db.UserEvent.create({
+                EventId: req.body['invite[eventId]'],
+                UserId: user.dataValues.id
+            }).then(function (savedInvite) {
+                // return res.status(200).end();
+                }).catch(function (err) {
+                    if (err) {
+                        console.log(err);
+                    // return res.status(500).end();
+                    }
+                })
+            })
+        .then(function (result) {
+            const eventId = req.body['invite[eventId]'];
+            const categoryIds = JSON.parse(req.body.categories);
+            db.EventCategory.destroy({
+                where : {
+                    EventId: eventId
+                }
+            }).then(function(addCat) { 
+
+                const promises = categoryIds.map(function (categoryId) {
+                    db.EventCategory.create({
+                        EventId: eventId,
+                        CategoryId: categoryId
+                    });  
+
+                });
+                Promise
+                    .all(promises)
+                    .then(function () {
+                        // res.status(200).json(savedEvent);
+                    });
+            });
+        });
+        res.status(200).end();
+    });
+});    
+
+
 /** Get all of the events for all of the categories specified. */
 router.get('/bycategory', function (req, res, next) {
-    // console.log('req.query.cid : ',req.query.cid[0]);
     var eventCatArray = req.query.cid.split(" ");
     for (var j=0; j < eventCatArray.length; j++) {
         eventCatArray[j] = +eventCatArray[j];
     }
     db.EventCategory.findAll({
         attributes: [],
-        include: [db.Event],
+        include: [{model:db.Event,
+                where: {
+                    isPrivate: false
+                },
+            }],
         where: {
             CategoryId: {
-                [Op.or]: eventCatArray 
+                [Op.or]: eventCatArray
             }
         }
     }).then(function (events) {
         for (var i =0; i < events.length; i++) {
             var mmdd = events[i].Event.date.split('/')
             events[i].Event.date = mmdd[0] + '/' + mmdd[1];
+            // console.log(events[i].Event.isPrivate);
         }        
         eventHandler.prepareForView(events, function(preparedEvents) {
             res.render('events', {
@@ -98,6 +181,7 @@ router.get('/bycategory', function (req, res, next) {
 /** Get a single event by it's ID */
 router.get('/:id', function (req, res, next) {
     // console.log('Inside get/:id : ',req.params);
+    
     db.Event.findOne({
         where: {
             id: req.params.id
@@ -116,6 +200,8 @@ router.get('/:id', function (req, res, next) {
             var isHost = false;
             var isInvited = false; 
                 eventObj = {
+                    ogTitle: "Event: '" + myEvent.name + "'",
+                    ogDesc : "Check out '" + myEvent.name + "' over at Whoop it up!",
                     isHost: isHost,
                     isInvited : isInvited,
                     user: req.session.user,
@@ -167,7 +253,7 @@ router.get('/:id', function (req, res, next) {
                 });
             });
         }
-    });
+    }); 
 });
 
 /** Get all of the events in the database */
