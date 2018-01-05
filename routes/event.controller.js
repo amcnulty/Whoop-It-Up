@@ -200,6 +200,8 @@ router.get('/:id', function (req, res, next) {
             var isHost = false;
             var isInvited = false; 
                 eventObj = {
+                    ogTitle: "Event: '" + myEvent.name + "'",
+                    ogDesc : "Check out '" + myEvent.name + "' over at Whoop it up!",
                     isHost: isHost,
                     isInvited : isInvited,
                     user: req.session.user,
