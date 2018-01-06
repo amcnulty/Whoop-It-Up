@@ -74,6 +74,7 @@ router.post('/updateevent', function (req, res, next) {
     var placeId = req.body['geoData[placeID]'];
     var latLng = req.body['geoData[latlng]'];
     var formattedAddr = req.body['geoData[formatted]'];
+    var inviteUser = req.body['invite[username]'];
 
     if (typeof (placeId) === 'undefined' || placeId == null || 
         typeof (latLng) === 'undefined' || latLng == null || 
@@ -97,11 +98,33 @@ router.post('/updateevent', function (req, res, next) {
         {
             where: { id: req.body['invite[eventId]'] }
         })
+    .then(function (result) {
+        const eventId = req.body['invite[eventId]'];
+        const categoryIds = JSON.parse(req.body.categories)
+        db.EventCategory.destroy({
+            where : {
+                EventId: eventId
+            }
+        }).then(function(addCat) { 
+
+            const promises = categoryIds.map(function (categoryId) {
+                db.EventCategory.create({
+                    EventId: eventId,
+                    CategoryId: categoryId
+                });  
+
+            });
+            Promise
+                .all(promises)
+                .then(function () {
+                    // res.status(200).json(savedEvent);
+                })
+        })
+    })
     .then(function (savedEvent) {
-        // console.log('savedEvent : ',savedEvent);
         db.User.findOne({
             where: {
-                username: req.body['invite[username]']
+                username: inviteUser
             }
         }).then(function(user) {
             db.UserEvent.create({
@@ -116,29 +139,6 @@ router.post('/updateevent', function (req, res, next) {
                     }
                 })
             })
-        .then(function (result) {
-            const eventId = req.body['invite[eventId]'];
-            const categoryIds = JSON.parse(req.body.categories);
-            db.EventCategory.destroy({
-                where : {
-                    EventId: eventId
-                }
-            }).then(function(addCat) { 
-
-                const promises = categoryIds.map(function (categoryId) {
-                    db.EventCategory.create({
-                        EventId: eventId,
-                        CategoryId: categoryId
-                    });  
-
-                });
-                Promise
-                    .all(promises)
-                    .then(function () {
-                        // res.status(200).json(savedEvent);
-                    });
-            });
-        });
         res.status(200).end();
     });
 });    
