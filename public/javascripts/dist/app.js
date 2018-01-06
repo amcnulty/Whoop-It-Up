@@ -1395,6 +1395,7 @@ WIU.signup = (function () {
         signInUser(newUser);
       })
       .fail(function(res, status, xhr) {
+        $('#result').text("An Error has occured. Please sign up with another email address.");
         console.log('An Error has occurred ', res, status, xhr);
       })
     };
