@@ -94,15 +94,20 @@ router.post('/signin', function(req, res, next) {
       email: email
     }
   }).then(function(myUser) {
-    passwordHandler.comparePassword(password, myUser.password, function(success) {
-      if (success) {
-        req.session.user = myUser;
-        res.status(200).json(req.session.user).end();
-      }
-      else {
-        res.status(404).end();
-      }
-    });
+    if (typeof myUser === 'undefined' || myUser == null) {
+      res.status(404).end();
+    }
+    else {
+      passwordHandler.comparePassword(password, myUser.password, function(success) {
+        if (success) {
+          req.session.user = myUser;
+          res.status(200).json(req.session.user).end();
+        }
+        else {
+          res.status(404).end();
+        }
+      });  
+    }
   });
 });
 // Check if the new password is the same as the password stored in the table.

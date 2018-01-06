@@ -166,13 +166,21 @@ router.get('/bycategory', function (req, res, next) {
         for (var i =0; i < events.length; i++) {
             var mmdd = events[i].Event.date.split('/')
             events[i].Event.date = mmdd[0] + '/' + mmdd[1];
-            // console.log(events[i].Event.isPrivate);
-        }        
+        }
         eventHandler.prepareForView(events, function(preparedEvents) {
+            var distinctEvents = [],
+                eventIDs = [];
+
+            preparedEvents.forEach(function(event) {
+                if (eventIDs.indexOf(event.id) === -1) {
+                    distinctEvents.push(event);
+                    eventIDs.push(event.id);
+                }
+            })
             res.render('events', {
                 user: req.session.user,
                 title: 'Events',
-                events: preparedEvents
+                events: distinctEvents
             });
         });
     });
