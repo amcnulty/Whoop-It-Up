@@ -66,7 +66,7 @@ app.use('/', pageRoutes);
 app.use('/profile', profile);
 app.use('/event', event);
 // Create database connection and start server on predefined port.
-db.sequelize.sync({ force: true }).then(function() {
+db.sequelize.sync({ force: false }).then(function() {
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
